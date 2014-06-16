@@ -9,13 +9,7 @@ package Register;
  *
  * @author AZEEZ TAIWO
  */
-import Register.data.Diagnosis;
-import Register.data.Hospital_History;
-import Register.data.NHIS_Information;
-import Register.data.Next_Of_Kin;
-import Register.data.Operations;
-import Register.data.Other_Information;
-import Register.data.Personal_Details;
+import Register.data.*;
 import java.sql.*;
 import java.util.Vector;
 
@@ -57,17 +51,17 @@ public class DbConnect {
             Hospital_History hospitalHistory, Diagnosis diagnosis, Operations operations,
             Other_Information otherInformation, NHIS_Information nhisInfo) throws SQLException {
         System.out.println("addPatient was called");
-        final String query = "INSERT INTO " + diagnosis.getClass().getSimpleName() + " (date_diagnosed,date_discharge,"
+        final String query = "INSERT INTO " + diagnosis.getClass().getSimpleName().toLowerCase() + " (date_diagnosed,date_discharge,"
                 + "diagnosis, code_number) VALUES ('"
                 + diagnosis.getDate() + "', '"
                 + diagnosis.getDateDischarged() + "', '"
                 + diagnosis.getDiagnosis() + "', '"
                 + diagnosis.getCodeNumber() + "')";
         System.out.println("Query: " + query);
-        System.out.println("Class Name is "+ diagnosis.getClass());
+        System.out.println("Class Name is "+ diagnosis.getClass().getSimpleName().toLowerCase());
         st.execute(query);
 
-        st.execute("INSERT INTO " + personalDetails.getClass().getSimpleName() + "(surname, first_name, other_name,"
+        st.execute("INSERT INTO " + personalDetails.getClass().getSimpleName().toLowerCase() + "(surname, first_name, other_name,"
                 + "phone_number, home_address, town, country, stateOfOrigin, lga, date_of_reg, id_card_number) VALUES ('"
                 + personalDetails.getSurname() + "', '"
                 + personalDetails.getFirstName() + "', '"
@@ -81,7 +75,7 @@ public class DbConnect {
                 + personalDetails.getDateOfRegistration() + "', '"
                 + personalDetails.getNationalIDCardNumber() + "')");
 
-        st.execute("INSERT INTO " + nextOfKin.getClass().getSimpleName() + "( next_of_kin_surname, next_of_kin_first_name,"
+        st.execute("INSERT INTO " + nextOfKin.getClass().getSimpleName().toLowerCase() + "( next_of_kin_surname, next_of_kin_first_name,"
                 + "next_of_kin_other_name, nk_home_address, nk_town, nk_country, nk_state, "
                 + "nk_lga, relationship, kin_number) VALUES ('"
                 + nextOfKin.getSurname() + "', '"
@@ -95,7 +89,7 @@ public class DbConnect {
                 + nextOfKin.getRelationshipToNextOfKin() + "', '"
                 + nextOfKin.getPhoneNumber() + "')");
 
-        st.execute("INSERT INTO " + hospitalHistory.getClass().getSimpleName() + "(date_admitted, refby_physician,"
+        st.execute("INSERT INTO " + hospitalHistory.getClass().getSimpleName().toLowerCase() + "(date_admitted, refby_physician,"
                 + "date_discharge, refto_physician, discharge_to, outcome) VALUES ('"
                 + hospitalHistory.getDateAdmitted() + "', '"
                 + hospitalHistory.getReferredBy() + "', '"
@@ -104,18 +98,18 @@ public class DbConnect {
                 + hospitalHistory.getDischargedTo() + "', '"
                 + hospitalHistory.getOutcomeOfCare() + "')");
 
-        st.execute("INSERT INTO " + operations.getClass().getSimpleName() + "(operation_date, op_surgeon,"
+        st.execute("INSERT INTO " + operations.getClass().getSimpleName().toLowerCase() + "(operation_date, op_surgeon,"
                 + "operation, operation_code_number) VALUES ('"
                 + operations.getDate() + "', '"
                 + operations.getOpSurgeon() + "', '"
                 + operations.getOperation() + "', '"
                 + operations.getCodeNumber() + "')");
 
-        st.execute("INSERT INTO " + otherInformation.getClass().getSimpleName() + "( other_town, highest_edu_level)VALUES ('"
+        st.execute("INSERT INTO " + otherInformation.getClass().getSimpleName().toLowerCase() + "( other_town, highest_edu_level)VALUES ('"
                 + otherInformation.getTown() + "', '"
                 + otherInformation.getEducationalLevel() + "')");
 
-        st.execute("INSERT INTO " + nhisInfo.getClass().getSimpleName() + "(nhis_number, hmo, genotype, blood_group,"
+        st.execute("INSERT INTO " + nhisInfo.getClass().getSimpleName().toLowerCase() + "(nhis_number, hmo, genotype, blood_group,"
                 + "hmo_code, hmos_id, employer, employers_address, allergies) VALUES ('"
                 + nhisInfo.getNHISNumber() + "', '"
                 + nhisInfo.getHMO() + "', '"
@@ -134,7 +128,6 @@ public class DbConnect {
             con.commit();
             System.out.println("data committed");
             st.close();
-            ps.close();
 //            rs.close();
             con.close();
         } catch (SQLException ex) {
@@ -148,7 +141,7 @@ public class DbConnect {
     void loadDriver() {
         try {
             String url = "jdbc:mysql://localhost:3306/healthrecord";
-            con = DriverManager.getConnection(url, "root", "");
+            con = DriverManager.getConnection(url, "root", "a");
             con.setAutoCommit(false);
             st = con.createStatement();
 

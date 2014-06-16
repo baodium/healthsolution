@@ -173,9 +173,11 @@ public class RegisterServlet extends HttpServlet {
            
             pw.println("<h2>Your information has been added to the database</h2>");
             pw.close();
+            System.out.println("success");
 
         } catch (Exception e) {
-            pw.println(e);
+            System.out.println("failure");
+            e.printStackTrace();
         }
 
     }
