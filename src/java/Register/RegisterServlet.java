@@ -127,7 +127,7 @@ public class RegisterServlet extends HttpServlet {
             //capture fields from the diagnosis section
             Diagnosis diagnosis= new Diagnosis();
             diagnosis.setCodeNumber(request.getParameter("code_number"));
-            diagnosis.setDate(request.getParameter("date_diagnosed"));
+            diagnosis.setDateDiagnosed(request.getParameter("date_diagnosed"));
             diagnosis.setDateDischarged(request.getParameter("date_discharge"));
             diagnosis.setDiagnosis(request.getParameter("diagnosis"));
             

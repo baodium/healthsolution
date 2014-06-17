@@ -1,0 +1,9 @@
+
+CREATE TABLE IF NOT EXISTS `diagnosis` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date_diagnosed` text NOT NULL,
+  `date_discharge` varchar(25) NOT NULL,
+  `diagnosis` text NOT NULL,
+  `code_number` text NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=

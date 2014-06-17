@@ -1,0 +1,460 @@
+/* 
+    Document   : style
+    Created on : Apr 14, 2014, 5:03:23 PM
+    Author     : moscoworld
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+@font-face {
+    font-family:"Amaranth";
+    src:url("../fonts/Amaranth/Amaranth.eot?") format("eot"),
+        url("../fonts/Amaranth/Amaranth.woff") format("woff"),
+        url("../fonts/Amaranth/Amaranth.ttf") format("truetype"),
+        url("../fonts/Amaranth/Amaranth.svg#Amaranth") format("svg");
+    font-weight:normal;
+    font-style:normal;
+}
+@font-face {
+    font-family: 'OpenSansLight';
+    src: url('../fonts/OpenSans/OpenSans-Light-webfont.eot');
+    src: url('../fonts/OpenSans/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/OpenSans/OpenSans-Light-webfont.woff') format('woff'),
+        url('../fonts/OpenSans/OpenSans-Light-webfont.ttf') format('truetype'),
+        url('../fonts/OpenSans/OpenSans-Light-webfont.svg#OpenSansLight') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+@font-face {
+    font-family:"Unispace Bold";
+    src:url("../fonts/Unispace_Bold/unispace_bold.eot?") format("eot"),
+        url("../fonts/Unispace_Bold/unispace_bold.woff") format("woff"),
+        url("../fonts/Unispace_Bold/unispace_bold.ttf") format("truetype"),
+        url("../fonts/Unispace_Bold/unispace_bold.svg#Unispace-Bold") format("svg");
+    font-weight:normal;font-style:normal;
+}
+
+
+
+@font-face {
+    font-family: "OstrichSansBlack";
+    src: url("../fonts/OstrichSansBlack/ostrich-black-webfont.eot");
+    src: url("../fonts/OstrichSansBlack/ostrich-black-webfont.eot?#iefix") format("embedded-opentype"),  
+        url("../fonts/OstrichSansBlack/ostrich-black-webfont.woff") format("woff"), 
+        url("../fonts/OstrichSansBlack/ostrich-black-webfont.ttf") format("truetype"),  
+        url("../fonts/OstrichSansBlack/ostrich-black-webfont.svg#OstrichSansBlack") format("svg");
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'OpenSansRegular';
+    src: url('../fonts/OpenSans/OpenSans-Regular-webfont.eot');
+    src: url('../fonts/OpenSans/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+        url('../fonts/OpenSans/OpenSans-Regular-webfont.woff') format('woff'),
+        url('../fonts/OpenSans/OpenSans-Regular-webfont.ttf') format('truetype'),
+        url('../fonts/OpenSans/OpenSans-Regular-webfont.svg#OpenSansRegular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}
+root { 
+    display: block;
+
+}
+
+body, div, html, ul, li, table, tr, td {
+    margin: 0;
+    text-align: justify;
+    font-family:"Amaranth";
+    font-size: 18px;
+}
+body{
+    background-image: url("../image/body.png");
+
+
+}
+.inputLight{
+    background-image: url("../image/inputLight.png");
+}
+
+a{
+    text-decoration: none;
+    color:#3333ff;
+}
+
+.header{
+    background:rgba(255, 255, 255, 0.7);
+    text-align: right;
+    padding-right:10px;
+    padding-bottom: 6px;
+    color:#0066cc;
+
+
+}
+
+#logo{
+    font-size: xx-large;
+    color: #d7d7d7;
+    text-align: center;
+    margin: 10px;
+
+
+}
+
+.nav_bar{
+    width: 200px;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left:0;
+    background: url("../image/nav_bar.jpg");
+    margin:0 15px;
+}
+
+
+
+.menu{
+    margin-top: 3px;
+    border-top: dashed 1px white;
+    padding-top: 25px;
+}
+
+.nav_bar ul{
+    display: none;
+}
+li{
+    list-style: none;
+    font-size:20px;
+    line-height: 25px;
+    padding: 0px 10px 10px;
+    color:#333333;
+    margin: 5px 0;
+    font-family: "OstrichSansBlack";
+}
+.nav_bar li{
+    opacity: 0.85;
+    margin-bottom: 15px;  
+}
+li a{
+    cursor: pointer;
+}
+.nav_bar li:hover{
+    text-shadow:5px 5px 15px #ffffff;
+    font-size: 22px;
+    opacity:1.0;
+}
+
+.nav_bar li >ul{
+    font-size: 18px;
+}
+.nav_bar li:hover > ul {
+    display: block;
+    padding: 0;
+}
+.subMenuIcon{
+    text-shadow: 2px 5px 15px #000000;
+}
+
+
+.activeMenu{
+    background:#ffffff;
+    background-position: 100% 50%;
+    border-radius: 20px;
+    opacity: 1.0;
+}
+li.activeMenu{
+    opacity:1.0;
+}
+.activeMenu:hover{
+    background:#ffffff;
+    border-radius: 20px;
+    color:red;
+}
+
+.activeMenu a{
+    color: #333333;
+}
+.activeAppoinment{
+
+    background:#4188aa;
+    color:white;
+    padding: 3px;
+    text-align: center;
+}
+.iconWrap{
+    position:relative;
+    bottom: -10px;
+}
+.content{
+    margin-left: 240px;
+    margin-bottom: 50px;
+
+}
+.firstRow{
+    font-size: xx-large;
+}
+
+.wrapper{
+    background: rgba(125, 125, 125, 0.1) ; 
+
+    padding: 10px;
+    width:600px;
+    margin: 90px auto;
+}
+.logoIcon{
+    background: #4188aa url("../image/logo_backgrnd.png") no-repeat ;
+    background-position: 0% 0%;
+    height: 85px;
+    color:#4188aa;
+    padding:19px 0 0 0 ;
+    text-align:center;
+    font-size: 28px;
+    font-family: "OstrichSansBlack";
+    text-shadow: 2px 2px 20px #ffffff;
+
+
+}
+.p_span{
+    font-family:"Amaranth";
+}
+
+.wrapper .logoIcon{
+    background: rgba(0 , 0 , 0 , 0.9);
+    background:#686565;
+    color:white;
+    padding:10px;
+    height:auto;
+    font-size: 35px;
+
+
+}
+.icon{
+    position: relative;
+    top:-50px;
+    left:-62px;
+    bottom: 0px;
+    height: 2px;
+
+}
+
+.icon2{
+    position: relative;
+    left:495px;
+    bottom:-17px;
+    height: 5px; 
+}
+
+.login{
+    margin: 0 auto;
+    width: 590px;
+    padding: 20px 0 0;
+    background: rgba(255, 255, 255, 0.9);
+    text-align: center;
+    color: #000000;
+
+}
+.login a:hover{
+    text-decoration: underline;
+}
+select, input{
+    width: 400px;
+    margin: 5px 0;
+    height: 35px;
+    padding: 0 5px;
+    font-family: 'OpenSansRegular';
+    border:none;
+    font-size: 17px;
+    color:#000000;
+}
+input[type="search"]{
+    background: #FFF url("../image/searchIcon.png") no-repeat;
+    background-position: 100% 50%;
+    height:40px;
+} 
+select {
+    height:35px;
+}
+
+.login input{
+    height: 35px;
+    padding-left: 56px;    
+
+}
+
+.login input[type="checkbox"]{
+    height:15px;
+    position:relative;
+    bottom:0;
+    width: 35px;
+}
+
+s{
+    font-size: 15px;
+    text-decoration:none;
+}
+
+select:active,input[type="password"]:active, input[type="search"]:active, input[type="text"]:active{
+    border: solid 1px #0066cc;
+}
+select:focus, input[type="password"]:focus, input[type="search"]:focus, input[type="text"]:focus{
+    border: solid 1px #0066cc;  
+}
+.login input[type="text"]{
+    background: #DDD url("../image/avatar.png") no-repeat;       
+    height: 47px;
+    background-position-y: 65%;
+border-radius:10px;
+
+}
+
+.login input[type="password"]{
+    background: #DDD url("../image/pswrd.png") no-repeat;  
+    height: 47px;  
+    background-position-y: 65%;
+    border-radius:10px;
+
+}
+
+input[type="submit"]{
+    width: 150px;   
+    height: 40px;
+    background:     url("../image/button.png")  no-repeat; 
+    border-radius: 20px;
+    padding: 0;
+    font-size: medium;
+    color: white;
+    font-family:"Unispace Bold";
+
+    box-shadow: 2px 2px 15px #cccccc;
+}  
+.login input[type="submit"]{         
+
+
+    width: 150px;   
+    height: 40px;
+    background:     url("../image/button.png")  no-repeat;  
+}
+
+.login input[type="submit"]:hover{
+    background: #3333ff;
+
+}
+input[type="submit"]:hover{
+    color: white;
+    box-shadow: 2px 2px 15px #ccccff;  
+}
+
+input:focus{
+    border:solid 2px #ff9999;
+}
+input[type=submit]:focus{
+    border:none;
+}
+
+li a{
+    color: #ffffff;
+}
+
+h3{
+    font-family:"Unispace Bold";
+    font-size:23px;
+    border-bottom: groove 7px #4188aa;
+    text-align: center;
+    margin: 3px;
+    padding-bottom: 18px;
+}
+h3 img{
+    position: relative;
+    bottom: -20px;
+}
+h4{
+    font-family:"Unispace Bold";
+    font-size:15px;
+}
+.panelContainer{
+    width: 500px;
+    margin: 15px auto;
+    text-align: center;
+}
+.previousPanel{
+    width: 150px;   
+    height: auto;
+    background:     url("../image/button.png")  no-repeat; 
+    border-radius: 20px;
+    padding: 7px;
+    font-size: medium;
+    color: white;
+    font-family:"Unispace Bold";
+    text-align: center;
+    box-shadow: 2px 2px 15px #cccccc;
+    display: inline-block;
+
+}
+.nextPanel{
+
+    width: 150px;   
+    height: auto;
+    background:     url("../image/button.png")  no-repeat; 
+    border-radius: 20px;
+    padding: 7px;
+    font-size: medium;
+    color: white;
+    font-family:"Unispace Bold";
+    text-align: center;
+    box-shadow: 2px 2px 15px #cccccc;
+    display: inline-block;
+}
+.panel:hover{
+    font-size: 27px;
+    box-shadow: 10px 10px 15px white;
+}
+.panel input[type="submit"]{
+    color:white;
+}
+.panel input[type="submit"]:hover{
+    box-shadow: 2px 2px 10px white;
+}
+
+.sub_Menu{
+    background:rgba(0,0,0, .6);
+    padding:15px;
+    font-family: "OstrichSansBlack";
+    font-size: 20px;
+    color: white;
+    margin-bottom: 10px;
+}
+.sub_sub_regMenu{
+    margin : 20px;
+
+}
+.sub_regMenu{
+    cursor:pointer;
+}
+
+.activeSubSubMenu {
+    background: #ffffff;
+    padding:15px 25px;
+    color: #4188aa;
+    border-radius: 0 0 15px 15px;
+
+}
+.sub_sub_regMenu:hover{
+    text-shadow: 0px 0px 50px #ffffff;
+    text-decoration: underline;
+
+}
+.sub_sub_regMenu{
+
+    cursor: pointer;
+
+}
+.footer{
+    background:url("../image/footer.png");
+    padding: 15px;
+    text-align: center;
+    color: #ffffff;
+    margin-top: 15px;
+}

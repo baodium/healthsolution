@@ -6,18 +6,8 @@
 
 package Register;
 
-import Register.data.Diagnosis;
-import Register.data.Hospital_History;
-import Register.data.NHIS_Information;
-import Register.data.Next_Of_Kin;
-import Register.data.Operations;
-import Register.data.Other_Information;
-import Register.data.Personal_Details;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import Register.data.*;
+import java.sql.*;
 
 /**
  *
@@ -101,7 +91,7 @@ public class ModifyAction {
         rs = st.executeQuery("SELECT * FROM diagnosis WHERE id = '" + id + "'");
         rs.next();
         diagnosis.setCodeNumber(rs.getString("code_number"));
-        diagnosis.setDate(rs.getString("date_diagnosed"));
+        diagnosis.setDateDiagnosed(rs.getString("date_diagnosed"));
         diagnosis.setDateDischarged(rs.getString("date_discharge"));
         diagnosis.setDiagnosis(rs.getString("diagnosis"));
 
