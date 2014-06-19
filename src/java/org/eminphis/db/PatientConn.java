@@ -7,8 +7,11 @@ import java.sql.Statement;
 import static org.eminphis.db.DBManager.TABLE_COUNT;
 import static org.eminphis.db.DBManager.getDBConnection;
 import org.eminphis.dto.Patient;
+import org.eminphis.dto.tableview.PersonalDetailsView;
 import org.eminphis.entities.*;
 import org.eminphis.exceptions.NoSuchColumnException;
+import org.eminphis.exceptions.NoSuchPatientIDException;
+import org.eminphis.exceptions.NoSuchPatientNHISNumberException;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -35,8 +38,10 @@ public class PatientConn{
     private static PatientConn instance;
     private static PreparedStatement[] deleteFrom;//holds prepared statements for each of the table
     private static PreparedStatement[] insertInto;//holds prepared statements for each of the table
-    private static PreparedStatement[] selectFrom;//holds prepared statements for each of the table
+    private static PreparedStatement[] selectFrom$ID;//holds prepared statements for each of the table
+    private static PreparedStatement selectFrom$NHIS;//holds prepared statements for each of the table
     private static PreparedStatement[] update;//holds prepared statements for each of the table
+    private static PreparedStatement selectFromPersonalDetailsView;
 
     public static PatientConn getInstance(){
         if(instance==null)//lazy initialization
@@ -45,6 +50,68 @@ public class PatientConn{
     }
 
     private PatientConn(){
+    }
+
+    void closeAllPatientResourcesAndNullifyInstance() throws SQLException{
+
+        java.sql.SQLException firstException=null;
+        for(int i=TABLE_COUNT-1;i>=0;i--){
+
+            try{
+                if(deleteFrom!=null){
+                    deleteFrom[i].close();//Close all delete statements to patient tables
+                    deleteFrom[i]=null;
+                }
+            }catch(java.sql.SQLException sqle){
+                if(firstException==null)
+                    firstException=sqle;
+            }
+
+            try{
+                if(insertInto!=null){
+                    insertInto[i].close();//Close all insert statements to patient tables
+                    insertInto[i]=null;
+                }
+            }catch(java.sql.SQLException sqle){
+                if(firstException==null)
+                    firstException=sqle;
+            }
+
+            try{
+                if(selectFrom$ID!=null){
+                    selectFrom$ID[i].close();//Close all select statements to patient tables
+                    selectFrom$ID[i]=null;
+                }
+            }catch(java.sql.SQLException sqle){
+                if(firstException==null)
+                    firstException=sqle;
+            }
+
+            try{
+                if(update!=null){
+                    update[i].close();//Close all update statements to patient tables
+                    update[i]=null;
+                }
+            }catch(java.sql.SQLException sqle){
+                if(firstException==null)
+                    firstException=sqle;
+            }
+        }
+        if(selectFrom$NHIS!=null){
+            selectFrom$NHIS.close();
+            selectFrom$NHIS=null;
+        }
+        if(selectFromPersonalDetailsView!=null){
+            selectFromPersonalDetailsView.close();
+            selectFromPersonalDetailsView=null;
+        }
+        deleteFrom=null;
+        insertInto=null;
+        selectFrom$ID=null;
+        update=null;
+        instance=null;
+        if(firstException!=null)//An exception occured
+            throw firstException;
     }
 
     /**
@@ -62,19 +129,19 @@ public class PatientConn{
         deleteFrom=new PreparedStatement[TABLE_COUNT];
 
         deleteFrom[Diagnosis.getInstance().getIndex()]=getDBConnection().prepareStatement("DELETE FROM "
-                +Diagnosis.getInstance().getName()+" "+"WHERE ID=?");
+                +Diagnosis.getInstance().getName()+" WHERE ID=?");
         deleteFrom[HospitalHistory.getInstance().getIndex()]=getDBConnection().prepareStatement("DELETE FROM "
-                +HospitalHistory.getInstance().getName()+" "+"WHERE ID=?");
+                +HospitalHistory.getInstance().getName()+" WHERE ID=?");
         deleteFrom[NHISInformation.getInstance().getIndex()]=getDBConnection().prepareStatement("DELETE FROM "
-                +NHISInformation.getInstance().getName()+" "+"WHERE ID=?");
+                +NHISInformation.getInstance().getName()+" WHERE ID=?");
         deleteFrom[NextOfKin.getInstance().getIndex()]=getDBConnection().prepareStatement("DELETE FROM "
-                +NextOfKin.getInstance().getName()+" "+"WHERE ID=?");
+                +NextOfKin.getInstance().getName()+" WHERE ID=?");
         deleteFrom[Operations.getInstance().getIndex()]=getDBConnection().prepareStatement("DELETE FROM "
-                +Operations.getInstance().getName()+" "+"WHERE ID=?");
+                +Operations.getInstance().getName()+" WHERE ID=?");
         deleteFrom[OtherInformation.getInstance().getIndex()]=getDBConnection().prepareStatement("DELETE FROM "
-                +OtherInformation.getInstance().getName()+" "+"WHERE ID=?");
+                +OtherInformation.getInstance().getName()+" WHERE ID=?");
         deleteFrom[PersonalDetails.getInstance().getIndex()]=getDBConnection().prepareStatement("DELETE FROM "
-                +PersonalDetails.getInstance().getName()+" "+"WHERE ID=?");
+                +PersonalDetails.getInstance().getName()+" WHERE ID=?");
     }
 
     /**
@@ -242,14 +309,14 @@ public class PatientConn{
      * @throws NoSuchColumnException if a table entity reports that is has a column number that
      * actually doesn't exist in the table
      */
-    private void ensureSelectStatements() throws SQLException,NoSuchColumnException{
-        if(selectFrom!=null)
+    private void ensureIDSelectStatements() throws SQLException,NoSuchColumnException{
+        if(selectFrom$ID!=null)
             return;
 
         /*
          * Initialize selects for all the tables
          */
-        selectFrom=new PreparedStatement[TABLE_COUNT];
+        selectFrom$ID=new PreparedStatement[TABLE_COUNT];
         StringBuilder sb=new StringBuilder(512);
         final int startIndex=2;//Starting at column 2 effectively skips the ID column.
 
@@ -261,7 +328,7 @@ public class PatientConn{
             sb.append(Diagnosis.getInstance().getColumnName(i));
         }
         sb.append(' ');
-        selectFrom[Diagnosis.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
+        selectFrom$ID[Diagnosis.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
                 +sb.toString()+"FROM "+Diagnosis.getInstance().getName()+" WHERE ID=?");
         sb.delete(0,sb.length());
 
@@ -273,7 +340,7 @@ public class PatientConn{
             sb.append(HospitalHistory.getInstance().getColumnName(i));
         }
         sb.append(' ');
-        selectFrom[HospitalHistory.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
+        selectFrom$ID[HospitalHistory.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
                 +sb.toString()+"FROM "+HospitalHistory.getInstance().getName()+" WHERE ID=?");
         sb.delete(0,sb.length());
 
@@ -285,7 +352,7 @@ public class PatientConn{
             sb.append(NHISInformation.getInstance().getColumnName(i));
         }
         sb.append(' ');
-        selectFrom[NHISInformation.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
+        selectFrom$ID[NHISInformation.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
                 +sb.toString()+"FROM "+NHISInformation.getInstance().getName()+" WHERE ID=?");
         sb.delete(0,sb.length());
 
@@ -297,7 +364,7 @@ public class PatientConn{
             sb.append(NextOfKin.getInstance().getColumnName(i));
         }
         sb.append(' ');
-        selectFrom[NextOfKin.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
+        selectFrom$ID[NextOfKin.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
                 +sb.toString()+"FROM "+NextOfKin.getInstance().getName()+" WHERE ID=?");
         sb.delete(0,sb.length());
 
@@ -309,7 +376,7 @@ public class PatientConn{
             sb.append(Operations.getInstance().getColumnName(i));
         }
         sb.append(' ');
-        selectFrom[Operations.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
+        selectFrom$ID[Operations.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
                 +sb.toString()+"FROM "+Operations.getInstance().getName()+" WHERE ID=?");
         sb.delete(0,sb.length());
 
@@ -321,7 +388,7 @@ public class PatientConn{
             sb.append(OtherInformation.getInstance().getColumnName(i));
         }
         sb.append(' ');
-        selectFrom[OtherInformation.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
+        selectFrom$ID[OtherInformation.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
                 +sb.toString()+"FROM "+OtherInformation.getInstance().getName()+" WHERE ID=?");
         sb.delete(0,sb.length());
 
@@ -333,9 +400,26 @@ public class PatientConn{
             sb.append(PersonalDetails.getInstance().getColumnName(i));
         }
         sb.append(' ');
-        selectFrom[PersonalDetails.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
+        selectFrom$ID[PersonalDetails.getInstance().getIndex()]=getDBConnection().prepareStatement("SELECT"
                 +sb.toString()+"FROM "+PersonalDetails.getInstance().getName()+" WHERE ID=?");
         sb.delete(0,sb.length());
+    }
+
+    /**
+     * Ensures that the select statement to retrieve ID from NHIS number has been
+     * initialized.
+     *
+     * @throws SQLException if an error occurs while initializing the select statements
+     */
+    private void ensureNHISSelectStatements() throws SQLException{
+        if(selectFrom$NHIS!=null)
+            return;
+
+        /*
+         * Initialize the select statement
+         */
+        selectFrom$NHIS=DBManager.getDBConnection().prepareStatement(
+                "SELECT ID FROM N_H_I_S_Information_ WHERE n_h_i_s_number_ = ?");
     }
 
     /**
@@ -367,7 +451,7 @@ public class PatientConn{
         }
         sb.append(' ');
         update[Diagnosis.getInstance().getIndex()]=getDBConnection().prepareStatement("UPDATE "
-                +Diagnosis.getInstance().getIndex()+" SET"+sb.toString()+"WHERE ID=?");
+                +Diagnosis.getInstance().getName()+" SET"+sb.toString()+"WHERE ID=?");
         sb.delete(0,sb.length());
 
         //generate the sequence of column names for the HospitalHistory table
@@ -380,7 +464,7 @@ public class PatientConn{
         }
         sb.append(' ');
         update[HospitalHistory.getInstance().getIndex()]=getDBConnection().prepareStatement("UPDATE "
-                +HospitalHistory.getInstance().getIndex()+" SET"+sb.toString()+"WHERE ID=?");
+                +HospitalHistory.getInstance().getName()+" SET"+sb.toString()+"WHERE ID=?");
         sb.delete(0,sb.length());
 
         //generate the sequence of column names for the NHISInformation table
@@ -393,7 +477,7 @@ public class PatientConn{
         }
         sb.append(' ');
         update[NHISInformation.getInstance().getIndex()]=getDBConnection().prepareStatement("UPDATE "
-                +NHISInformation.getInstance().getIndex()+" SET"+sb.toString()+"WHERE ID=?");
+                +NHISInformation.getInstance().getName()+" SET"+sb.toString()+"WHERE ID=?");
         sb.delete(0,sb.length());
 
         //generate the sequence of column names for the NextOfKin table
@@ -406,7 +490,7 @@ public class PatientConn{
         }
         sb.append(' ');
         update[NextOfKin.getInstance().getIndex()]=getDBConnection().prepareStatement("UPDATE "
-                +NextOfKin.getInstance().getIndex()+" SET"+sb.toString()+"WHERE ID=?");
+                +NextOfKin.getInstance().getName()+" SET"+sb.toString()+"WHERE ID=?");
         sb.delete(0,sb.length());
 
         //generate the sequence of column names for the Operations table
@@ -419,7 +503,7 @@ public class PatientConn{
         }
         sb.append(' ');
         update[Operations.getInstance().getIndex()]=getDBConnection().prepareStatement("UPDATE "
-                +Operations.getInstance().getIndex()+" SET"+sb.toString()+"WHERE ID=?");
+                +Operations.getInstance().getName()+" SET"+sb.toString()+"WHERE ID=?");
         sb.delete(0,sb.length());
 
         //generate the sequence of column names for the OtherInformation table
@@ -432,7 +516,7 @@ public class PatientConn{
         }
         sb.append(' ');
         update[OtherInformation.getInstance().getIndex()]=getDBConnection().prepareStatement("UPDATE "
-                +OtherInformation.getInstance().getIndex()+" SET"+sb.toString()+"WHERE ID=?");
+                +OtherInformation.getInstance().getName()+" SET"+sb.toString()+"WHERE ID=?");
         sb.delete(0,sb.length());
 
         //generate the sequence of column names for the PersonalDetails table
@@ -445,8 +529,15 @@ public class PatientConn{
         }
         sb.append(' ');
         update[PersonalDetails.getInstance().getIndex()]=getDBConnection().prepareStatement("UPDATE "
-                +PersonalDetails.getInstance().getIndex()+" SET"+sb.toString()+"WHERE ID=?");
+                +PersonalDetails.getInstance().getName()+" SET"+sb.toString()+"WHERE ID=?");
         sb.delete(0,sb.length());
+    }
+
+    private void ensureSelectFromPersonalDetailsViewStatement() throws SQLException{
+        if(selectFromPersonalDetailsView!=null)
+            return;
+        selectFromPersonalDetailsView=DBManager.getDBConnection().prepareStatement(
+                "SELECT * FROM Personal_Details_View_ WHERE surname_ like ?");
     }
 
     /**
@@ -455,31 +546,31 @@ public class PatientConn{
      * @param patientID the patient's ID
      * @throws SQLException if an error occurs while performing the delete operation
      */
-    void deletePatient(int patientID) throws SQLException{
+    void deletePatient(long patientID) throws SQLException{
         ensureDeleteStatements();
 
         //run through all the tables that encapsulate information about this patient and delete
         //them all
 
-        deleteFrom[Diagnosis.getInstance().getIndex()].setInt(1,patientID);
+        deleteFrom[Diagnosis.getInstance().getIndex()].setLong(1,patientID);
         deleteFrom[Diagnosis.getInstance().getIndex()].executeUpdate();
 
-        deleteFrom[HospitalHistory.getInstance().getIndex()].setInt(1,patientID);
+        deleteFrom[HospitalHistory.getInstance().getIndex()].setLong(1,patientID);
         deleteFrom[HospitalHistory.getInstance().getIndex()].executeUpdate();
 
-        deleteFrom[NHISInformation.getInstance().getIndex()].setInt(1,patientID);
+        deleteFrom[NHISInformation.getInstance().getIndex()].setLong(1,patientID);
         deleteFrom[NHISInformation.getInstance().getIndex()].executeUpdate();
 
-        deleteFrom[NextOfKin.getInstance().getIndex()].setInt(1,patientID);
+        deleteFrom[NextOfKin.getInstance().getIndex()].setLong(1,patientID);
         deleteFrom[NextOfKin.getInstance().getIndex()].executeUpdate();
 
-        deleteFrom[Operations.getInstance().getIndex()].setInt(1,patientID);
+        deleteFrom[Operations.getInstance().getIndex()].setLong(1,patientID);
         deleteFrom[Operations.getInstance().getIndex()].executeUpdate();
 
-        deleteFrom[OtherInformation.getInstance().getIndex()].setInt(1,patientID);
+        deleteFrom[OtherInformation.getInstance().getIndex()].setLong(1,patientID);
         deleteFrom[OtherInformation.getInstance().getIndex()].executeUpdate();
 
-        deleteFrom[PersonalDetails.getInstance().getIndex()].setInt(1,patientID);
+        deleteFrom[PersonalDetails.getInstance().getIndex()].setLong(1,patientID);
         deleteFrom[PersonalDetails.getInstance().getIndex()].executeUpdate();
     }
 
@@ -495,7 +586,7 @@ public class PatientConn{
         int startIndex;
 
         //Deal with the PersonalDetails table
-        startIndex=2;
+        startIndex=1;
         insertInto[PersonalDetails.getInstance().getIndex()].setString(startIndex++,patient.
                 getPersonalDetails().getSurname());
         insertInto[PersonalDetails.getInstance().getIndex()].setString(startIndex++,patient.
@@ -532,8 +623,7 @@ public class PatientConn{
 
         //Deal with the Diagnosis table
         startIndex=2;
-        insertInto[Diagnosis.getInstance().getIndex()].setLong(Diagnosis.getInstance().
-                getColumnCount(),generatedID);//set the unique ID
+        insertInto[Diagnosis.getInstance().getIndex()].setLong(1,generatedID);//set the unique ID
         insertInto[Diagnosis.getInstance().getIndex()].setString(startIndex++,patient.getDiagnosis().
                 getDateDiagnosed());
         insertInto[Diagnosis.getInstance().getIndex()].setString(startIndex++,patient.getDiagnosis().
@@ -546,8 +636,7 @@ public class PatientConn{
 
         //Deal with the HospitalHistory table
         startIndex=2;
-        insertInto[HospitalHistory.getInstance().getIndex()].setLong(HospitalHistory.getInstance().
-                getColumnCount(),generatedID);//set the unique ID
+        insertInto[HospitalHistory.getInstance().getIndex()].setLong(1,generatedID);//set the unique ID
         insertInto[HospitalHistory.getInstance().getIndex()].setString(startIndex++,patient.
                 getHospitalHistory().getDateAdmitted());
         insertInto[HospitalHistory.getInstance().getIndex()].setString(startIndex++,patient.
@@ -564,8 +653,7 @@ public class PatientConn{
 
         //Deal with the NextOfKin table
         startIndex=2;
-        insertInto[NextOfKin.getInstance().getIndex()].setLong(NextOfKin.getInstance().
-                getColumnCount(),generatedID);//set the unique ID
+        insertInto[NextOfKin.getInstance().getIndex()].setLong(1,generatedID);//set the unique ID
         insertInto[NextOfKin.getInstance().getIndex()].setString(startIndex++,patient.getNextOfKin().
                 getSurname());
         insertInto[NextOfKin.getInstance().getIndex()].setString(startIndex++,patient.getNextOfKin().
@@ -590,8 +678,7 @@ public class PatientConn{
 
         //Deal with the NHISInformation table
         startIndex=2;
-        insertInto[NHISInformation.getInstance().getIndex()].setLong(NHISInformation.getInstance().
-                getColumnCount(),generatedID);//set the unique ID
+        insertInto[NHISInformation.getInstance().getIndex()].setLong(1,generatedID);//set the unique ID
         insertInto[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
                 getNHISInformation().getNHISNumber());
         insertInto[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
@@ -601,9 +688,9 @@ public class PatientConn{
         insertInto[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
                 getNHISInformation().getBloodGroup());
         insertInto[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
-                getNHISInformation().getHmoCode());
+                getNHISInformation().getHMOCode());
         insertInto[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
-                getNHISInformation().getHmosIDNumber());
+                getNHISInformation().getHMOIDNumber());
         insertInto[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
                 getNHISInformation().getEmployer());
         insertInto[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
@@ -614,8 +701,7 @@ public class PatientConn{
 
         //Deal with the Operations table
         startIndex=2;
-        insertInto[Operations.getInstance().getIndex()].setLong(Operations.getInstance().
-                getColumnCount(),generatedID);//set the unique ID
+        insertInto[Operations.getInstance().getIndex()].setLong(1,generatedID);//set the unique ID
         insertInto[Operations.getInstance().getIndex()].setString(startIndex++,
                 patient.getOperations().getDate());
         insertInto[Operations.getInstance().getIndex()].setString(startIndex++,
@@ -628,8 +714,7 @@ public class PatientConn{
 
         //Deal with the OtherInformation table
         startIndex=2;
-        insertInto[OtherInformation.getInstance().getIndex()].setLong(OtherInformation.getInstance().
-                getColumnCount(),generatedID);//set the unique ID
+        insertInto[OtherInformation.getInstance().getIndex()].setLong(1,generatedID);//set the unique ID
         insertInto[OtherInformation.getInstance().getIndex()].setString(startIndex++,patient.
                 getOtherInformation().getTown());
         insertInto[OtherInformation.getInstance().getIndex()].setString(startIndex++,patient.
@@ -643,28 +728,37 @@ public class PatientConn{
      *
      * @param patientID the patient's ID
      * @throws SQLException if an error occurs while performing the retrieve operation
+     * @throws NoSuchPatientIDException if the specified {@code patientID} does not exist
      */
-    Patient retrievePatient(final int patientID) throws SQLException,NoSuchColumnException{
-        ensureSelectStatements();
+    Patient retrievePatient(final long patientID) throws SQLException,NoSuchColumnException,
+            NoSuchPatientIDException{
+        ensureIDSelectStatements();
 
         int startIndex;
 
         //Retrieve Diagnosis values
-        selectFrom[Diagnosis.getInstance().getIndex()].setInt(1,patientID);
+        selectFrom$ID[Diagnosis.getInstance().getIndex()].setLong(1,patientID);
         ResultSet diagnosisResultSet=
-                selectFrom[Diagnosis.getInstance().getIndex()].executeQuery();
-        startIndex=2;
-        org.eminphis.dto.Diagnosis diagnosis=new org.eminphis.dto.Diagnosis(diagnosisResultSet.
-                getString(startIndex++),diagnosisResultSet.getString(startIndex++),
+                selectFrom$ID[Diagnosis.getInstance().getIndex()].executeQuery();
+
+        if(!diagnosisResultSet.next())
+            throw new org.eminphis.exceptions.NoSuchPatientIDException(patientID);
+
+        startIndex=1;
+        org.eminphis.dto.Diagnosis diagnosis=
+                new org.eminphis.dto.Diagnosis(
+                diagnosisResultSet.getString(startIndex++),
+                diagnosisResultSet.getString(startIndex++),
                 diagnosisResultSet.getString(startIndex++),
                 diagnosisResultSet.getString(startIndex++));
         diagnosisResultSet.close();
 
         //Retrieve HospitalHistory values
-        selectFrom[HospitalHistory.getInstance().getIndex()].setInt(1,patientID);
+        selectFrom$ID[HospitalHistory.getInstance().getIndex()].setLong(1,patientID);
         ResultSet hospitalHistoryResultSet=
-                selectFrom[HospitalHistory.getInstance().getIndex()].executeQuery();
-        startIndex=2;
+                selectFrom$ID[HospitalHistory.getInstance().getIndex()].executeQuery();
+        hospitalHistoryResultSet.next();
+        startIndex=1;
         org.eminphis.dto.HospitalHistory hospitalHistory=
                 new org.eminphis.dto.HospitalHistory(
                 hospitalHistoryResultSet.getString(startIndex++),
@@ -676,12 +770,15 @@ public class PatientConn{
         hospitalHistoryResultSet.close();
 
         //Retrieve NextOfKin values
-        selectFrom[NextOfKin.getInstance().getIndex()].setInt(1,patientID);
+        selectFrom$ID[NextOfKin.getInstance().getIndex()].setLong(1,patientID);
         ResultSet nextOfKinResultSet=
-                selectFrom[NextOfKin.getInstance().getIndex()].executeQuery();
-        startIndex=2;
-        org.eminphis.dto.NextOfKin nextOfKin=new org.eminphis.dto.NextOfKin(nextOfKinResultSet.
-                getString(startIndex++),nextOfKinResultSet.getString(startIndex++),
+                selectFrom$ID[NextOfKin.getInstance().getIndex()].executeQuery();
+        nextOfKinResultSet.next();
+        startIndex=1;
+        org.eminphis.dto.NextOfKin nextOfKin=
+                new org.eminphis.dto.NextOfKin(
+                nextOfKinResultSet.getString(startIndex++),
+                nextOfKinResultSet.getString(startIndex++),
                 nextOfKinResultSet.getString(startIndex++),
                 nextOfKinResultSet.getString(startIndex++),
                 nextOfKinResultSet.getString(startIndex++),
@@ -693,10 +790,11 @@ public class PatientConn{
         nextOfKinResultSet.close();
 
         //Retrieve NHISInformation values
-        selectFrom[NHISInformation.getInstance().getIndex()].setInt(1,patientID);
+        selectFrom$ID[NHISInformation.getInstance().getIndex()].setLong(1,patientID);
         ResultSet nHISInformationResultSet=
-                selectFrom[NHISInformation.getInstance().getIndex()].executeQuery();
-        startIndex=2;
+                selectFrom$ID[NHISInformation.getInstance().getIndex()].executeQuery();
+        nHISInformationResultSet.next();
+        startIndex=1;
         org.eminphis.dto.NHISInformation nHISInformation=
                 new org.eminphis.dto.NHISInformation(
                 nHISInformationResultSet.getString(startIndex++),
@@ -711,31 +809,37 @@ public class PatientConn{
         nHISInformationResultSet.close();
 
         //Retrieve Operations values
-        selectFrom[Operations.getInstance().getIndex()].setInt(1,patientID);
+        selectFrom$ID[Operations.getInstance().getIndex()].setLong(1,patientID);
         ResultSet operationsResultSet=
-                selectFrom[Operations.getInstance().getIndex()].executeQuery();
-        startIndex=2;
-        org.eminphis.dto.Operations operations=new org.eminphis.dto.Operations(operationsResultSet.
-                getString(startIndex++),operationsResultSet.getString(startIndex++),
+                selectFrom$ID[Operations.getInstance().getIndex()].executeQuery();
+        operationsResultSet.next();
+        startIndex=1;
+        org.eminphis.dto.Operations operations=
+                new org.eminphis.dto.Operations(
+                operationsResultSet.getString(startIndex++),
+                operationsResultSet.getString(startIndex++),
                 operationsResultSet.getString(startIndex++),
                 operationsResultSet.getString(startIndex++));
         operationsResultSet.close();
 
         //Retrieve OtherInformation values
-        selectFrom[OtherInformation.getInstance().getIndex()].setInt(1,patientID);
+        selectFrom$ID[OtherInformation.getInstance().getIndex()].setLong(1,patientID);
         ResultSet otherInformationResultSet=
-                selectFrom[OtherInformation.getInstance().getIndex()].executeQuery();
-        startIndex=2;
+                selectFrom$ID[OtherInformation.getInstance().getIndex()].executeQuery();
+        otherInformationResultSet.next();
+        startIndex=1;
         org.eminphis.dto.OtherInformation otherInformation=
-                new org.eminphis.dto.OtherInformation(otherInformationResultSet.getString(
-                startIndex++),otherInformationResultSet.getString(startIndex++));
+                new org.eminphis.dto.OtherInformation(
+                otherInformationResultSet.getString(startIndex++),
+                otherInformationResultSet.getString(startIndex++));
         otherInformationResultSet.close();
 
         //Retrieve PersonalDetails values
-        selectFrom[PersonalDetails.getInstance().getIndex()].setInt(1,patientID);
+        selectFrom$ID[PersonalDetails.getInstance().getIndex()].setLong(1,patientID);
         ResultSet personalDetailsResultSet=
-                selectFrom[PersonalDetails.getInstance().getIndex()].executeQuery();
-        startIndex=2;
+                selectFrom$ID[PersonalDetails.getInstance().getIndex()].executeQuery();
+        personalDetailsResultSet.next();
+        startIndex=1;
         org.eminphis.dto.PersonalDetails personalDetails=
                 new org.eminphis.dto.PersonalDetails(
                 personalDetailsResultSet.getString(startIndex++),
@@ -752,7 +856,7 @@ public class PatientConn{
         personalDetailsResultSet.close();
 
 
-        return new org.eminphis.dto.Patient(diagnosis,hospitalHistory,nextOfKin,nHISInformation,
+        return new org.eminphis.dto.Patient(diagnosis,hospitalHistory,nHISInformation,nextOfKin,
                 operations,
                 otherInformation,personalDetails){
 
@@ -774,9 +878,9 @@ public class PatientConn{
 
 
         //Deal with the Diagnosis table
-        startIndex=2;
-        update[Diagnosis.getInstance().getIndex()].setLong(Diagnosis.getInstance().
-                getColumnCount(),patient.getID());//set the unique ID
+        startIndex=1;
+        update[Diagnosis.getInstance().getIndex()].setLong(Diagnosis.getInstance().getColumnCount(),
+                patient.getID());//set the unique ID
         update[Diagnosis.getInstance().getIndex()].setString(startIndex++,patient.getDiagnosis().
                 getDateDiagnosed());
         update[Diagnosis.getInstance().getIndex()].setString(startIndex++,patient.getDiagnosis().
@@ -788,7 +892,7 @@ public class PatientConn{
         update[Diagnosis.getInstance().getIndex()].executeUpdate();
 
         //Deal with the HospitalHistory table
-        startIndex=2;
+        startIndex=1;
         update[HospitalHistory.getInstance().getIndex()].setLong(HospitalHistory.getInstance().
                 getColumnCount(),patient.getID());//set the unique ID
         update[HospitalHistory.getInstance().getIndex()].setString(startIndex++,patient.
@@ -806,9 +910,9 @@ public class PatientConn{
         update[HospitalHistory.getInstance().getIndex()].executeUpdate();
 
         //Deal with the NextOfKin table
-        startIndex=2;
-        update[NextOfKin.getInstance().getIndex()].setLong(NextOfKin.getInstance().
-                getColumnCount(),patient.getID());//set the unique ID
+        startIndex=1;
+        update[NextOfKin.getInstance().getIndex()].setLong(NextOfKin.getInstance().getColumnCount(),
+                patient.getID());//set the unique ID
         update[NextOfKin.getInstance().getIndex()].setString(startIndex++,patient.getNextOfKin().
                 getSurname());
         update[NextOfKin.getInstance().getIndex()].setString(startIndex++,patient.getNextOfKin().
@@ -832,7 +936,7 @@ public class PatientConn{
         update[NextOfKin.getInstance().getIndex()].executeUpdate();
 
         //Deal with the NHISInformation table
-        startIndex=2;
+        startIndex=1;
         update[NHISInformation.getInstance().getIndex()].setLong(NHISInformation.getInstance().
                 getColumnCount(),patient.getID());//set the unique ID
         update[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
@@ -844,9 +948,9 @@ public class PatientConn{
         update[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
                 getNHISInformation().getBloodGroup());
         update[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
-                getNHISInformation().getHmoCode());
+                getNHISInformation().getHMOCode());
         update[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
-                getNHISInformation().getHmosIDNumber());
+                getNHISInformation().getHMOIDNumber());
         update[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
                 getNHISInformation().getEmployer());
         update[NHISInformation.getInstance().getIndex()].setString(startIndex++,patient.
@@ -856,9 +960,9 @@ public class PatientConn{
         update[NHISInformation.getInstance().getIndex()].executeUpdate();
 
         //Deal with the Operations table
-        startIndex=2;
-        update[Operations.getInstance().getIndex()].setLong(Operations.getInstance().
-                getColumnCount(),patient.getID());//set the unique ID
+        startIndex=1;
+        update[Operations.getInstance().getIndex()].setLong(
+                Operations.getInstance().getColumnCount(),patient.getID());//set the unique ID
         update[Operations.getInstance().getIndex()].setString(startIndex++,
                 patient.getOperations().getDate());
         update[Operations.getInstance().getIndex()].setString(startIndex++,
@@ -870,7 +974,7 @@ public class PatientConn{
         update[Operations.getInstance().getIndex()].executeUpdate();
 
         //Deal with the OtherInformation table
-        startIndex=2;
+        startIndex=1;
         update[OtherInformation.getInstance().getIndex()].setLong(OtherInformation.getInstance().
                 getColumnCount(),patient.getID());//set the unique ID
         update[OtherInformation.getInstance().getIndex()].setString(startIndex++,patient.
@@ -880,7 +984,7 @@ public class PatientConn{
         update[OtherInformation.getInstance().getIndex()].executeUpdate();
 
         //Deal with the PersonalDetails table
-        startIndex=2;
+        startIndex=1;
         update[PersonalDetails.getInstance().getIndex()].setLong(PersonalDetails.getInstance().
                 getColumnCount(),patient.getID());//set the unique ID
         update[PersonalDetails.getInstance().getIndex()].setString(startIndex++,patient.
@@ -908,42 +1012,32 @@ public class PatientConn{
         update[PersonalDetails.getInstance().getIndex()].executeUpdate();
     }
 
-    void closeAllPatientResourcesAndNullifyInstance() throws SQLException{
+    PersonalDetailsView retrievePersonalDetailsView(String regex) throws SQLException{
+        ensureSelectFromPersonalDetailsViewStatement();
 
-        java.sql.SQLException firstException=null;
-        for(int i=TABLE_COUNT-1;i>=0;i--){
-            
-            try{
-                deleteFrom[i].close();//Close all delete statements to patient tables
-            }catch(java.sql.SQLException sqle){
-                if(firstException==null)
-                    firstException=sqle;
-            }
-            
-            try{
-                insertInto[i].close();//Close all insert statements to patient tables
-            }catch(java.sql.SQLException sqle){
-                if(firstException==null)
-                    firstException=sqle;
-            }
-            
-            try{
-                selectFrom[i].close();//Close all select statements to patient tables
-            }catch(java.sql.SQLException sqle){
-                if(firstException==null)
-                    firstException=sqle;
-            }
-            
-            try{
-                update[i].close();//Close all update statements to patient tables
-            }catch(java.sql.SQLException sqle){
-                if(firstException==null)
-                    firstException=sqle;
-            }
-            
+        selectFromPersonalDetailsView.setString(1,regex);
+        ResultSet rs=selectFromPersonalDetailsView.executeQuery();
+        PersonalDetailsView personalDetailsView=new PersonalDetailsView();
+        while(rs.next()){
+            int i=1;
+            personalDetailsView.addMatchedResult(
+                    rs.getLong(i++),
+                    rs.getString(i++),
+                    rs.getString(i++),
+                    rs.getString(i++));
         }
-        if(firstException!=null)//An exception occured
-            throw firstException;
-        instance=null;
+        rs.close();
+        return personalDetailsView;
+    }
+
+    Patient retrievePatient(String NHISNumber) throws SQLException,NoSuchPatientNHISNumberException,
+            NoSuchColumnException,NoSuchPatientIDException{
+        selectFrom$NHIS.setString(1,NHISNumber);
+        ResultSet rs=selectFrom$NHIS.executeQuery();
+        if(!rs.next())
+            throw new org.eminphis.exceptions.NoSuchPatientNHISNumberException(NHISNumber);
+        long ID=rs.getLong(1);
+        rs.close();
+        return retrievePatient(ID);
     }
 }

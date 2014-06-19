@@ -48,25 +48,25 @@ public class NextOfKin extends Entity{
     public String getColumnName(int columnIndex) throws NoSuchColumnException{
         switch(columnIndex){
             case 2:
-                return "next_of_kin_surname_";
+                return "surname_";
             case 3:
-                return "next_of_kin_first_name_";
+                return "first_name_";
             case 4:
-                return "next_of_kin_other_name_";
+                return "other_name_";
             case 5:
-                return "nk_home_address_";
+                return "home_address_";
             case 6:
-                return "nk_town_";
+                return "town_";
             case 7:
-                return "nk_country_";
+                return "nationality_";
             case 8:
-                return "nk_state_";
+                return "state_";
             case 9:
-                return "nk_lga_";
+                return "l_g_a_";
             case 10:
-                return "relationship_";
+                return "relationship_to_next_of_kin_";
             case 11:
-                return "kin_number_";
+                return "phone_number_";
             default:
                 return super.getColumnName(columnIndex);
         }

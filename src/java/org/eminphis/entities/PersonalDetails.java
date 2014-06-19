@@ -60,15 +60,15 @@ public class PersonalDetails extends Entity{
             case 7:
                 return "town_";
             case 8:
-                return "country_";
+                return "nationality_";
             case 9:
-                return "stateOfOrigin_";
+                return "l_g_a_";
             case 10:
-                return "lga_";
+                return "date_of_registration_";
             case 11:
-                return "date_of_reg_";
+                return "national_i_d_card_number_";
             case 12:
-                return "id_card_number_";
+                return "state_of_origin_";
             default:
                 return super.getColumnName(columnIndex);
         }

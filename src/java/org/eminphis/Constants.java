@@ -21,4 +21,5 @@ package org.eminphis;
  * @version 1.0
  */
 public interface Constants {
+    String EXCEPTION_MESSAGE="ExceptionMessage";
 }

@@ -22,11 +22,17 @@ package org.eminphis.exceptions;
  */
 public class NoSuchColumnException extends MINPHISException{
 
-    private String tableName;
-    private int columnIndex;
+    private final String tableName;
+    private final int columnIndex;
 
     public NoSuchColumnException(String tableName,int columnIndex){
-        super("The "+tableName+" entity does not have an attribute on index "+columnIndex);
+        this(tableName,columnIndex,"The "+tableName+" entity does not have an attribute on index "+columnIndex);
+    }
+
+    public NoSuchColumnException(String tableName,int columnIndex,String message){
+        super(message);
+        this.tableName=tableName;
+        this.columnIndex=columnIndex;
     }
 
     public int getColumnIndex(){

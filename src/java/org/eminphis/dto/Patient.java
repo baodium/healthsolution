@@ -31,9 +31,17 @@ public class Patient{
     private final OtherInformation otherInformation;
     private final PersonalDetails personalDetails;
 
-    public Patient(Diagnosis diagnosis,HospitalHistory hospitalHistory,NextOfKin nextOfKin,
-            NHISInformation nHISInformation,Operations operations,OtherInformation otherInformation,
-            PersonalDetails personalDetails){
+    /**
+     *
+     * @param diagnosis the value of diagnosis
+     * @param hospitalHistory the value of hospitalHistory
+     * @param nHISInformation the value of nHISInformation
+     * @param nextOfKin the value of nextOfKin
+     * @param operations the value of operations
+     * @param otherInformation the value of otherInformation
+     * @param personalDetails the value of personalDetails
+     */
+    public Patient(Diagnosis diagnosis,HospitalHistory hospitalHistory,NHISInformation nHISInformation,NextOfKin nextOfKin,Operations operations,OtherInformation otherInformation,PersonalDetails personalDetails){
         this.diagnosis=diagnosis;
         this.hospitalHistory=hospitalHistory;
         this.nextOfKin=nextOfKin;
