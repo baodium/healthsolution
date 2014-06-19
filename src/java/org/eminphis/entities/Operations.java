@@ -48,13 +48,13 @@ public class Operations extends Entity{
     public String getColumnName(int columnIndex) throws NoSuchColumnException{
         switch(columnIndex){
             case 2:
-                return "operation_date_";
+                return "date_";
             case 3:
                 return "op_surgeon_";
             case 4:
                 return "operation_";
             case 5:
-                return "operation_code_number_";
+                return "code_number_";
             default:
                 return super.getColumnName(columnIndex);
         }

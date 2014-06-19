@@ -1,9 +1,26 @@
 
-CREATE TABLE IF NOT EXISTS `diagnosis` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `date_diagnosed` text NOT NULL,
-  `date_discharge` varchar(25) NOT NULL,
-  `diagnosis` text NOT NULL,
-  `code_number` text NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=
+public class PersonalDetails{
+
+    private final String surname;
+    private final String firstName;
+    private final String otherName;
+    private final String phoneNumber;
+    private final String homeAddress;
+    private final String town;
+    private final String nationality;
+    private final String lGA;
+    private final String dateOfRegistration;
+    private final String nationalIDCardNumber;
+    private final String stateOfOrigin;
+
+                request.getParameter("surname"),
+                request.getParameter("first_name"),
+                request.getParameter("other_name"),
+                request.getParameter("phone_number"),
+                request.getParameter("home_address"),
+                request.getParameter("town"),
+                request.getParameter("country"),
+                request.getParameter("lga"),
+                request.getParameter("date_of_reg"),
+                request.getParameter("id_card_number"),
+                request.getParameter("state"));

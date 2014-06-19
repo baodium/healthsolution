@@ -50,15 +50,15 @@ public class HospitalHistory extends Entity{
             case 2:
                 return "date_admitted_";
             case 3:
-                return "refby_physician_";
+                return "referred_by_";
             case 4:
-                return "date_discharge_";
+                return "date_discharged_";
             case 5:
-                return "refto_physician_";
+                return "referred_to_";
             case 6:
-                return "discharge_to_";
+                return "discharged_to_";
             case 7:
-                return "outcome_";
+                return "outcome_of_care_";
             default:
                 return super.getColumnName(columnIndex);
         }

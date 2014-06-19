@@ -1,3 +1,11 @@
+Diagnosis_
+Hospital_History_
+N_H_I_S_Information_
+Next_Of_Kin_
+Operations_
+Other_Information_
+Personal_Details_
+
 Diagnosis
 HospitalHistory
 NHISInformation
@@ -5,3 +13,19 @@ NextOfKin
 Operations
 OtherInformation
 PersonalDetails
+
+diagnosis
+hospitalHistory
+nHISInformation
+nextOfKin
+operations
+otherInformation
+personalDetails
+
+Diagnosis diagnosis
+HospitalHistory hospitalHistory
+NHISInformation nHISInformation
+NextOfKin nextOfKin
+Operations operations
+OtherInformation otherInformation
+PersonalDetails personalDetails

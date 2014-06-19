@@ -15,6 +15,7 @@ package org.eminphis.exceptions;
  * 
  * <u>Description</u>
  * Represents an exception that is specific to the implementation of this application.
+ * i.e. It captures application-specific exceptions.
  * 
  * </pre>
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)

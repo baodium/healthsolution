@@ -50,7 +50,7 @@ public class Diagnosis extends Entity{
             case 2:
                 return "date_diagnosed_";
             case 3:
-                return "date_discharge_";
+                return "date_discharged_";
             case 4:
                 return "diagnosis_";
             case 5:
