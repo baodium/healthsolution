@@ -1,5 +1,5 @@
 
-package org.eminphis;
+package org.eminphis.ui;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -9,16 +9,17 @@ package org.eminphis;
  *
  *
  * <pre>
- * Class name: Constants.java
+ * Class name: UIManager.java
  * Version: 1.0
  * Author: Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  *
  * <u>Description</u>
- * This class is meant to encapsulate the application-wide constants.
+ * 
  * 
  * </pre>
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public interface Constants {
+public class UIManager {
+    
 }

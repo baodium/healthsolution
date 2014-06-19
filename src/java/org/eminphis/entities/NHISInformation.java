@@ -38,7 +38,7 @@ public class NHISInformation extends Entity{
      */
     @Override
     public String getName(){
-        return "N_H_I_S_Information_";
+        return "NHIS_Information_";
     }
 
     /**
@@ -48,21 +48,21 @@ public class NHISInformation extends Entity{
     public String getColumnName(int columnIndex) throws NoSuchColumnException{
         switch(columnIndex){
             case 2:
-                return "n_h_i_s_number_";
+                return "nhis_number_";
             case 3:
-                return "h_m_o_";
+                return "hmo_";
             case 4:
                 return "genotype_";
             case 5:
                 return "blood_group_";
             case 6:
-                return "h_m_o_code_";
+                return "hmo_code_";
             case 7:
-                return "h_m_o_i_d_number_";
+                return "hmos_id_";
             case 8:
                 return "employer_";
             case 9:
-                return "employer_address_";
+                return "employers_address_";
             case 10:
                 return "allergies_";
             default:

@@ -29,13 +29,13 @@ public class PersonalDetails{
     private final String homeAddress;
     private final String town;
     private final String nationality;
-    private final String lGA;
+    private final String LGA;
     private final String dateOfRegistration;
     private final String nationalIDCardNumber;
     private final String stateOfOrigin;
 
     public PersonalDetails(String surname,String firstName,String otherName,String phoneNumber,
-            String homeAddress,String town,String nationality,String lGA,String dateOfRegistration,
+            String homeAddress,String town,String nationality,String LGA,String dateOfRegistration,
             String nationalIDCardNumber,String stateOfOrigin){
         this.surname=surname;
         this.firstName=firstName;
@@ -44,7 +44,7 @@ public class PersonalDetails{
         this.homeAddress=homeAddress;
         this.town=town;
         this.nationality=nationality;
-        this.lGA=lGA;
+        this.LGA=LGA;
         this.dateOfRegistration=dateOfRegistration;
         this.nationalIDCardNumber=nationalIDCardNumber;
         this.stateOfOrigin=stateOfOrigin;
@@ -79,7 +79,7 @@ public class PersonalDetails{
     }
 
     public String getLGA(){
-        return lGA;
+        return LGA;
     }
 
     public String getDateOfRegistration(){

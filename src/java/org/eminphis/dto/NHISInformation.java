@@ -22,36 +22,36 @@ package org.eminphis.dto;
  */
 public class NHISInformation{
 
-    private final String nHISNumber;
-    private final String hMO;
+    private final String NHISNumber;
+    private final String HMO;
     private final String genotype;
     private final String bloodGroup;
-    private final String hMOCode;
-    private final String hMOIDNumber;
-    private String employer;
+    private final String hmoCode;
+    private final String hmosIDNumber;
+    private final String employer;
     private final String employerAddress;
     private final String allergies;
 
-    public NHISInformation(String nHISNumber,String hMO,String genotype,String bloodGroup,
-            String hMOCode,String hMOIDNumber,String employer,String employerAddress,
+    public NHISInformation(String NHISNumber,String HMO,String genotype,String bloodGroup,
+            String hmoCode,String hmosIDNumber,String employer,String employerAddress,
             String allergies){
-        this.nHISNumber=nHISNumber;
-        this.hMO=hMO;
+        this.NHISNumber=NHISNumber;
+        this.HMO=HMO;
         this.genotype=genotype;
         this.bloodGroup=bloodGroup;
-        this.hMOCode=hMOCode;
-        this.hMOIDNumber=hMOIDNumber;
+        this.hmoCode=hmoCode;
+        this.hmosIDNumber=hmosIDNumber;
         this.employer=employer;
         this.employerAddress=employerAddress;
         this.allergies=allergies;
     }
 
     public String getNHISNumber(){
-        return nHISNumber;
+        return NHISNumber;
     }
 
     public String getHMO(){
-        return hMO;
+        return HMO;
     }
 
     public String getGenotype(){
@@ -62,20 +62,16 @@ public class NHISInformation{
         return bloodGroup;
     }
 
-    public String getHMOCode(){
-        return hMOCode;
+    public String getHmoCode(){
+        return hmoCode;
     }
 
-    public String getHMOIDNumber(){
-        return hMOIDNumber;
+    public String getHmosIDNumber(){
+        return hmosIDNumber;
     }
 
     public String getEmployer(){
         return employer;
-    }
-    
-    public void setEmployer(String employer){
-        this.employer=employer;
     }
 
     public String getEmployerAddress(){

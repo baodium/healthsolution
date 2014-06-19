@@ -1,8 +1,6 @@
 
 package org.eminphis;
 
-import org.eminphis.exceptions.MINPHISException;
-
 /**
  * <u>e-MINPHIS</u><br>
  * A project of the Health Information Systems Unit of the<br>
@@ -24,9 +22,6 @@ import org.eminphis.exceptions.MINPHISException;
  */
 public class ErrorLogger {
     public static void logError(Exception e){
-        if(e instanceof MINPHISException){
-            System.out.println("MINPHISException>>>> "+e.getMessage());
-        }
         e.printStackTrace();
     }
 }

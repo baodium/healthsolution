@@ -29,12 +29,12 @@ public class NextOfKin{
     private final String town;
     private final String nationality;
     private final String state;
-    private final String lGA;
+    private final String LGA;
     private final String relationshipToNextOfKin;
     private final String phoneNumber;
 
     public NextOfKin(String surname,String firstName,String otherName,String HomeAddress,
-            String town,String nationality,String state,String lGA,String relationshipToNextOfKin,
+            String town,String nationality,String state,String LGA,String relationshipToNextOfKin,
             String phoneNumber){
         this.surname=surname;
         this.firstName=firstName;
@@ -43,7 +43,7 @@ public class NextOfKin{
         this.town=town;
         this.nationality=nationality;
         this.state=state;
-        this.lGA=lGA;
+        this.LGA=LGA;
         this.relationshipToNextOfKin=relationshipToNextOfKin;
         this.phoneNumber=phoneNumber;
     }
@@ -77,7 +77,7 @@ public class NextOfKin{
     }
 
     public String getLGA(){
-        return lGA;
+        return LGA;
     }
 
     public String getRelationshipToNextOfKin(){

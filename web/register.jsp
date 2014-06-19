@@ -64,7 +64,7 @@
             
             
 
-            <form action="register" method="post">
+            <form action="RegisterServlet" method="post">
                 <!--- menu contents -->
                 <div class="item  addPatient selected ">
                     <h3><img src="image/addPatient.png">&nbsp;ADD PATIENT</h3>
@@ -466,15 +466,15 @@
             <div class="item  searchPatient">
                 <h3><img src="image/search.png">SEARCH PATIENT</h3>
 
-                <form action="search">
+                <form>
                     <input type="search" name="search_patient_by_name" placeholder="Search patient by Name" >
                     <input type="submit" value="search">
-                </form>
-                <form action="search">
+                </form
+                <form>
                     <input type="search" name="search_patient_by_id" placeholder="Search patient by ID Number" >
                     <input type="submit" value="search">
                 </form>
-                <form action="search">
+                <form>
                     <input type="search" name="search_patient_by_nhis" placeholder="Search patient by NHIS Number" >
                     <input type="submit" value="search">
                 </form>

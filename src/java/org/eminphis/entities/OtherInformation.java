@@ -48,9 +48,9 @@ public class OtherInformation extends Entity{
     public String getColumnName(int columnIndex) throws NoSuchColumnException{
         switch(columnIndex){
             case 2:
-                return "town_";
+                return "other_town_";
             case 3:
-                return "educational_level_";
+                return "highest_edu_level_";
             default:
                 return super.getColumnName(columnIndex);
         }
