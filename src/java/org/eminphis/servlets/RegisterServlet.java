@@ -37,14 +37,12 @@ import org.eminphis.ui.registrar.RegistrationHandler;
  */
 public class RegisterServlet extends HttpServlet{
 
-    private Exception exceptionIfAny;
-
     @Override
     protected void service(HttpServletRequest req,HttpServletResponse resp) throws ServletException,
             IOException{
 
-        if(exceptionIfAny!=null){//Then there was an exception while initializing db connection
-            FrontendManager.showDBInitErrorPage(req,resp,exceptionIfAny.getMessage());
+        if(!DBManager.isConnectionEstablished()){//Then there was an exception while initializing db connection
+            FrontendManager.showDBInitErrorPage(req,resp);
             return;
         }
         super.service(req,resp);
@@ -88,7 +86,7 @@ public class RegisterServlet extends HttpServlet{
             registrationManager.showInsertSuccessPage();
         }catch(SQLException ex){
             ErrorLogger.logError(ex);
-            registrationManager.showInsertErrorPage(ex.getMessage());
+            registrationManager.showInsertErrorPage(ex);
         }catch(NoSuchColumnException ex){
             ErrorLogger.logError(ex);
         }
@@ -96,42 +94,10 @@ public class RegisterServlet extends HttpServlet{
 
     @Override
     public void init() throws ServletException{
-        Printer.println("started initializing");
-        super.init();
-        Printer.println("finished initializing");
-        exceptionIfAny=initializeDatabaseConnection();
-    }
-
-    /**
-     *
-     * @return the exception message, if an exception occurs while initializing
-     * database connections; otherwise, null is returned if there was no exception
-     */
-    private Exception initializeDatabaseConnection(){
-        try{
-            //initialize database connection
-            DBManager.initialize();
-            return null;
-        }catch(Exception e){
-            ErrorLogger.logError(e);
-            return e;
-        }
-    }
-
-    @Override
-    public void destroy(){
-        Printer.println("destroy() was called");
-        commitAndCloseDBResources();
-        super.destroy();
-    }
-
-    private void commitAndCloseDBResources(){
-        try{
-            //commit changes and close database resources
-            DBManager.closeDatabaseResources();
-        }catch(Exception e){
-            ErrorLogger.logError(e);
-        }
+//        Printer.println("started initializing");
+//        super.init();
+//        Printer.println("finished initializing");
+//        exceptionIfAny=initializeDatabaseConnection();
     }
 
     /**

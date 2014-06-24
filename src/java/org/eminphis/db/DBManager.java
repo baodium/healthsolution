@@ -3,6 +3,13 @@ package org.eminphis.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
+import org.eminphis.ErrorLogger;
+import org.eminphis.Printer;
 import org.eminphis.dto.Patient;
 import org.eminphis.dto.tableview.PersonalDetailsView;
 import org.eminphis.exceptions.NoSuchColumnException;
@@ -29,7 +36,8 @@ import org.eminphis.exceptions.NoSuchPatientNHISNumberException;
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public class DBManager{
+@WebListener
+public class DBManager implements ServletContextListener{
 
     private static String databaseURL="jdbc:mysql://localhost:3306/eMINPHIS_DB";
     private static Connection databaseConnection;
@@ -44,7 +52,7 @@ public class DBManager{
      *
      * @throws SQLException
      */
-    public static void initialize() throws SQLException{
+    private static void initialize() throws SQLException{
         if(databaseConnection==null){
             databaseConnection=DriverManager.getConnection(databaseURL,"root","a");
             databaseConnection.setAutoCommit(false);
@@ -60,11 +68,15 @@ public class DBManager{
         databaseConnection.commit();
     }
 
-    public static void closeDatabaseResources() throws SQLException{
+    private static void closeDatabaseResources() throws SQLException{
         commitChanges();
         PatientConn.getInstance().closeAllPatientResourcesAndNullifyInstance();
         databaseConnection.close();
         databaseConnection=null;
+    }
+    
+    public static boolean isConnectionEstablished(){
+        return databaseConnection!=null;
     }
 
     /**
@@ -130,5 +142,25 @@ public class DBManager{
     public static PersonalDetailsView retrievePersonalDetailsView(String prefixOfName) throws
             SQLException{
         return PatientConn.getInstance().retrievePersonalDetailsView(prefixOfName+'%');
+    }
+
+    @Override
+    public void contextInitialized(ServletContextEvent sce){
+        Printer.println("contentInitialized()");
+        try{
+            initialize();
+        }catch(SQLException ex){
+            ErrorLogger.logError(ex);
+        }
+    }
+
+    @Override
+    public void contextDestroyed(ServletContextEvent sce){
+        Printer.println("contextDestroyed()");
+        try{
+            closeDatabaseResources();
+        }catch(SQLException ex){
+            ErrorLogger.logError(ex);
+        }
     }
 }

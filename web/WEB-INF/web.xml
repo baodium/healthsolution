@@ -8,6 +8,10 @@
         <servlet-name>SearchServlet</servlet-name>
         <servlet-class>org.eminphis.servlets.SearchServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ModifyServlet</servlet-name>
+        <servlet-class>org.eminphis.servlets.ModifyServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>SearchServlet</servlet-name>
         <url-pattern>/search</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifyServlet</servlet-name>
+        <url-pattern>/modify</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

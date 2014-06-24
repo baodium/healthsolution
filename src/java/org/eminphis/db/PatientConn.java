@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import org.eminphis.Printer;
 import static org.eminphis.db.DBManager.TABLE_COUNT;
 import static org.eminphis.db.DBManager.getDBConnection;
 import org.eminphis.dto.Patient;
@@ -411,7 +412,7 @@ public class PatientConn{
      *
      * @throws SQLException if an error occurs while initializing the select statements
      */
-    private void ensureNHISSelectStatements() throws SQLException{
+    private void ensureNHISSelectStatement() throws SQLException{
         if(selectFrom$NHIS!=null)
             return;
 
@@ -1032,6 +1033,8 @@ public class PatientConn{
 
     Patient retrievePatient(String NHISNumber) throws SQLException,NoSuchPatientNHISNumberException,
             NoSuchColumnException,NoSuchPatientIDException{
+        ensureNHISSelectStatement();
+        
         selectFrom$NHIS.setString(1,NHISNumber);
         ResultSet rs=selectFrom$NHIS.executeQuery();
         if(!rs.next())

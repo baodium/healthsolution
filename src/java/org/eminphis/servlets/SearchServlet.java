@@ -87,7 +87,9 @@ public class SearchServlet extends HttpServlet{
         }catch(InvalidRequestException|SQLException|NoSuchColumnException|
                 NoSuchPatientNHISNumberException|NoSuchPatientIDException ex){
             ErrorLogger.logError(ex);
-            SearchHandler.showErrorPage(ex.getMessage());
+            try{SearchHandler.showErrorPage(response,ex);}catch(IOException ioe){
+                ErrorLogger.logError(ioe);
+            }
         }
     }
 
@@ -117,4 +119,5 @@ public class SearchServlet extends HttpServlet{
     public String getServletInfo(){
         return "Short description";
     }// </editor-fold>
+
 }

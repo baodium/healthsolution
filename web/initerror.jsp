@@ -19,7 +19,7 @@
             <br>Please shutdown the application and try restarting it.
         </h1>
         <h3>
-            <%=request.getAttribute(Constants.EXCEPTION_MESSAGE)%>
+            <i>Database connection yet to be initialized</i>
         </h3>
     </body>
 </html>

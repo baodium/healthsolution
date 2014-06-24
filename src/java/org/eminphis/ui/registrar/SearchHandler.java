@@ -51,15 +51,13 @@ public class SearchHandler{
     private int searchType=SEARCH_UNKNOWN;
 
     /**
-     * Displays an error page with the specified {@code technicalMessage}
+     * Displays an error page with the specified {@code exception}
      *
-     * @param technicalMessage the message returned from the exception object.
-     * Useful for the developer when trying to fix the error.
+     * @param exception the exception object, useful when the developer needs to trace the error
      */
-    public static void showErrorPage(String technicalMessage){
+    public static void showErrorPage(HttpServletResponse response,Exception exception) throws IOException{
         //An error occured while fulfilling your request
-        
-        throw new UnsupportedOperationException("Not yet implemented");
+        response.getWriter().println(exception);
     }
 
     public SearchHandler(HttpServletRequest request,HttpServletResponse response){
@@ -120,7 +118,7 @@ public class SearchHandler{
         setOperationsAttributes(patient);
         setOtherInformationAttributes(patient);
         setPersonalDetailsAttributes(patient);
-        response.sendRedirect("/modify.jsp");
+        response.sendRedirect("modify.jsp");
     }
 
     /**
@@ -169,7 +167,7 @@ public class SearchHandler{
         request.getSession().setAttribute("next_of_kin_other_name",patient.getNextOfKin().getOtherName());
         request.getSession().setAttribute("nk_home_address",patient.getNextOfKin().getHomeAddress());
         request.getSession().setAttribute("nk_town",patient.getNextOfKin().getTown());
-        request.getSession().setAttribute("nk_lga",patient.getNextOfKin().getNationality());
+        request.getSession().setAttribute("nk_country",patient.getNextOfKin().getNationality());
         request.getSession().setAttribute("nk_state",patient.getNextOfKin().getState());
         request.getSession().setAttribute("nk_lga",patient.getNextOfKin().getLGA());
         request.getSession().setAttribute("relationship",patient.getNextOfKin().getRelationshipToNextOfKin());

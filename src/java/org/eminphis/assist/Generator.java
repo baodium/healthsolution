@@ -65,7 +65,6 @@ public class Generator{
 
             DBManager.insertPatient(patient);
         }
-        DBManager.closeDatabaseResources();
     }
 
     private static String randomString(){
@@ -77,16 +76,16 @@ public class Generator{
 
     public static void main(String[] args) throws FileNotFoundException,SQLException,
             NoSuchColumnException{
-        //        File file=new File("/home/essiennta/FinalYearProject/src/finalyearproject/","UniqueNames.txt");
-        //        Scanner sc=new Scanner(file);
-        //        List<String>uniqueNames=new ArrayList<String>();
-        //        for(String uniqueName=sc.nextLine();sc.hasNextLine();uniqueName=sc.nextLine()){
-        //            uniqueNames.add(uniqueName);
-        //        }
-        //        sc.close();
-        //        generate(uniqueNames);
+                File file=new File("/home/essiennta/FinalYearProject/src/finalyearproject/","UniqueNames.txt");
+                Scanner sc=new Scanner(file);
+                List<String>uniqueNames=new ArrayList<String>();
+                for(String uniqueName=sc.nextLine();sc.hasNextLine();uniqueName=sc.nextLine()){
+                    uniqueNames.add(uniqueName);
+                }
+                sc.close();
+                generate(uniqueNames);
         //                DBManager.deletePatient(44);
-        DBManager.initialize();
+//        DBManager.initialize();
 //        PersonalDetailsView retrievePersonalDetailsView=
 //                DBManager.retrievePersonalDetailsView("adeb");
 //        System.out.println("retrieval done");
@@ -94,12 +93,13 @@ public class Generator{
 //            System.out.println(match.getID()+" "+match.getSurname()+" "+match.getFirstName()+" "+match.getOtherName());
 //        }
         
+//                insertPatients();
                 
 //        Patient patient=DBManager.retrievePatient(41);
 //        patient.getNHISInformation().setEmployer("Emmanuel");
 //        DBManager.updatePatient(patient);
         
-        DBManager.closeDatabaseResources();
+//        DBManager.closeDatabaseResources();
         
         //        System.out.println(fullNamesList.size()+" patients inserted.");
     }

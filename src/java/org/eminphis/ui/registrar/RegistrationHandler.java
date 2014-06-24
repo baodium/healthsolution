@@ -92,7 +92,7 @@ public class RegistrationHandler{
                 request.getParameter("next_of_kin_other_name"),
                 request.getParameter("nk_home_address"),
                 request.getParameter("nk_town"),
-                request.getParameter("nk_lga"),
+                request.getParameter("nk_country"),
                 request.getParameter("nk_state"),
                 request.getParameter("nk_lga"),
                 request.getParameter("relationship"),
@@ -132,13 +132,13 @@ public class RegistrationHandler{
      * Displays an error page when an error occurs while trying to insert
      * the new patient into the database.
      *
-     * @param technicalMessage the message returned from the exception object.
+     * @param exception the exception object, useful when the developer needs to trace the error
      * Useful for the developer when trying to fix the error.
      */
-    public void showInsertErrorPage(String technicalMessage) throws IOException{
+    public void showInsertErrorPage(Exception exception) throws IOException{
         response.getWriter().println(
                 "<h2>An error occurred while inserting the patient's details</h2>");
-        response.getWriter().println(technicalMessage);
+        response.getWriter().println(exception);
     }
 
     /**

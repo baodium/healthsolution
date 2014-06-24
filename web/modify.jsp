@@ -13,11 +13,10 @@
     </head>
     <body>
             
-        <form action="ModifyServlet" method="get">
-            <input type="text" name="patient_id" value="" /><input type="submit" value="search" name="search_button" /><br />
+        <form action="modify" method="get">
         Surname<input type="text" name="surname" value=" <%=(String)session.getAttribute("surname")%>">
-        Firstname<input type="text" name="first_namevalue=" value="<%=(String)session.getAttribute("first_namevalue")%>" /><br/>
-        Othername<input type="text" name="other_namevalue=" value="<%=(String)session.getAttribute("other_namevalue")%>" />
+        Firstname<input type="text" name="first_name" value="<%=(String)session.getAttribute("first_name")%>" /><br/>
+        Othername<input type="text" name="other_name" value="<%=(String)session.getAttribute("other_name")%>" />
         Phone No<input type="text" name="phone_number" value=" <%=(String)session.getAttribute("phone_number")%>"><br/>
         Home Address<input type="text" name="home_address" value=" <%=(String)session.getAttribute("home_address")%>">
         Town<input type="text" name="town" value=" <%=(String)session.getAttribute("town")%>"><br/>
@@ -61,7 +60,7 @@
         Employer<input type="text" name="employer" value=" <%=(String)session.getAttribute("employer")%>"><br/>
         Address<input type="text" name="employers_address" value=" <%=(String)session.getAttribute("employers_address")%>">
         Allergies<input type="text" name="allergies" value=" <%=(String)session.getAttribute("allergies")%>">
-        
+        <input type="submit" value="update">
         </form>
         </body>
 </html>

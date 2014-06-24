@@ -4,8 +4,6 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.derby.iapi.sql.dictionary.ConsInfo;
-import org.eminphis.Constants;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -39,9 +37,7 @@ public class FrontendManager{
      * @param technicalMessage the message returned from the exception object.
      * Useful for the developer when trying to fix the error.
      */
-    public static void showDBInitErrorPage(HttpServletRequest request,ServletResponse response,
-            String technicalMessage) throws ServletException,IOException{
-        request.setAttribute(Constants.EXCEPTION_MESSAGE,technicalMessage);
-        request.getRequestDispatcher("/error.jsp").forward(request,response);
+    public static void showDBInitErrorPage(HttpServletRequest request,ServletResponse response) throws ServletException,IOException{
+        request.getRequestDispatcher("/initerror.jsp").forward(request,response);
     }
 }
