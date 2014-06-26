@@ -4,6 +4,9 @@
     Author     : moscoworld
 --%>
 
+<%@page import="org.eminphis.Printer"%>
+<%@page import="org.eminphis.Constants"%>
+<%@page import="org.eminphis.ui.registrar.SearchHandler"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,7 +16,9 @@
         <link rel="stylesheet" type="text/css" href="css/font_face.css">
         <link rel="stylesheet"  type="text/css" href="css/style.css">
         <link rel="stylesheet"  type="text/css" href="css/datePicker.css">
+        <link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
         <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
+        <script src="js/jquery.autocomplete.js"></script> 
         <script type="text/javascript" src="js/my.js"></script>
         <script type="text/javascript" src="js/datePicker.js"></script>
         <script type= "text/javascript" src = "js/couuntry_state_lga.js"></script>
@@ -467,18 +472,15 @@
                 <h3><img src="image/search.png">SEARCH PATIENT</h3>
 
                 <form action="search">
-                    <input type="search" name="search_patient_by_name" placeholder="Search patient by Name" >
+                    <input type="search" class="searchPatient" name="search_patient_by_name" placeholder="Search by name, id or NHIS number" >
                     <input type="submit" value="search">
                 </form>
-                <form action="search">
-                    <input type="search" name="search_patient_by_id" placeholder="Search patient by ID Number" >
-                    <input type="submit" value="search">
-                </form>
-                <form action="search">
-                    <input type="search" name="search_patient_by_nhis" placeholder="Search patient by NHIS Number" >
-                    <input type="submit" value="search">
-                </form>
-
+                
+                <script>
+                    jQuery(function(){
+                        $(".searchPatient").autocomplete("list.jsp");
+                    });
+                </script>
 
             </div> 
 
@@ -592,7 +594,6 @@
                 </div>
 
             </div>
-
 
 
     </body>

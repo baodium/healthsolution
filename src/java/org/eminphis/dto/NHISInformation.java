@@ -28,7 +28,7 @@ public class NHISInformation{
     private final String bloodGroup;
     private final String hMOCode;
     private final String hMOIDNumber;
-    private String employer;
+    private final String employer;
     private final String employerAddress;
     private final String allergies;
 
@@ -49,7 +49,7 @@ public class NHISInformation{
     public String getNHISNumber(){
         return nHISNumber;
     }
-
+    
     public String getHMO(){
         return hMO;
     }
@@ -72,10 +72,6 @@ public class NHISInformation{
 
     public String getEmployer(){
         return employer;
-    }
-    
-    public void setEmployer(String employer){
-        this.employer=employer;
     }
 
     public String getEmployerAddress(){

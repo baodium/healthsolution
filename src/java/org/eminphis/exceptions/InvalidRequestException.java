@@ -14,7 +14,7 @@ package org.eminphis.exceptions;
  * Author: Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * 
  * <u>Description</u>
- * Exception class that is thrown the user's request is not a valid one. i.e. the request is
+ * Exception class that is thrown when the user's request is not a valid one. i.e. the request is
  * not defined within the application or within that context.
  * 
  * </pre>

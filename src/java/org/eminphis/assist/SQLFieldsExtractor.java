@@ -99,14 +99,17 @@ public class SQLFieldsExtractor {
             this.tableName=tableName;
             this.sqlType=sqlType;
             this.sqlIdentifier=sqlIdentifier;
-            switch(this.sqlType.toLowerCase()){
-                case "text":
-                case "char":
-                case "varchar":
-                    javaType="String";break;
-                case "int":
-                    javaType="int";break;
-                default:throw new RuntimeException("Cannot figure out the java type");
+            final String input=this.sqlType.toLowerCase();
+            if(input.equals("text")){
+                    javaType="String";
+            }else if(input.equals("char")){
+                    javaType="String";
+            }else if(input.equals("varchar")){
+                    javaType="String";
+            }else if(input.equals("int")){
+                    javaType="int";
+            }else{
+                throw new RuntimeException("Cannot figure out the java type");
             }
             String[] split=adjustIfNecessary(sqlIdentifier).split("_");
             StringBuilder sb=new StringBuilder();

@@ -41,8 +41,8 @@ public class PersonalDetailsView implements Iterable<Match>{
         return results.size();
     }
 
-    public void addMatchedResult(long ID,String surname,String firstName,String otherName){
-        results.add(new Match(ID,surname,firstName,otherName));
+    public void addMatchedResult(String NHISNumber,String surname,String firstName,String otherName){
+        results.add(new Match(NHISNumber,surname,firstName,otherName));
     }
 
     @Override
@@ -50,22 +50,25 @@ public class PersonalDetailsView implements Iterable<Match>{
         return results.iterator();
     }
 
+    /**
+     * Encapsulates an item that matched the query
+     */
     public static class Match{
 
-        private long ID;
+        private String NHISNumber;
         private String surname;
         private String firstName;
         private String otherName;
 
-        public Match(long ID,String surname,String firstName,String otherName){
-            this.ID=ID;
+        public Match(String NHISNumber,String surname,String firstName,String otherName){
+            this.NHISNumber=NHISNumber;
             this.surname=surname;
             this.firstName=firstName;
             this.otherName=otherName;
         }
 
-        public long getID(){
-            return ID;
+        public String getNHISNumber(){
+            return NHISNumber;
         }
 
         public String getFirstName(){
@@ -80,10 +83,27 @@ public class PersonalDetailsView implements Iterable<Match>{
             return surname;
         }
 
+        /**
+         * Given the string returned by toString() of an object of
+         * this type, this method retrieves the ID in the string.
+         *
+         * @param stringRepresentation the string returned by toString() of
+         * an object of type {@link Match}
+         * @return the ID
+         */
+        public static long retrievePatientID(String stringRepresentation){
+            int indexOfRightSquareBracket=stringRepresentation.length()-1;
+            int indexOfLeftSquareBracket=indexOfRightSquareBracket;
+            while(--indexOfLeftSquareBracket>=0&&Character.isDigit(stringRepresentation.charAt(
+                    indexOfLeftSquareBracket)));
+//            assert stringRepresentation.charAt(indexOfLeftSquareBracket)=='[';
+            return Integer.parseInt(stringRepresentation.substring(indexOfLeftSquareBracket+1,
+                    indexOfRightSquareBracket));
+        }
+
         @Override
         public String toString(){
-            return surname+" "+firstName+" "+otherName+" ["+ID+"]";
+            return surname+" "+firstName+" "+otherName+" ["+NHISNumber+"]";
         }
-        
     }
 }

@@ -11,10 +11,9 @@ import org.eminphis.ErrorLogger;
 import org.eminphis.Printer;
 import org.eminphis.db.DBManager;
 import org.eminphis.dto.Patient;
-import org.eminphis.exceptions.InvalidRequestException;
+import org.eminphis.dto.tableview.PersonalDetailsView;
 import org.eminphis.exceptions.NoSuchColumnException;
 import org.eminphis.exceptions.NoSuchPatientIDException;
-import org.eminphis.exceptions.NoSuchPatientNHISNumberException;
 import org.eminphis.ui.registrar.SearchHandler;
 
 /**
@@ -53,43 +52,26 @@ public class SearchServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request,HttpServletResponse response)
             throws ServletException,IOException{
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out=response.getWriter();
         Printer.println("doGet");
+
+        //First of all retrieve the search handler
+        SearchHandler searchHandler=new SearchHandler(request,response);
+        String query=searchHandler.retrieveQuery();
+        long patientID=PersonalDetailsView.Match.retrievePatientID(query);
+        
+        Patient patient=null;
         try{
-            /*
-             * Retrieve search parameter
-             * Do the search
-             * Present the result
-             */
-            SearchHandler searchHandler=new SearchHandler(request,response);
-            switch(searchHandler.getSearchType()){
-                case SearchHandler.SEARCH_ID:
-                    Printer.println("By SEARCH_ID");
-                    Patient patient=
-                            DBManager.retrievePatient(searchHandler.retrieveID());
-                    searchHandler.showPatientDetails(patient);
-                    break;
-                case SearchHandler.SEARCH_PREFIX:
-                    Printer.println("By SEARCH_PREFIX");
-                    org.eminphis.dto.tableview.PersonalDetailsView personalDetailsView=DBManager.
-                            retrievePersonalDetailsView(searchHandler.retrievePrefix());
-                    searchHandler.showSearchResults(personalDetailsView);
-                    break;
-                case SearchHandler.SEARCH_NHIS:
-                    Printer.println("By SEARCH_NHIS");
-                    patient=DBManager.retrievePatient(searchHandler.retrieveNHISNumber());
-                    searchHandler.showPatientDetails(patient);
-                    break;
-                case SearchHandler.SEARCH_UNKNOWN:
-                    Printer.println("By SEARCH_UNKNOWN");
-                    throw new InvalidRequestException();
-            }
-        }catch(InvalidRequestException|SQLException|NoSuchColumnException|
-                NoSuchPatientNHISNumberException|NoSuchPatientIDException ex){
+            patient=DBManager.retrievePatient(patientID);
+            searchHandler.showPatientDetails(patient);
+        }catch(NoSuchColumnException ex){
             ErrorLogger.logError(ex);
-            try{SearchHandler.showErrorPage(response,ex);}catch(IOException ioe){
-                ErrorLogger.logError(ioe);
-            }
+            SearchHandler.showErrorPage(response,ex);
+        }catch(NoSuchPatientIDException ex){
+            ErrorLogger.logError(ex);
+            SearchHandler.showErrorPage(response,ex);
+        }catch(SQLException ex){
+            ErrorLogger.logError(ex);
+            SearchHandler.showErrorPage(response,ex);
         }
     }
 
@@ -119,5 +101,4 @@ public class SearchServlet extends HttpServlet{
     public String getServletInfo(){
         return "Short description";
     }// </editor-fold>
-
 }

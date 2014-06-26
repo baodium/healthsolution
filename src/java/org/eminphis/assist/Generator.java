@@ -8,6 +8,7 @@ import org.eminphis.db.DBManager;
 import org.eminphis.dto.*;
 import org.eminphis.dto.tableview.PersonalDetailsView;
 import org.eminphis.exceptions.NoSuchColumnException;
+import org.eminphis.exceptions.NoSuchPatientIDException;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -75,7 +76,7 @@ public class Generator{
     }
 
     public static void main(String[] args) throws FileNotFoundException,SQLException,
-            NoSuchColumnException{
+            NoSuchColumnException, NoSuchPatientIDException{
                 File file=new File("/home/essiennta/FinalYearProject/src/finalyearproject/","UniqueNames.txt");
                 Scanner sc=new Scanner(file);
                 List<String>uniqueNames=new ArrayList<String>();
@@ -92,13 +93,18 @@ public class Generator{
 //        for(PersonalDetailsView.Match match:retrievePersonalDetailsView){
 //            System.out.println(match.getID()+" "+match.getSurname()+" "+match.getFirstName()+" "+match.getOtherName());
 //        }
-        
+//        String format="NHIS/";
+//        for(int i=1;i<=4000;i++){
+//                    Patient patient=DBManager.retrievePatient(i);
+//                    patient.getNHISInformation().setNHISNumber(format+i);
+//                    DBManager.updatePatient(patient);
+//        }
 //                insertPatients();
                 
 //        Patient patient=DBManager.retrievePatient(41);
 //        patient.getNHISInformation().setEmployer("Emmanuel");
 //        DBManager.updatePatient(patient);
-        
+//        
 //        DBManager.closeDatabaseResources();
         
         //        System.out.println(fullNamesList.size()+" patients inserted.");
@@ -120,12 +126,7 @@ public class Generator{
         }
         for(String fullName:uniqueFullNames){
             String[] parts=fullName.split(" ");
-            try{
                 fullNamesList.add(new FullName(parts[0],parts[1],parts[2]));
-            }catch(Exception e){
-                System.out.println("was "+fullName);
-                throw e;
-            }
         }
 
 //        intoFile.close();

@@ -7,6 +7,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.eminphis.Printer;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -43,7 +44,7 @@ public class ModifyServlet extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out = response.getWriter();
-        
+        Printer.println("doGet()... doing nothing");
     } 
 
     /** 

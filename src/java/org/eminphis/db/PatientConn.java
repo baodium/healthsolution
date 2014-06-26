@@ -4,7 +4,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import org.eminphis.Printer;
 import static org.eminphis.db.DBManager.TABLE_COUNT;
 import static org.eminphis.db.DBManager.getDBConnection;
 import org.eminphis.dto.Patient;
@@ -34,7 +33,7 @@ import org.eminphis.exceptions.NoSuchPatientNHISNumberException;
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public class PatientConn{
+class PatientConn{
 
     private static PatientConn instance;
     private static PreparedStatement[] deleteFrom;//holds prepared statements for each of the table
@@ -538,7 +537,7 @@ public class PatientConn{
         if(selectFromPersonalDetailsView!=null)
             return;
         selectFromPersonalDetailsView=DBManager.getDBConnection().prepareStatement(
-                "SELECT * FROM Personal_Details_View_ WHERE surname_ like ?");
+                "SELECT * FROM Personal_Details_View_ WHERE surname_ like ? LIMIT 10");//retrieve only the first 10 matches
     }
 
     /**
@@ -1022,7 +1021,7 @@ public class PatientConn{
         while(rs.next()){
             int i=1;
             personalDetailsView.addMatchedResult(
-                    rs.getLong(i++),
+                    rs.getString(i++),
                     rs.getString(i++),
                     rs.getString(i++),
                     rs.getString(i++));
@@ -1034,7 +1033,7 @@ public class PatientConn{
     Patient retrievePatient(String NHISNumber) throws SQLException,NoSuchPatientNHISNumberException,
             NoSuchColumnException,NoSuchPatientIDException{
         ensureNHISSelectStatement();
-        
+
         selectFrom$NHIS.setString(1,NHISNumber);
         ResultSet rs=selectFrom$NHIS.executeQuery();
         if(!rs.next())

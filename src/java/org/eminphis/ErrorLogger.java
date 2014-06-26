@@ -16,7 +16,7 @@ import org.eminphis.exceptions.MINPHISException;
  * Author: Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * 
  * <u>Description</u>
- * 
+ * Serves as the sink for all error messages.
  * 
  * </pre>
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
