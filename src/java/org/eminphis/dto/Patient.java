@@ -1,5 +1,13 @@
 package org.eminphis.dto;
 
+import org.eminphis.dto.patient.OtherInformation;
+import org.eminphis.dto.patient.Diagnosis;
+import org.eminphis.dto.patient.NHISInformation;
+import org.eminphis.dto.patient.Operations;
+import org.eminphis.dto.patient.NextOfKin;
+import org.eminphis.dto.patient.HospitalHistory;
+import org.eminphis.dto.patient.PersonalDetails;
+
 /**
  * <u>e-MINPHIS</u><br>
  * A project of the Health Information Systems Unit of the<br>

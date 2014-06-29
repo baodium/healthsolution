@@ -3,13 +3,12 @@ package org.eminphis.db;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
 import org.eminphis.ErrorLogger;
 import org.eminphis.Printer;
+import org.eminphis.dto.Appointment;
 import org.eminphis.dto.Patient;
 import org.eminphis.dto.tableview.PersonalDetailsView;
 import org.eminphis.exceptions.NoSuchColumnException;
@@ -71,6 +70,7 @@ public class DBManager implements ServletContextListener{
     private static void closeDatabaseResources() throws SQLException{
         commitChanges();
         PatientConn.getInstance().closeAllPatientResourcesAndNullifyInstance();
+        Conn.getInstance().closeAllStatements();
         databaseConnection.close();
         databaseConnection=null;
     }
@@ -142,6 +142,10 @@ public class DBManager implements ServletContextListener{
     public static PersonalDetailsView retrievePersonalDetailsView(String prefixOfName) throws
             SQLException{
         return PatientConn.getInstance().retrievePersonalDetailsView(prefixOfName+'%');
+    }
+
+    public static void insertAppointment(Appointment appointment) throws SQLException{
+        AppointmentConn.getInstance().insertAppointment(appointment);
     }
 
     @Override

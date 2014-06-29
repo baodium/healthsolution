@@ -13,7 +13,7 @@ import org.eminphis.db.DBManager;
 import org.eminphis.dto.Patient;
 import org.eminphis.exceptions.NoSuchColumnException;
 import org.eminphis.ui.FrontendManager;
-import org.eminphis.ui.registrar.RegistrationHandler;
+import org.eminphis.ui.manager.RegistrationManager;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -77,28 +77,25 @@ public class RegisterServlet extends HttpServlet{
             throws ServletException,IOException{
         response.setContentType("text/html;charset=UTF-8");
 
-        RegistrationHandler registrationManager=new RegistrationHandler(request,response);
+        RegistrationManager registrationManager=new RegistrationManager(request,response);
         Patient patient=registrationManager.getPatient();
 
         try{
             DBManager.insertPatient(patient);
             DBManager.commitChanges();
-            registrationManager.showInsertSuccessPage();
+            registrationManager.showSuccessPage();
+        }catch(IOException ex){
+            ErrorLogger.logError(ex);
+            registrationManager.showErrorPage(ex);
         }catch(SQLException ex){
             ErrorLogger.logError(ex);
-            registrationManager.showInsertErrorPage(ex);
+            registrationManager.showErrorPage(ex);
         }catch(NoSuchColumnException ex){
             ErrorLogger.logError(ex);
+            registrationManager.showErrorPage(ex);
         }
     }
 
-    @Override
-    public void init() throws ServletException{
-//        Printer.println("started initializing");
-//        super.init();
-//        Printer.println("finished initializing");
-//        exceptionIfAny=initializeDatabaseConnection();
-    }
 
     /**
      * Returns a short description of the servlet.

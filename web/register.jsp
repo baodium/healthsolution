@@ -6,7 +6,6 @@
 
 <%@page import="org.eminphis.Printer"%>
 <%@page import="org.eminphis.Constants"%>
-<%@page import="org.eminphis.ui.registrar.SearchHandler"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

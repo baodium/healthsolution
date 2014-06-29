@@ -2,7 +2,6 @@
 <%@page import="org.eminphis.Printer"%>
 <%@page import="org.eminphis.dto.tableview.PersonalDetailsView"%>
 <%@page import="org.eminphis.db.DBManager"%>
-<%@page import="org.eminphis.ui.registrar.SearchHandler"%>
 <%@page import="org.eminphis.Constants"%>
 <%@ page import="java.sql.*" %>
 <%@ page import="java.io.*" %>

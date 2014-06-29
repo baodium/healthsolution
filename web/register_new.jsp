@@ -545,7 +545,7 @@
                         </tr>  
                         <tr>
                             <td>Appointment Type</td>
-                            <td><select>
+                            <td><select name="appointment_type">
                                     <option>New</option>
                                     <option>Re-schedule</option>
                                     <option>Re-visit</option>
@@ -556,7 +556,7 @@
                         </tr>
                         <tr>
                             <td>Clinic</td>
-                            <td><select>
+                            <td><select name="clinic">
                                     <option>Haematology</option>
                                     <option>Physiology</option>
 
@@ -571,7 +571,7 @@
 
                         <tr>
                             <td>Consultant to see</td>
-                            <td><select>
+                            <td><select name="consultant_to_see">
                                     <option>Dr. Dewunmi</option>
                                     <option>Dr. Essienta</option>
                                     <option>Dr. Augustina</option>

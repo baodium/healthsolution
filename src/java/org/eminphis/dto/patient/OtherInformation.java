@@ -1,4 +1,4 @@
-package org.eminphis.dto;
+package org.eminphis.dto.patient;
 
 /**
  * <u>e-MINPHIS</u><br>

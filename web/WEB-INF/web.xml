@@ -12,6 +12,10 @@
         <servlet-name>ModifyServlet</servlet-name>
         <servlet-class>org.eminphis.servlets.ModifyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AppointmentServlet</servlet-name>
+        <servlet-class>org.eminphis.servlets.AppointmentServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ModifyServlet</servlet-name>
         <url-pattern>/modify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AppointmentServlet</servlet-name>
+        <url-pattern>/appointment</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

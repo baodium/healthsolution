@@ -537,7 +537,7 @@ class PatientConn{
         if(selectFromPersonalDetailsView!=null)
             return;
         selectFromPersonalDetailsView=DBManager.getDBConnection().prepareStatement(
-                "SELECT * FROM Personal_Details_View_ WHERE surname_ like ? LIMIT 10");//retrieve only the first 10 matches
+                "SELECT * FROM Personal_Details_View_ WHERE surname_ like ? LIMIT 50");//retrieve only the first 10 matches
     }
 
     /**
@@ -745,8 +745,8 @@ class PatientConn{
             throw new org.eminphis.exceptions.NoSuchPatientIDException(patientID);
 
         startIndex=1;
-        org.eminphis.dto.Diagnosis diagnosis=
-                new org.eminphis.dto.Diagnosis(
+        org.eminphis.dto.patient.Diagnosis diagnosis=
+                new org.eminphis.dto.patient.Diagnosis(
                 diagnosisResultSet.getString(startIndex++),
                 diagnosisResultSet.getString(startIndex++),
                 diagnosisResultSet.getString(startIndex++),
@@ -759,8 +759,8 @@ class PatientConn{
                 selectFrom$ID[HospitalHistory.getInstance().getIndex()].executeQuery();
         hospitalHistoryResultSet.next();
         startIndex=1;
-        org.eminphis.dto.HospitalHistory hospitalHistory=
-                new org.eminphis.dto.HospitalHistory(
+        org.eminphis.dto.patient.HospitalHistory hospitalHistory=
+                new org.eminphis.dto.patient.HospitalHistory(
                 hospitalHistoryResultSet.getString(startIndex++),
                 hospitalHistoryResultSet.getString(startIndex++),
                 hospitalHistoryResultSet.getString(startIndex++),
@@ -775,8 +775,8 @@ class PatientConn{
                 selectFrom$ID[NextOfKin.getInstance().getIndex()].executeQuery();
         nextOfKinResultSet.next();
         startIndex=1;
-        org.eminphis.dto.NextOfKin nextOfKin=
-                new org.eminphis.dto.NextOfKin(
+        org.eminphis.dto.patient.NextOfKin nextOfKin=
+                new org.eminphis.dto.patient.NextOfKin(
                 nextOfKinResultSet.getString(startIndex++),
                 nextOfKinResultSet.getString(startIndex++),
                 nextOfKinResultSet.getString(startIndex++),
@@ -795,8 +795,8 @@ class PatientConn{
                 selectFrom$ID[NHISInformation.getInstance().getIndex()].executeQuery();
         nHISInformationResultSet.next();
         startIndex=1;
-        org.eminphis.dto.NHISInformation nHISInformation=
-                new org.eminphis.dto.NHISInformation(
+        org.eminphis.dto.patient.NHISInformation nHISInformation=
+                new org.eminphis.dto.patient.NHISInformation(
                 nHISInformationResultSet.getString(startIndex++),
                 nHISInformationResultSet.getString(startIndex++),
                 nHISInformationResultSet.getString(startIndex++),
@@ -814,8 +814,8 @@ class PatientConn{
                 selectFrom$ID[Operations.getInstance().getIndex()].executeQuery();
         operationsResultSet.next();
         startIndex=1;
-        org.eminphis.dto.Operations operations=
-                new org.eminphis.dto.Operations(
+        org.eminphis.dto.patient.Operations operations=
+                new org.eminphis.dto.patient.Operations(
                 operationsResultSet.getString(startIndex++),
                 operationsResultSet.getString(startIndex++),
                 operationsResultSet.getString(startIndex++),
@@ -828,8 +828,8 @@ class PatientConn{
                 selectFrom$ID[OtherInformation.getInstance().getIndex()].executeQuery();
         otherInformationResultSet.next();
         startIndex=1;
-        org.eminphis.dto.OtherInformation otherInformation=
-                new org.eminphis.dto.OtherInformation(
+        org.eminphis.dto.patient.OtherInformation otherInformation=
+                new org.eminphis.dto.patient.OtherInformation(
                 otherInformationResultSet.getString(startIndex++),
                 otherInformationResultSet.getString(startIndex++));
         otherInformationResultSet.close();
@@ -840,8 +840,8 @@ class PatientConn{
                 selectFrom$ID[PersonalDetails.getInstance().getIndex()].executeQuery();
         personalDetailsResultSet.next();
         startIndex=1;
-        org.eminphis.dto.PersonalDetails personalDetails=
-                new org.eminphis.dto.PersonalDetails(
+        org.eminphis.dto.patient.PersonalDetails personalDetails=
+                new org.eminphis.dto.patient.PersonalDetails(
                 personalDetailsResultSet.getString(startIndex++),
                 personalDetailsResultSet.getString(startIndex++),
                 personalDetailsResultSet.getString(startIndex++),

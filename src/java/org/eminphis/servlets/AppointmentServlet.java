@@ -3,18 +3,14 @@ package org.eminphis.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eminphis.ErrorLogger;
-import org.eminphis.Printer;
 import org.eminphis.db.DBManager;
-import org.eminphis.dto.Patient;
-import org.eminphis.dto.tableview.PersonalDetailsView;
-import org.eminphis.exceptions.NoSuchColumnException;
-import org.eminphis.exceptions.NoSuchPatientIDException;
-import org.eminphis.ui.manager.SearchManager;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -24,24 +20,23 @@ import org.eminphis.ui.manager.SearchManager;
  *
  *
  * <pre>
- * Class name: SearchServlet.java
+ * Class name: AppointmentServlet.java
  * Version: 1.0
  * Author: Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  *
  * <u>Description</u>
- * Responsible for coordinating the search for a patient.
+ * Handles appointments.
  *
  * </pre>
  *
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public class SearchServlet extends HttpServlet{
+public class AppointmentServlet extends HttpServlet{
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
-     * Handles the HTTP
-     * <code>GET</code> method.
+     * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -52,32 +47,11 @@ public class SearchServlet extends HttpServlet{
     protected void doGet(HttpServletRequest request,HttpServletResponse response)
             throws ServletException,IOException{
         response.setContentType("text/html;charset=UTF-8");
-        Printer.println("doGet");
-
-        //First of all retrieve the search handler
-        SearchManager searchManager=new SearchManager(request,response);
-        String query=searchManager.retrieveQuery();
-        long patientID=PersonalDetailsView.Match.retrievePatientID(query);
-        
-        Patient patient=null;
-        try{
-            patient=DBManager.retrievePatient(patientID);
-            searchManager.showPatientDetails(patient);
-        }catch(NoSuchColumnException ex){
-            ErrorLogger.logError(ex);
-            searchManager.showErrorPage(ex);
-        }catch(NoSuchPatientIDException ex){
-            ErrorLogger.logError(ex);
-            searchManager.showErrorPage(ex);
-        }catch(SQLException ex){
-            ErrorLogger.logError(ex);
-            searchManager.showErrorPage(ex);
-        }
+        PrintWriter out=response.getWriter();
     }
 
     /**
-     * Handles the HTTP
-     * <code>POST</code> method.
+     * Handles the HTTP <code>POST</code> method.
      *
      * @param request servlet request
      * @param response servlet response
@@ -89,7 +63,16 @@ public class SearchServlet extends HttpServlet{
             throws ServletException,IOException{
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out=response.getWriter();
-        Printer.println("doPost");
+            org.eminphis.ui.manager.AppointmentManager appointmentManager
+                    =new org.eminphis.ui.manager.AppointmentManager(request,response);
+            org.eminphis.dto.Appointment appointment=appointmentManager.retrieveAppointment();
+        try{
+            DBManager.insertAppointment(appointment);
+            DBManager.commitChanges();
+        }catch(SQLException ex){
+            ErrorLogger.logError(ex);
+            appointmentManager.showErrorPage(ex);
+        }
     }
 
     /**
@@ -101,4 +84,5 @@ public class SearchServlet extends HttpServlet{
     public String getServletInfo(){
         return "Short description";
     }// </editor-fold>
+
 }

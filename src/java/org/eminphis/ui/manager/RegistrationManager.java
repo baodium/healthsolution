@@ -1,5 +1,12 @@
-package org.eminphis.ui.registrar;
+package org.eminphis.ui.manager;
 
+import org.eminphis.dto.patient.OtherInformation;
+import org.eminphis.dto.patient.Diagnosis;
+import org.eminphis.dto.patient.NHISInformation;
+import org.eminphis.dto.patient.Operations;
+import org.eminphis.dto.patient.NextOfKin;
+import org.eminphis.dto.patient.HospitalHistory;
+import org.eminphis.dto.patient.PersonalDetails;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -13,11 +20,11 @@ import org.eminphis.dto.*;
  *
  *
  * <pre>
- * Class name: RegistrationHandler.java
- * Version: 1.0
- * Author: Essiennta Emmanuel (colourfulemmanuel@gmail.com)
- *
- * <u>Description</u>
+ Class name: RegistrationManager.java
+ Version: 1.0
+ Author: Essiennta Emmanuel (colourfulemmanuel@gmail.com)
+
+ <u>Description</u>
  * Manages the presentation of the registration page and also the retrieval of the fields in it.
  *
  * </pre>
@@ -25,15 +32,12 @@ import org.eminphis.dto.*;
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public class RegistrationHandler{
+public class RegistrationManager extends UIManager{
 
-    private final HttpServletRequest request;
-    private final HttpServletResponse response;
     private Patient patient;
 
-    public RegistrationHandler(HttpServletRequest request,HttpServletResponse response){
-        this.request=request;
-        this.response=response;
+    public RegistrationManager(HttpServletRequest request,HttpServletResponse response){
+        super(request,response);
         patient=new Patient(
                 retrieveDiagnosis(),
                 retrieveHospitalHistory(),
@@ -128,23 +132,15 @@ public class RegistrationHandler{
                 request.getParameter("state"));
     }
 
-    /**
-     * Displays an error page when an error occurs while trying to insert
-     * the new patient into the database.
-     *
-     * @param exception the exception object, useful when the developer needs to trace the error
-     * Useful for the developer when trying to fix the error.
-     */
-    public void showInsertErrorPage(Exception exception) throws IOException{
+    @Override
+    public void showErrorPage(Exception exception) throws IOException{
         response.getWriter().println(
                 "<h2>An error occurred while inserting the patient's details</h2>");
-        response.getWriter().println(exception);
+        super.showErrorPage(exception);
     }
 
-    /**
-     * Displays a success page when the insert operation was successful.
-     */
-    public void showInsertSuccessPage() throws IOException{
+    @Override
+    public void showSuccessPage() throws IOException{
         response.getWriter().println("<h2>Patient details was inserted successfully.</h2>");
     }
 }

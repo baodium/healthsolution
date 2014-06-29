@@ -1,4 +1,4 @@
-package org.eminphis.ui.registrar;
+package org.eminphis.ui.manager;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,7 +17,7 @@ import org.eminphis.dto.tableview.PersonalDetailsView.Match;
  *
  *
  * <pre>
- * Class name: SearchHandler.java
+ * Class name: SearchManager.java
  * Version: 1.0
  * Author: Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  *
@@ -29,25 +29,10 @@ import org.eminphis.dto.tableview.PersonalDetailsView.Match;
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public class SearchHandler{
+public class SearchManager extends UIManager{
 
-    private final HttpServletRequest request;
-    private final HttpServletResponse response;
-
-    /**
-     * Displays an error page with the specified {@code exception}
-     *
-     * @param exception the exception object, useful when the developer needs to trace the error
-     */
-    public static void showErrorPage(HttpServletResponse response,Exception exception) throws
-            IOException{
-        //An error occured while fulfilling your request
-        response.getWriter().println(exception);
-    }
-
-    public SearchHandler(HttpServletRequest request,HttpServletResponse response){
-        this.request=request;
-        this.response=response;
+    public SearchManager(HttpServletRequest request,HttpServletResponse response){
+        super(request,response);
     }
 
     /**
@@ -91,7 +76,8 @@ public class SearchHandler{
     }
 
     private void setDiagnosisAttributes(Patient patient){
-        request.getSession().setAttribute("date_diagnosed",patient.getDiagnosis().getDateDiagnosed());
+        request.getSession().
+                setAttribute("date_diagnosed",patient.getDiagnosis().getDateDiagnosed());
         request.getSession().setAttribute("date_discharge",
                 patient.getDiagnosis().getDateDischarged());
         request.getSession().setAttribute("diagnosis",patient.getDiagnosis().getDiagnosis());
@@ -113,10 +99,12 @@ public class SearchHandler{
     }
 
     private void setNHISInformationAttributes(Patient patient){
-        request.getSession().setAttribute("nhis_number",patient.getNHISInformation().getNHISNumber());
+        request.getSession().
+                setAttribute("nhis_number",patient.getNHISInformation().getNHISNumber());
         request.getSession().setAttribute("hmo",patient.getNHISInformation().getHMO());
         request.getSession().setAttribute("genotype",patient.getNHISInformation().getGenotype());
-        request.getSession().setAttribute("blood_group",patient.getNHISInformation().getBloodGroup());
+        request.getSession().
+                setAttribute("blood_group",patient.getNHISInformation().getBloodGroup());
         request.getSession().setAttribute("hmo_code",patient.getNHISInformation().getHMOCode());
         request.getSession().setAttribute("hmo_id_no",patient.getNHISInformation().getHMOIDNumber());
         request.getSession().setAttribute("employer",patient.getNHISInformation().getEmployer());
@@ -171,5 +159,9 @@ public class SearchHandler{
         request.getSession().setAttribute("id_card_number",patient.getPersonalDetails().
                 getNationalIDCardNumber());
         request.getSession().setAttribute("state",patient.getPersonalDetails().getStateOfOrigin());
+    }
+
+    @Override
+    public void showSuccessPage(){
     }
 }
