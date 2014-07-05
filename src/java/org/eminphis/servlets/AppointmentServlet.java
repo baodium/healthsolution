@@ -3,8 +3,6 @@ package org.eminphis.servlets;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -63,13 +61,13 @@ public class AppointmentServlet extends HttpServlet{
             throws ServletException,IOException{
         response.setContentType("text/html;charset=UTF-8");
         PrintWriter out=response.getWriter();
-            org.eminphis.ui.manager.AppointmentManager appointmentManager
-                    =new org.eminphis.ui.manager.AppointmentManager(request,response);
-            org.eminphis.dto.Appointment appointment=appointmentManager.retrieveAppointment();
+        org.eminphis.ui.manager.AppointmentManager appointmentManager
+                =new org.eminphis.ui.manager.AppointmentManager(request,response);
+        org.eminphis.dto.Appointment appointment=appointmentManager.retrieveAppointment();
         try{
             DBManager.insertAppointment(appointment);
             DBManager.commitChanges();
-        }catch(SQLException ex){
+        } catch(SQLException ex){
             ErrorLogger.logError(ex);
             appointmentManager.showErrorPage(ex);
         }

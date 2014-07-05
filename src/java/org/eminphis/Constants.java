@@ -1,4 +1,3 @@
-
 package org.eminphis;
 
 /**
@@ -15,11 +14,13 @@ package org.eminphis;
  *
  * <u>Description</u>
  * This class is meant to encapsulate the application-wide constants.
- * 
+ *
  * </pre>
+ *
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public interface Constants {
+public interface Constants{
+
     String EXCEPTION_MESSAGE="ExceptionMessage";
 }
