@@ -1,4 +1,4 @@
-package org.eminphis.db;
+package org.eminphis.assist;
 
 import java.io.File;
 import java.io.FileNotFoundException;
