@@ -43,10 +43,10 @@ public class SearchServlet extends HttpServlet{
      * Handles the HTTP
      * <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request,HttpServletResponse response)
@@ -57,21 +57,24 @@ public class SearchServlet extends HttpServlet{
         //First of all retrieve the search handler
         SearchManager searchManager=new SearchManager(request,response);
         String query=searchManager.retrieveQuery();
-        long patientID=SearchPatientMatch.Match.retrievePatientID(query);
-        
+        long hospitalNumber=SearchPatientMatch.retrieveHospitalNumber(query);
+
         Patient patient=null;
         try{
-            patient=DBManager.retrievePatientByHospitalNumber(patientID);
+            patient=DBManager.retrievePatientByHospitalNumber(hospitalNumber);
             searchManager.showPatientDetails(patient);
-        }catch(NoSuchColumnException ex){
+        } catch(NoSuchColumnException ex){
             ErrorLogger.logError(ex);
-            searchManager.showErrorPage(ex);
-        }catch(NoSuchHospitalNumberException ex){
+            searchManager.showErrorPage(
+                    "An error occurred while fulfilling your request to retrieve this patient's details.",ex);
+        } catch(NoSuchHospitalNumberException ex){
             ErrorLogger.logError(ex);
-            searchManager.showErrorPage(ex);
-        }catch(SQLException ex){
+            searchManager.showErrorPage(
+                    "An error occurred while fulfilling your request to retrieve this patient's details.",ex);
+        } catch(SQLException ex){
             ErrorLogger.logError(ex);
-            searchManager.showErrorPage(ex);
+            searchManager.showErrorPage(
+                    "An error occurred while fulfilling your request to retrieve this patient's details.",ex);
         }
     }
 
@@ -79,10 +82,10 @@ public class SearchServlet extends HttpServlet{
      * Handles the HTTP
      * <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request,HttpServletResponse response)

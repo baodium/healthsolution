@@ -76,6 +76,7 @@ class AppointmentConn{
         SqlStatement retrieveStatement=Conn.getInstance().getStatement(Statement.RETRIEVE,retrieveIndex);
         retrieveStatement.setLong(1,id);
         ResultSet rs=retrieveStatement.executeQuery();
+        rs.next();
         long patientId=rs.getLong(1);
         String dateOfBirth=rs.getString(2);
         String hospitalNumber=rs.getString(3);

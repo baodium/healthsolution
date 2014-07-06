@@ -84,7 +84,7 @@ public class Generator{
         sc.close();
         generate(uniqueNames);
         //                DBManager.deletePatient(44);
-        DBManager.initialize();
+//        DBManager.initialize();
 //        PersonalDetailsView retrieveSearchPatientMatchesByName=
 //                DBManager.retrieveSearchPatientMatchesByName("adeb");
 //        System.out.println("retrieval done");
@@ -97,13 +97,13 @@ public class Generator{
 //                    patient.getNHISInformation().setNHISNumber(format+i);
 //                    DBManager.updatePatient(patient);
 //        }
-        insertPatients();
+//        insertPatients();
 
 //        Patient patient=DBManager.retrievePatientByHospitalNumber(41);
 //        patient.getNHISInformation().setEmployer("Emmanuel");
 //        DBManager.updatePatient(patient);
 //
-        DBManager.closeDatabaseResources();
+//        DBManager.closeDatabaseResources();
         System.out.println(fullNamesList.size()+" patients inserted.");
     }
 

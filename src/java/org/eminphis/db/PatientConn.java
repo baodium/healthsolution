@@ -3,6 +3,7 @@ package org.eminphis.db;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.eminphis.ErrorLogger;
+import org.eminphis.Printer;
 import org.eminphis.dto.Patient;
 import org.eminphis.dto.patient.NextOfKin;
 import org.eminphis.dto.patient.NhisInformation;
@@ -199,6 +200,7 @@ class PatientConn{
             SqlStatement retrieveStatement=Conn.getInstance().getStatement(Statement.RETRIEVE,retrieveIndex);
             retrieveStatement.setLong(1,hospitalNumber);
             ResultSet rs=retrieveStatement.executeQuery();
+            rs.next();
             String surname=rs.getString(1);
             String firstName=rs.getString(2);
             String otherName=rs.getString(3);
@@ -219,6 +221,7 @@ class PatientConn{
             SqlStatement retrieveStatement=Conn.getInstance().getStatement(Statement.RETRIEVE,retrieveIndex);
             retrieveStatement.setLong(1,hospitalNumber);
             ResultSet rs=retrieveStatement.executeQuery();
+            rs.next();
             long nhisNumber=rs.getLong(1);
             String hmo=rs.getString(2);
             String hmoCode=rs.getString(3);
@@ -249,6 +252,7 @@ class PatientConn{
                 updateStatement.setString(1,personalDetails.getSurname());
                 updateStatement.setString(2,personalDetails.getFirstName());
                 updateStatement.setString(3,personalDetails.getOtherName());
+                Printer.println(patient.getHospitalNumber()+" updating sex to "+personalDetails.getSex());
                 updateStatement.setString(4,personalDetails.getSex());
                 updateStatement.setString(5,personalDetails.getMaritalStatus());
                 updateStatement.setString(6,personalDetails.getMaidenName());
@@ -261,6 +265,7 @@ class PatientConn{
                 updateStatement.setString(13,personalDetails.getDateOfRegistration());
                 updateStatement.setString(14,personalDetails.getNationalIdCardNumber());
                 updateStatement.setString(15,personalDetails.getHighestLevelOfEducation());
+                updateStatement.setLong(16,patient.getHospitalNumber());
                 updateStatement.executeUpdate();
             }
             {
@@ -278,6 +283,7 @@ class PatientConn{
                 updateStatement.setString(7,nextOfKin.getLga());
                 updateStatement.setString(8,nextOfKin.getRelationshipToNextOfKin());
                 updateStatement.setString(9,nextOfKin.getPhoneNumber());
+                updateStatement.setLong(10,patient.getHospitalNumber());
                 updateStatement.executeUpdate();
             }
             {
@@ -295,6 +301,7 @@ class PatientConn{
                 updateStatement.setString(7,nhisInformation.getEmployer());
                 updateStatement.setString(8,nhisInformation.getAddressOfEmployer());
                 updateStatement.setString(9,nhisInformation.getAllergies());
+                updateStatement.setLong(10,patient.getHospitalNumber());
                 updateStatement.executeUpdate();
             }
             DBManager.saveChanges();

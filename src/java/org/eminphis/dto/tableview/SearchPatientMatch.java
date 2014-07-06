@@ -1,5 +1,7 @@
 package org.eminphis.dto.tableview;
 
+import java.util.regex.Matcher;
+
 /**
  * <u>e-MINPHIS</u><br>
  * A project of the Health Information Systems Unit of the<br>
@@ -23,6 +25,9 @@ package org.eminphis.dto.tableview;
  * @version 1.0
  */
 public class SearchPatientMatch implements Match{
+
+    private static final java.util.regex.Pattern pattern=java.util.regex.Pattern.compile(
+            ".+\\[NHIS ID:(\\d+), Hospital ID:(\\d+)\\]");
 
     private final long hospitalNumber;
     private final long nhisNumber;
@@ -60,20 +65,32 @@ public class SearchPatientMatch implements Match{
 
     /**
      * Given the string returned by toString() of an object of
-     * this type, this method retrieves the ID in the string.
+     * this type, this method retrieves the hospital number in the string.
      *
-     * @param stringRepresentation the string returned by toString() of
+     * @param stringRepresentation the string returned by getRepresentation() of
      *                             an object of type {@link Match}
-     * @return the ID
+     * @return the hospital number
      */
     public static long retrieveHospitalNumber(String stringRepresentation){
-        int indexOfRightSquareBracket=stringRepresentation.length()-1;
-        int indexOfLeftSquareBracket=indexOfRightSquareBracket;
-        while(--indexOfLeftSquareBracket>=0&&Character.isDigit(stringRepresentation.charAt(
-                indexOfLeftSquareBracket)));
-//            assert stringRepresentation.charAt(indexOfLeftSquareBracket)=='[';
-        return Integer.parseInt(stringRepresentation.substring(indexOfLeftSquareBracket+1,
-                indexOfRightSquareBracket));
+        final Matcher matcher=pattern.matcher(stringRepresentation);
+        if(matcher.matches())
+            return Long.parseLong(matcher.group(2));
+        throw new RuntimeException("corrupted query");
+    }
+
+    /**
+     * Given the string returned by toString() of an object of
+     * this type, this method retrieves the NHIS number in the string.
+     *
+     * @param stringRepresentation the string returned by getRepresentation() of
+     *                             an object of type {@link Match}
+     * @return the NHIS number
+     */
+    public static long retrieveNhisNumber(String stringRepresentation){
+        final Matcher matcher=pattern.matcher(stringRepresentation);
+        if(matcher.matches())
+            return Long.parseLong(matcher.group(1));
+        throw new RuntimeException("corrupted query");
     }
 
     @Override

@@ -144,7 +144,7 @@ public class DBManager implements ServletContextListener{
      * @param patient the patient object
      * @throws SQLException if an error occurs while performing the update operation
      */
-    public static void updatePatient(Patient patient) throws NoSuchColumnException,SQLException{
+    public static void updatePatient(Patient patient) throws SQLException{
         PatientConn.getInstance().updatePatient(patient);
     }
 

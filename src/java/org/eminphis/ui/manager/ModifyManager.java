@@ -14,21 +14,20 @@ import org.eminphis.dto.Patient;
  *
  *
  * <pre>
- * Class name: SearchManager.java
+ * Class name: ModifyManager.java
  * Version: 1.0
  * Author: Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  *
  * <u>Description</u>
- * Responsible for retrieving the mode of search and presenting search results to the user.
  *
  * </pre>
  *
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public class SearchManager extends UIManager{
+public class ModifyManager extends UIManager{
 
-    public SearchManager(HttpServletRequest request,HttpServletResponse response){
+    public ModifyManager(HttpServletRequest request,HttpServletResponse response){
         super(request,response);
     }
 
@@ -39,6 +38,6 @@ public class SearchManager extends UIManager{
      */
     public void showPatientDetails(Patient patient) throws IOException,ServletException{
         request.setAttribute(Patient.class.getName(),patient);
-        request.getRequestDispatcher("/searchPatient.jsp").forward(request,response);
+        request.getRequestDispatcher("/modifyPatient.jsp").forward(request,response);
     }
 }

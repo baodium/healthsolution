@@ -4,3 +4,5 @@ information:
 - hospital number
 
 Change phoneNumber field in PersonalDetails to be list-oriented instead of comma-separated.
+We actually should be using multiple phone numbers. Adjust in dto, dao, sql, and search.jsp
+Method of retreiving hospital number or nhis number from search field is inefficient. We need a way to detect a selection event and store the needed ID's in an hidden text field. We can then retrieve the value later for processing.
