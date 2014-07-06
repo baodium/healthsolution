@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import org.eminphis.db.DBManager;
 import org.eminphis.dto.Patient;
 import org.eminphis.dto.patient.NextOfKin;
 import org.eminphis.dto.patient.NhisInformation;
