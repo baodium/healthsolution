@@ -2,3 +2,5 @@ The following fields exists in Schedule Appointment but are yet to be included i
 information:
 - date of birth
 - hospital number
+
+Change phoneNumber field in PersonalDetails to be list-oriented instead of comma-separated.

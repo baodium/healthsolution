@@ -6,8 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eminphis.db.DBManager;
 import org.eminphis.dto.Patient;
-import org.eminphis.dto.tableview.PersonalDetailsView;
-import org.eminphis.dto.tableview.PersonalDetailsView.Match;
+import org.eminphis.dto.tableview.SearchPatientMatch;
+import org.eminphis.dto.tableview.SearchPatientMatch.Match;
 
 /**
  * <u>e-MINPHIS</u><br>

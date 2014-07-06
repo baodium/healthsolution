@@ -48,7 +48,7 @@ public class JavaIdentifierToSQLIdentifier{
     private ArrayList<String> javaMethodNames=new ArrayList<String>();
     private ArrayList<String> javaTypes=new ArrayList<String>();
     private ArrayList<String> sqlTypes=new ArrayList<String>();
-    private ArrayList<String> javaBoxedTypes=new ArrayList<String>();
+    private ArrayList<String> javaWrapperTypes=new ArrayList<String>();
     private final int numIdentifiers;
 
     public JavaIdentifierToSQLIdentifier() throws FileNotFoundException,
@@ -84,7 +84,7 @@ public class JavaIdentifierToSQLIdentifier{
         while(matcher.find()){
             final String javaType=matcher.group(3);
             this.javaTypes.add(javaType);
-            this.javaBoxedTypes.add(Character.toUpperCase(javaType.charAt(0))+javaType.substring(
+            this.javaWrapperTypes.add(Character.toUpperCase(javaType.charAt(0))+javaType.substring(
                     1));
             this.sqlTypes.add(map.get(javaType));
 
@@ -102,7 +102,7 @@ public class JavaIdentifierToSQLIdentifier{
                     if(i!=0)
                         sb.append("_");
                 sb.append(Character.toLowerCase(theCharacter));
-            }while(++i<javaIdentifier.length());
+            } while(++i<javaIdentifier.length());
             sb.append("_");
             this.sqlFieldNames.add(sb.toString());
         }
@@ -163,8 +163,8 @@ public class JavaIdentifierToSQLIdentifier{
         return sqlTypes;
     }
 
-    public ArrayList<String> getJavaBoxedTypes(){
-        return javaBoxedTypes;
+    public ArrayList<String> getJavaWrapperTypes(){
+        return javaWrapperTypes;
     }
 
     public ArrayList<String> getJavaFieldNames(boolean excludeFirst){
@@ -217,13 +217,13 @@ public class JavaIdentifierToSQLIdentifier{
         return list;
     }
 
-    public ArrayList<String> getJavaBoxedTypes(boolean excludeFirst){
+    public ArrayList<String> getJavaWrapperTypes(boolean excludeFirst){
         ArrayList<String> list=new ArrayList<String>();
         if(excludeFirst)
-            for(int i=1;i<javaBoxedTypes.size();i++)
-                list.add(javaBoxedTypes.get(i));
+            for(int i=1;i<javaWrapperTypes.size();i++)
+                list.add(javaWrapperTypes.get(i));
         else
-            list=javaBoxedTypes;
+            list=javaWrapperTypes;
         return list;
     }
 
@@ -236,18 +236,24 @@ public class JavaIdentifierToSQLIdentifier{
             list=javaIdentifierNames;
         return list;
     }
-    
+
     public String getFirstJavaIdentifierName(){
         return javaIdentifierNames.get(0);
     }
-    
+
+    public String getFirstSqlIdentifierName(){
+        return sqlFieldNames.get(0);
+    }
+
     public String getFirstJavaMethodName(){
         return javaMethodNames.get(0);
     }
+
     public String getFirstJavaType(){
         return javaTypes.get(0);
     }
-    public String getFirstJavaBoxedType(){
-        return javaBoxedTypes.get(0);
+
+    public String getFirstJavaWrapperType(){
+        return javaWrapperTypes.get(0);
     }
 }

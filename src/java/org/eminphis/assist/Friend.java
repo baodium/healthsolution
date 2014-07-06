@@ -33,7 +33,18 @@ public class Friend{
     static String set="set";
     static String get="get";
 
-    private static boolean firstIsPrimaryKey=true;
+    private static boolean firstIsPrimaryKey=false;
+
+    public static void main(String[] args) throws IOException{
+        JavaIdentifierToSQLIdentifier jis=new JavaIdentifierToSQLIdentifier();
+
+//        System.out.println(jis.constructSQLTableDeclaration());
+//        deleteStatement(jis);
+//        insertStatement(jis);
+        retrieveStatement(jis);
+//        updateStatement(jis);
+
+    }
 
     private static String getPlaceholders(int n){
         StringBuilder sb=new StringBuilder(n*2);
@@ -55,34 +66,93 @@ public class Friend{
         return sb.toString();
     }
 
-    public static void main(String[] args) throws IOException{
-        JavaIdentifierToSQLIdentifier jis=new JavaIdentifierToSQLIdentifier();
+    private static String delimitColumnNamesWithPlaceholder(ArrayList<String> columnNames){
+        StringBuilder sb=new StringBuilder();
+        for(int i=0;i<columnNames.size();i++){
+            if(i!=0)
+                sb.append(",");
+            sb.append(columnNames.get(i)).append("=?");
+        }
+        return sb.toString();
+    }
 
-        System.out.println(jis.constructSQLTableDeclaration());
-//        retrieveStatement(jis);
-//        insertStatement(jis);
-        
+    private static void updateStatement(JavaIdentifierToSQLIdentifier jis){
+        System.out.printf("int %sIndex=Conn.getInstance().ensureInit(Statement.%s,"
+                +"\"UPDATE %s SET %s WHERE %s=?\");\n",update,update.toUpperCase(),jis.
+                getSqlTableName(),
+                delimitColumnNamesWithPlaceholder(jis.getSqlFieldNames(firstIsPrimaryKey)),jis.
+                getFirstSqlIdentifierName());
+        System.out.println();
+
+        System.out.printf("SqlStatement %sStatement=Conn.getInstance()"
+                +".getStatement(Statement.%s,%1$sIndex);\n",update,update.toUpperCase());
+
+        for(int i=0;i<jis.getNumIdentifiers(firstIsPrimaryKey);i++)
+            System.out.printf("%sStatement.set%s(%d,%s.get%s());\n",
+                    update,
+                    jis.getJavaWrapperTypes(firstIsPrimaryKey).get(i),
+                    i+1,
+                    jis.getJavaTableVariableName(),
+                    jis.getJavaMethodNames(firstIsPrimaryKey).get(i)
+            );
+        System.out.printf("%sStatement.set%s(%d,%s.get%s());\n",
+                update,
+                jis.getFirstJavaWrapperType(),
+                jis.getNumIdentifiers(),
+                jis.getJavaTableVariableName(),
+                jis.getFirstJavaMethodName()
+        );
+
+        System.out.printf("%sStatement.executeUpdate();\n",update);
+    }
+
+    private static void deleteStatement(JavaIdentifierToSQLIdentifier jis){
+        System.out.printf("int %sIndex=Conn.getInstance().ensureInit(Statement.%s,"
+                +"\"DELETE FROM %s WHERE %s=?\");\n",
+                delete,
+                delete.toUpperCase(),
+                jis.getSqlTableName(),
+                jis.getFirstSqlIdentifierName());
+        System.out.println();
+
+        System.out.printf("SqlStatement %sStatement=Conn.getInstance()"
+                +".getStatement(Statement.%s,%1$sIndex);\n",delete,delete.toUpperCase());
+
+        System.out.printf("%sStatement.set%s(1,%s);\n",
+                delete,
+                jis.getFirstJavaWrapperType(),
+                jis.getFirstJavaIdentifierName()
+        );
+
+        System.out.printf("%sStatement.executeUpdate();\n",delete);
     }
 
     private static void retrieveStatement(JavaIdentifierToSQLIdentifier jis){
         System.out.printf("int %sIndex=Conn.getInstance().ensureInit(Statement.%s,"
                 +"\"SELECT %4$s FROM %3$s WHERE %5$s=?\");\n",retrieve,retrieve.toUpperCase(),jis.
                 getSqlTableName(),
-                delimitColumnNames(jis.getSqlFieldNames(firstIsPrimaryKey)),jis.
-                getFirstJavaIdentifierName());
+                delimitColumnNames(jis.getSqlFieldNames(firstIsPrimaryKey)),
+                jis.getFirstSqlIdentifierName());
+        System.out.println();
 
-        System.out.printf("CustomStatement %sStatement=Conn.getInstance()"
+        System.out.printf("SqlStatement %sStatement=Conn.getInstance()"
                 +".getStatement(Statement.%s,%1$sIndex);\n",retrieve,retrieve.toUpperCase());
+        System.out.printf("%sStatement.set%s(1,%s);\n",
+                retrieve,
+                jis.getFirstJavaWrapperType(),
+                jis.getFirstJavaIdentifierName()
+        );
         System.out.printf("ResultSet rs=%sStatement.executeQuery();\n",retrieve);
-        System.out.println("int columnIndex=1;");
+        System.out.printf("rs.next();\n");
 
         for(int i=0;i<jis.getNumIdentifiers(firstIsPrimaryKey);i++)
-            System.out.printf("%s %s=rs.get%s(columnIndex++);\n",
+            System.out.printf("%s %s=rs.get%s(%d);\n",
                     jis.getJavaTypes(firstIsPrimaryKey).get(i),
                     jis.getJavaIdentifierNames(firstIsPrimaryKey).get(i),
-                    jis.getJavaBoxedTypes(firstIsPrimaryKey).get(i)
+                    jis.getJavaWrapperTypes(firstIsPrimaryKey).get(i),
+                    i+1
             );
-        
+
         System.out.println("rs.close();");
 
         System.out.printf("%s %s=new %1$s(%s);\n",
@@ -109,15 +179,18 @@ public class Friend{
                 delimitColumnNames(jis.getSqlFieldNames(firstIsPrimaryKey)),getPlaceholders(jis.
                         getNumIdentifiers(firstIsPrimaryKey)));
         System.out.println();
-        System.out.printf("CustomStatement %sStatement=Conn.getInstance()"
+        System.out.printf("SqlStatement %sStatement=Conn.getInstance()"
                 +".getStatement(Statement.%s,%1$sIndex);\n",insert,insert.toUpperCase());
-        System.out.println("int columnIndex=1;");
 
         for(int i=0;i<jis.getNumIdentifiers(firstIsPrimaryKey);i++)
-            System.out.printf("%sStatement.%s%s(columnIndex++,%s.get%s());\n",insert,set,jis.
-                    getJavaBoxedTypes(firstIsPrimaryKey).get(i),jis.getJavaTableVariableName(),jis.
-                    getJavaMethodNames(firstIsPrimaryKey).get(
-                            i));
+            System.out.printf("%sStatement.%s%s(%d,%s.get%s());\n",
+                    insert,
+                    set,
+                    jis.getJavaWrapperTypes(firstIsPrimaryKey).get(i),
+                    i+1,
+                    jis.getJavaTableVariableName(),
+                    jis.getJavaMethodNames(firstIsPrimaryKey).get(i)
+            );
         System.out.println("insertStatement.executeUpdate();");
 
         if(firstIsPrimaryKey){
@@ -126,7 +199,7 @@ public class Friend{
                     "rs.next();\n"
                     +"%s %s=rs.get%s(1);\n"
                     +"rs.close();\n",jis.getFirstJavaType(),jis.getFirstJavaIdentifierName(),
-                    jis.getFirstJavaBoxedType());
+                    jis.getFirstJavaWrapperType());
             System.out.printf("%s.set%s(%s);\n",jis.getJavaTableVariableName(),jis.
                     getFirstJavaMethodName(),jis.getFirstJavaIdentifierName());
         }

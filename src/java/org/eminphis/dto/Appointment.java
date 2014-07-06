@@ -22,8 +22,8 @@ package org.eminphis.dto;
  */
 public class Appointment{
 
-    private long primaryKey;
-    private final long patientID;
+    private long id;
+    private final long patientId;
     private final String dateOfBirth;
     private final String hospitalNumber;
     private final String appointmentType;
@@ -35,10 +35,10 @@ public class Appointment{
     private final String tallyNumber;
     private final String clinicTime;
 
-    public Appointment(long patientID,String dateOfBirth,String hospitalNumber,
-            String appointmentType,String clinic,String appointmentDate,String consultantToSee,
-            String reason,String referralSource,String tallyNumber,String clinicTime){
-        this.patientID=patientID;
+    public Appointment(long patientId,String dateOfBirth,String hospitalNumber,String appointmentType,String clinic,
+            String appointmentDate,String consultantToSee,String reason,String referralSource,String tallyNumber,
+            String clinicTime){
+        this.patientId=patientId;
         this.dateOfBirth=dateOfBirth;
         this.hospitalNumber=hospitalNumber;
         this.appointmentType=appointmentType;
@@ -51,16 +51,16 @@ public class Appointment{
         this.clinicTime=clinicTime;
     }
 
-    public void setPrimaryKey(long primaryKey){
-        this.primaryKey=primaryKey;
+    public long getId(){
+        return id;
     }
 
-    public long getPrimaryKey(){
-        return primaryKey;
+    public void setId(long id){
+        this.id=id;
     }
 
-    public long getPatientID(){
-        return patientID;
+    public long getPatientId(){
+        return patientId;
     }
 
     public String getDateOfBirth(){

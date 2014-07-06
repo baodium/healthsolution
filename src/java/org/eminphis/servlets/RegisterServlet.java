@@ -1,14 +1,12 @@
 package org.eminphis.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.eminphis.ErrorLogger;
-import org.eminphis.Printer;
 import org.eminphis.db.DBManager;
 import org.eminphis.dto.Patient;
 import org.eminphis.exceptions.NoSuchColumnException;
@@ -52,10 +50,10 @@ public class RegisterServlet extends HttpServlet{
      * Handles the HTTP
      * <code>GET</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doGet(HttpServletRequest request,HttpServletResponse response)
@@ -67,10 +65,10 @@ public class RegisterServlet extends HttpServlet{
      * Handles the HTTP
      * <code>POST</code> method.
      *
-     * @param request servlet request
+     * @param request  servlet request
      * @param response servlet response
      * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * @throws IOException      if an I/O error occurs
      */
     @Override
     protected void doPost(HttpServletRequest request,HttpServletResponse response)
@@ -82,20 +80,19 @@ public class RegisterServlet extends HttpServlet{
 
         try{
             DBManager.insertPatient(patient);
-            DBManager.commitChanges();
+            request.setAttribute("HOSPITAL_NUMBER",patient.getHospitalNumber());
             registrationManager.showSuccessPage();
-        }catch(IOException ex){
+        } catch(IOException ex){
             ErrorLogger.logError(ex);
             registrationManager.showErrorPage(ex);
-        }catch(SQLException ex){
+        } catch(SQLException ex){
             ErrorLogger.logError(ex);
             registrationManager.showErrorPage(ex);
-        }catch(NoSuchColumnException ex){
+        } catch(NoSuchColumnException ex){
             ErrorLogger.logError(ex);
             registrationManager.showErrorPage(ex);
         }
     }
-
 
     /**
      * Returns a short description of the servlet.

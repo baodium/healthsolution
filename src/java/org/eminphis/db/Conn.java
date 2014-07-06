@@ -26,52 +26,65 @@ import org.eminphis.ErrorLogger;
 class Conn{
 
     private static Conn instance;
+    private final int STATEMENTS_COUNT=4;
 
-    private final ArrayList<CustomStatement> statements[];
+    private ArrayList<SqlStatement> statements[];
 
     private Conn(){
-        statements=new ArrayList[4];
-        for(int i=0;i<4;i++)
-            statements[i]=new java.util.ArrayList<CustomStatement>();
-    }
-
-    void closeAllStatements(){
-
-        //close delete statements
-        for(CustomStatement customStatement:statements[Statement.DELETE.ordinal()])
-            try{
-                customStatement.close();
-            }catch(SQLException ex){
-                ErrorLogger.logError(ex);
-            }
-
-        //close insert statements
-        for(CustomStatement customStatement:statements[Statement.INSERT.ordinal()])
-            try{
-                customStatement.close();
-            }catch(SQLException ex){
-                ErrorLogger.logError(ex);
-            }
-
-        //close retrieve statements
-        for(CustomStatement customStatement:statements[Statement.RETRIEVE.ordinal()])
-            try{
-                customStatement.close();
-            }catch(SQLException ex){
-                ErrorLogger.logError(ex);
-            }
-
-        //close update statements
-        for(CustomStatement customStatement:statements[Statement.UPDATE.ordinal()])
-            try{
-                customStatement.close();
-            }catch(SQLException ex){
-                ErrorLogger.logError(ex);
-            }
+        initStatements();
     }
 
     static Conn getInstance(){
-        return instance==null?new Conn():instance;
+        if(instance==null)
+            instance=new Conn();
+        return instance;
+    }
+
+    private void initStatements(){
+        statements=new ArrayList[STATEMENTS_COUNT];
+        for(int i=0;i<STATEMENTS_COUNT;i++)
+            statements[i]=new java.util.ArrayList<SqlStatement>();
+    }
+
+    void closeResources(){
+
+        //close delete statements
+        for(SqlStatement sqlStatement:statements[Statement.DELETE.ordinal()])
+            try{
+                sqlStatement.close();
+            } catch(SQLException ex){
+                ErrorLogger.logError(ex);
+            }
+        statements[Statement.DELETE.ordinal()]=null;
+
+        //close insert statements
+        for(SqlStatement sqlStatement:statements[Statement.INSERT.ordinal()])
+            try{
+                sqlStatement.close();
+            } catch(SQLException ex){
+                ErrorLogger.logError(ex);
+            }
+        statements[Statement.INSERT.ordinal()]=null;
+
+        //close retrieve statements
+        for(SqlStatement sqlStatement:statements[Statement.RETRIEVE.ordinal()])
+            try{
+                sqlStatement.close();
+            } catch(SQLException ex){
+                ErrorLogger.logError(ex);
+            }
+        statements[Statement.RETRIEVE.ordinal()]=null;
+
+        //close update statements
+        for(SqlStatement sqlStatement:statements[Statement.UPDATE.ordinal()])
+            try{
+                sqlStatement.close();
+            } catch(SQLException ex){
+                ErrorLogger.logError(ex);
+            }
+        statements[Statement.UPDATE.ordinal()]=null;
+
+        statements=null;
     }
 
     private int indexOfStatement(Statement type,String sqlStatement){
@@ -82,37 +95,50 @@ class Conn{
     }
 
     /**
-     * Ensures that the specified {@code sqlStatement} argument is present under the
-     * category of type {@code type}.
-     * If the statement wasn't already present under the list for its category, it is created
-     * and added to the list.
+     * Ensures that the specified {@code sqlStatement} argument is present under the category of type {@code type}. If
+     * the statement wasn't already present under the list for its category, it is created and added to the list.
      *
-     * @param type the type of statement
-     * @param sqlStatement the SQL Statement
+     * @param type                the type of statement
+     * @param sqlStatement        the SQL Statement
+     * @param returnGeneratedKeys flag that indicates whether any generated keys as a result of this operation should be
+     *                            returned
      * @return the index of this statement in its category.
      * @throws SQLException
      */
-    int ensureInit(Statement type,String sqlStatement) throws SQLException{
+    int ensureInit(Statement type,String sqlStatement,boolean returnGeneratedKeys) throws SQLException{
         //Check if this statement is already present in the 'type' category.
         //If it's not there, return -1. Otherwise, return its index in the category.
         int index=indexOfStatement(type,sqlStatement);
         if(index==-1){
             //The statement wasn't present, add it.
             index=statements[type.ordinal()].size();
-            statements[type.ordinal()].add(new CustomStatement(sqlStatement));
+            statements[type.ordinal()].add(new SqlStatement(sqlStatement,returnGeneratedKeys));
         }
         return index;
     }
 
     /**
+     * Ensures that the specified {@code sqlStatement} argument is present under the category of type {@code type}. If
+     * the statement wasn't already present under the list for its category, it is created and added to the list.
+     *
+     * @param type         the type of statement
+     * @param sqlStatement the SQL Statement
+     * @return the index of this statement in its category.
+     * @throws SQLException
+     */
+    int ensureInit(Statement type,String sqlStatement) throws SQLException{
+        return ensureInit(type,sqlStatement,false);
+    }
+
+    /**
      * Returns the statement of type {@code type} under the specified {@code index}
      *
-     * @param type one of {@link Statement#DELETE}, {@link Statement#INSERT},
+     * @param type  one of {@link Statement#DELETE}, {@link Statement#INSERT},
      * {@link Statement#RETRIEVE}, {@link Statement#UPDATE}
      * @param index the index of the statement to be retrieved
      * @return statement
      */
-    CustomStatement getStatement(Statement type,int index){
+    SqlStatement getStatement(Statement type,int index){
         return statements[type.ordinal()].get(index);
     }
 }

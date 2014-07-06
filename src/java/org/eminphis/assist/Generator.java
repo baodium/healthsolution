@@ -1,21 +1,19 @@
-package org.eminphis.assist;
+package org.eminphis.db;
 
-import org.eminphis.dto.patient.OtherInformation;
-import org.eminphis.dto.patient.Diagnosis;
-import org.eminphis.dto.patient.NHISInformation;
-import org.eminphis.dto.patient.Operations;
-import org.eminphis.dto.patient.NextOfKin;
-import org.eminphis.dto.patient.HospitalHistory;
-import org.eminphis.dto.patient.PersonalDetails;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
-import java.util.*;
-import org.eminphis.db.DBManager;
-import org.eminphis.dto.*;
-import org.eminphis.dto.tableview.PersonalDetailsView;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Set;
+import org.eminphis.dto.Patient;
+import org.eminphis.dto.patient.NextOfKin;
+import org.eminphis.dto.patient.NhisInformation;
+import org.eminphis.dto.patient.PersonalDetails;
 import org.eminphis.exceptions.NoSuchColumnException;
-import org.eminphis.exceptions.NoSuchPatientIDException;
+import org.eminphis.exceptions.NoSuchHospitalNumberException;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -50,26 +48,19 @@ public class Generator{
          */
         int i=1;
         for(FullName fullName:fullNamesList){
-            Diagnosis diagnosis=new Diagnosis(randomString(),randomString(),randomString(),
-                    randomString());
-            HospitalHistory hospitalHistory=new HospitalHistory(randomString(),randomString(),
-                    randomString(),randomString(),randomString(),randomString());
-            NHISInformation nHISInformation=new NHISInformation(randomString()+i++,randomString(),
+            NhisInformation nhisInformation=new NhisInformation(i++,randomString(),
                     randomString(),randomString(),randomString(),randomString(),randomString(),
                     randomString(),randomString());
             NextOfKin nextOfKin=new NextOfKin(randomString(),randomString(),randomString(),
                     randomString(),randomString(),randomString(),randomString(),randomString(),
-                    randomString(),randomString());
-            Operations operations=new Operations(randomString(),randomString(),randomString(),
                     randomString());
-            OtherInformation otherInformation=new OtherInformation(randomString(),randomString());
 
             PersonalDetails personalDetails=new PersonalDetails(fullName.lastName,fullName.firstName,
                     fullName.middleName,randomString(),randomString(),randomString(),randomString(),
-                    randomString(),randomString(),randomString(),randomString());
+                    randomString(),randomString(),randomString(),randomString(),randomString(),randomString(),
+                    randomString(),randomString());
 
-            Patient patient=new Patient(diagnosis,hospitalHistory,nHISInformation,nextOfKin,
-                    operations,otherInformation,personalDetails);
+            Patient patient=new Patient(nextOfKin,nhisInformation,personalDetails);
 
             DBManager.insertPatient(patient);
         }
@@ -83,57 +74,55 @@ public class Generator{
     }
 
     public static void main(String[] args) throws FileNotFoundException,SQLException,
-            NoSuchColumnException, NoSuchPatientIDException{
-                File file=new File("/home/essiennta/FinalYearProject/src/finalyearproject/","UniqueNames.txt");
-                Scanner sc=new Scanner(file);
-                List<String>uniqueNames=new ArrayList<String>();
-                for(String uniqueName=sc.nextLine();sc.hasNextLine();uniqueName=sc.nextLine()){
-                    uniqueNames.add(uniqueName);
-                }
-                sc.close();
-                generate(uniqueNames);
+            NoSuchColumnException,NoSuchHospitalNumberException{
+        File file=new File("/home/essiennta/FinalYearProject/src/finalyearproject/","UniqueNames.txt");
+        Scanner sc=new Scanner(file);
+        List<String> uniqueNames=new ArrayList<String>();
+        for(String uniqueName=sc.nextLine();sc.hasNextLine();uniqueName=sc.nextLine())
+            uniqueNames.add(uniqueName);
+        sc.close();
+        generate(uniqueNames);
         //                DBManager.deletePatient(44);
-//        DBManager.initialize();
-//        PersonalDetailsView retrievePersonalDetailsView=
-//                DBManager.retrievePersonalDetailsView("adeb");
+        DBManager.initialize();
+//        PersonalDetailsView retrieveSearchPatientMatchesByName=
+//                DBManager.retrieveSearchPatientMatchesByName("adeb");
 //        System.out.println("retrieval done");
-//        for(PersonalDetailsView.Match match:retrievePersonalDetailsView){
+//        for(PersonalDetailsView.Match match:retrieveSearchPatientMatchesByName){
 //            System.out.println(match.getID()+" "+match.getSurname()+" "+match.getFirstName()+" "+match.getOtherName());
 //        }
 //        String format="NHIS/";
 //        for(int i=1;i<=4000;i++){
-//                    Patient patient=DBManager.retrievePatient(i);
+//                    Patient patient=DBManager.retrievePatientByHospitalNumber(i);
 //                    patient.getNHISInformation().setNHISNumber(format+i);
 //                    DBManager.updatePatient(patient);
 //        }
-//                insertPatients();
-                
-//        Patient patient=DBManager.retrievePatient(41);
+        insertPatients();
+
+//        Patient patient=DBManager.retrievePatientByHospitalNumber(41);
 //        patient.getNHISInformation().setEmployer("Emmanuel");
 //        DBManager.updatePatient(patient);
-//        
-//        DBManager.closeDatabaseResources();
-        
-        //        System.out.println(fullNamesList.size()+" patients inserted.");
+//
+        DBManager.closeDatabaseResources();
+        System.out.println(fullNamesList.size()+" patients inserted.");
     }
 
     private static void generate(List<String> uniqueNames) throws FileNotFoundException{
 
         Set<String> uniqueFullNames=new HashSet<String>();
         //process
-        while(uniqueFullNames.size()<4000){
+        while(uniqueFullNames.size()<1000){
             //generate a uniqueName;
             int a, b, c;
             do{
                 a=random.nextInt(uniqueNames.size());
                 b=random.nextInt(uniqueNames.size());
                 c=random.nextInt(uniqueNames.size());
-            }while(a==b||a==c||b==c);
+            } while(a==b||a==c||b==c);
             uniqueFullNames.add(uniqueNames.get(a)+" "+uniqueNames.get(b)+" "+uniqueNames.get(c));
         }
         for(String fullName:uniqueFullNames){
             String[] parts=fullName.split(" ");
-                fullNamesList.add(new FullName(parts[0],parts[1],parts[2]));
+            fullNamesList.add(new FullName(parts[0],parts[1],parts[2]));
         }
 
 //        intoFile.close();

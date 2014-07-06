@@ -22,32 +22,41 @@ package org.eminphis.dto.patient;
  */
 public class PersonalDetails{
 
+    private long hospitalNumber;
     private final String surname;
     private final String firstName;
     private final String otherName;
-    private final String phoneNumber;
-    private final String homeAddress;
+    private final String sex;
+    private final String maritalStatus;
+    private final String maidenName;
+    private final String phoneNumbers;//comma separated for now.
+    private final String residentialAddress;
     private final String town;
     private final String nationality;
-    private final String lGA;
+    private final String state;
+    private final String lga;
     private final String dateOfRegistration;
-    private final String nationalIDCardNumber;
-    private final String stateOfOrigin;
+    private final String nationalIdCardNumber;
+    private final String highestLevelOfEducation;
 
-    public PersonalDetails(String surname,String firstName,String otherName,String phoneNumber,
-            String homeAddress,String town,String nationality,String lGA,String dateOfRegistration,
-            String nationalIDCardNumber,String stateOfOrigin){
+    public PersonalDetails(String surname,String firstName,String otherName,String sex,String maritalStatus,
+            String maidenName,String phoneNumbers,String residentialAddress,String town,String nationality,String state,
+            String lga,String dateOfRegistration,String nationalIdCardNumber,String highestLevelOfEducation){
         this.surname=surname;
         this.firstName=firstName;
         this.otherName=otherName;
-        this.phoneNumber=phoneNumber;
-        this.homeAddress=homeAddress;
+        this.sex=sex;
+        this.maritalStatus=maritalStatus;
+        this.maidenName=maidenName;
+        this.phoneNumbers=phoneNumbers;
+        this.residentialAddress=residentialAddress;
         this.town=town;
         this.nationality=nationality;
-        this.lGA=lGA;
+        this.state=state;
+        this.lga=lga;
         this.dateOfRegistration=dateOfRegistration;
-        this.nationalIDCardNumber=nationalIDCardNumber;
-        this.stateOfOrigin=stateOfOrigin;
+        this.nationalIdCardNumber=nationalIdCardNumber;
+        this.highestLevelOfEducation=highestLevelOfEducation;
     }
 
     public String getSurname(){
@@ -62,12 +71,24 @@ public class PersonalDetails{
         return otherName;
     }
 
-    public String getPhoneNumber(){
-        return phoneNumber;
+    public String getSex(){
+        return sex;
     }
 
-    public String getHomeAddress(){
-        return homeAddress;
+    public String getMaritalStatus(){
+        return maritalStatus;
+    }
+
+    public String getMaidenName(){
+        return maidenName;
+    }
+
+    public String getPhoneNumbers(){
+        return phoneNumbers;
+    }
+
+    public String getResidentialAddress(){
+        return residentialAddress;
     }
 
     public String getTown(){
@@ -78,19 +99,23 @@ public class PersonalDetails{
         return nationality;
     }
 
-    public String getLGA(){
-        return lGA;
+    public String getState(){
+        return state;
+    }
+
+    public String getLga(){
+        return lga;
     }
 
     public String getDateOfRegistration(){
         return dateOfRegistration;
     }
 
-    public String getNationalIDCardNumber(){
-        return nationalIDCardNumber;
+    public String getNationalIdCardNumber(){
+        return nationalIdCardNumber;
     }
 
-    public String getStateOfOrigin(){
-        return stateOfOrigin;
+    public String getHighestLevelOfEducation(){
+        return highestLevelOfEducation;
     }
 }

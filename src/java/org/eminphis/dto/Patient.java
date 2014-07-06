@@ -1,11 +1,7 @@
 package org.eminphis.dto;
 
-import org.eminphis.dto.patient.OtherInformation;
-import org.eminphis.dto.patient.Diagnosis;
-import org.eminphis.dto.patient.NHISInformation;
-import org.eminphis.dto.patient.Operations;
 import org.eminphis.dto.patient.NextOfKin;
-import org.eminphis.dto.patient.HospitalHistory;
+import org.eminphis.dto.patient.NhisInformation;
 import org.eminphis.dto.patient.PersonalDetails;
 
 /**
@@ -30,65 +26,36 @@ import org.eminphis.dto.patient.PersonalDetails;
  */
 public class Patient{
 
-    private long ID;
-    private final Diagnosis diagnosis;
-    private final HospitalHistory hospitalHistory;
+    private long hospitalNumber;
     private final NextOfKin nextOfKin;
-    private final NHISInformation nHISInformation;
-    private final Operations operations;
-    private final OtherInformation otherInformation;
+    private final NhisInformation nhisInformation;
     private final PersonalDetails personalDetails;
 
     /**
-     *
-     * @param diagnosis the value of diagnosis
-     * @param hospitalHistory the value of hospitalHistory
-     * @param nHISInformation the value of nHISInformation
-     * @param nextOfKin the value of nextOfKin
-     * @param operations the value of operations
-     * @param otherInformation the value of otherInformation
+     * @param nextOfKin       the value of nextOfKin
+     * @param nhisInformation the value of nhisInformation
      * @param personalDetails the value of personalDetails
      */
-    public Patient(Diagnosis diagnosis,HospitalHistory hospitalHistory,NHISInformation nHISInformation,NextOfKin nextOfKin,Operations operations,OtherInformation otherInformation,PersonalDetails personalDetails){
-        this.diagnosis=diagnosis;
-        this.hospitalHistory=hospitalHistory;
+    public Patient(NextOfKin nextOfKin,NhisInformation nhisInformation,PersonalDetails personalDetails){
         this.nextOfKin=nextOfKin;
-        this.nHISInformation=nHISInformation;
-        this.operations=operations;
-        this.otherInformation=otherInformation;
+        this.nhisInformation=nhisInformation;
         this.personalDetails=personalDetails;
     }
 
-    public long getID(){
-        return ID;
+    public long getHospitalNumber(){
+        return hospitalNumber;
     }
 
-    public void setID(long ID){
-        this.ID=ID;
-    }
-
-    public Diagnosis getDiagnosis(){
-        return diagnosis;
-    }
-
-    public HospitalHistory getHospitalHistory(){
-        return hospitalHistory;
-    }
-
-    public NHISInformation getNHISInformation(){
-        return nHISInformation;
+    public void setHospitalNumber(long hospitalNumber){
+        this.hospitalNumber=hospitalNumber;
     }
 
     public NextOfKin getNextOfKin(){
         return nextOfKin;
     }
 
-    public Operations getOperations(){
-        return operations;
-    }
-
-    public OtherInformation getOtherInformation(){
-        return otherInformation;
+    public NhisInformation getNhisInformation(){
+        return nhisInformation;
     }
 
     public PersonalDetails getPersonalDetails(){

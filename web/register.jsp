@@ -1,598 +1,360 @@
-<%-- 
-    Document   : index
-    Created on : Apr 14, 2014, 4:57:50 PM
-    Author     : moscoworld
+<%--
+    Document   : register
+    Created on : 28-Jun-2014, 11:35:35
+    Author     : olajuwon
 --%>
 
-<%@page import="org.eminphis.Printer"%>
-<%@page import="org.eminphis.Constants"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Memphis- Register</title>
-        <link rel="stylesheet" type="text/css" href="css/font_face.css">
-        <link rel="stylesheet"  type="text/css" href="css/style.css">
+        <title>eMinphis</title>
+        <link href="css/style.css" rel="stylesheet" type="text/css"  media="all" />
+        <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>-->
+        <link href='css/font-face.css' rel='stylesheet' type='text/css'>
         <link rel="stylesheet"  type="text/css" href="css/datePicker.css">
-        <link rel="stylesheet" type="text/css" href="css/jquery.autocomplete.css" />
-        <script type="text/javascript" src="js/jquery-1.6.min.js"></script>
-        <script src="js/jquery.autocomplete.js"></script> 
-        <script type="text/javascript" src="js/my.js"></script>
+        <script type="text/javascript" src="js/jquery-1.8.0.min.js"></script>
+        <script type="text/javascript" src="js/country_state.js"></script>
+        <!--<script type="text/javascript" src="js/nig_state_lga.js.js"></script>-->
         <script type="text/javascript" src="js/datePicker.js"></script>
-        <script type= "text/javascript" src = "js/couuntry_state_lga.js"></script>
-
-
-
+        <script type="text/javascript" src="js/my.js"></script>
+        <style>
+        </style>
+        <script>
+        </script>
     </head>
     <body>
-        <div class="header">   
-            <img src="image/curr_user.jpg" height="20px"/> Welcome Adebayo Moses            
-        </div>
+        <!---start-wrap---->
 
-        <!-- MENU BAR -->
-
-        <div class="nav_bar">
-            <!-- LOGO -->
-            <a href="index.jsp" ><div class="logoIcon">
-                    <br/>
-                    <span class="p_span">e</span>MINPHIS
-                    <!--<div class="logoIconText">hospital information system</div>-->
+        <!---start-header---->
+        <div class="header">
+            <div class="top-header">
+                <div class="wrap">
+                    <div class="top-header-left">
+                        <!--<p>+800-020-12345</p>-->
+                    </div>
+                    <div class="right-left">
+                        <ul>
+                            <li class="login"><a href="#">Login</a></li>
+                            <li class="sign"><a href="#">Sign up</a></li>
+                        </ul>
+                    </div>
+                    <div class="clear"> </div>
                 </div>
-            </a>
-
-            <div class="menu">
-                <li class="regMenu activeMenu" name="addPatient" ><a ><span class="iconWrap"><img src="image/addPatientIcon.png">&nbsp;</span>Add Patient</a></li>
-                <li class="regMenu" name="searchPatient"  ><a ><span class="iconWrap"><img src="image/searchIcon.png">&nbsp</span>Search Patient</a> </li>
-                <li class="regMenu "   name="modifyPatient"><a ><span class="iconWrap"><img src="image/modifyPatentIcon.png">&nbsp</span>Modify Patient</a> </li>
-                <li  class="appointment"><a > <span class="iconWrap"><img src="image/appointmentIcon.png">&nbsp</span>Appointments<span class="subMenuIcon">&nbsp;&Del;</span></a> 
-
+            </div>
+            <div class="main-header">
+                <div class="wrap">
+                    <div class="logo"> <a href="index.jsp"><img src="images/minLogo.png" title="logo" /></a> </div>
+                    <div class="social-links">
+                        <ul>
+                            <li><a href="#"><img src="images/facebook.png" title="facebook" /></a></li>
+                            <li><a href="#"><img src="images/twitter.png" title="twitter" /></a></li>
+                            <li><a href="#"><img src="images/feed.png" title="Rss" /></a></li>
+                            <div class="clear"> </div>
+                        </ul>
+                    </div>
+                    <div class="clear"> </div>
+                </div>
+            </div>
+            <div class="clear"> </div>
+            <div class="top-nav">
+                <div class="wrap">
                     <ul>
-                        <li class="regMenu appt_menu" name="newAppointment"> <a >&nbsp;New Appointments</a></li>
-                        <li class="regMenu appt_menu" name="viewAppointment"><a >&nbsp;View Appointments</a></li>
-
+                        <li><a href="index.jsp">Home</a></li>
+                        <li><a href="#">Module #</a></li>
+                        <li><a href="#">Module #</a></li>
+                        <li><a href="#">Module #</a></li>
+                        <li class="active"><a href="register.jsp">Registration Module</a></li>
+                        <li ><a href="#">Module #</a></li>
+                        <div class="clear"> </div>
                     </ul>
-
-                </li>
+                </div>
             </div>
 
-
-
-
+            <!-- sub menu -->
+            <div class="sub-nav">
+                <div class="wrap">
+                    <ul>
+                        <li class="activeSub"><a href="register.jsp">Add Patient</a></li>
+                        <li ><a href="searchPatient.jsp">Search patient</a></li>
+                        <li><a href="modifyPatient.jsp">Modify Patient</a></li>
+                        <li><a href="appointment.jsp">Appointments</a></li>
+                        <div class="clear"> </div>
+                    </ul>
+                </div>
+            </div>
         </div>
-
-        <!-- content in page -->
+        <!---End-header---->
+        <!----start-content----->
         <div class="content">
+            <div class="wrap">
+                <!---start-contact---->
+                <div class="contact">
+                    <div class="section group">
+                        <div class="col span_2_of_3">
+                            <div class="contact-form">
+                                <form action="register" method="POST">
+                                    <div class="item selected personal_details ">
+                                        <h3>Step 1 of 3</h3>
+                                        <h2>PERSONAL DETAILS</h2>
+                                        <div> <span>
+                                                <label>SURNAME</label>
+                                            </span> <span>
+                                                <input type="text"  name="surname" >
+                                            </span> </div>
 
-            
-            
-            
+                                        <div> <span>
+                                                <label>FIRST NAME</label>
+                                            </span> <span>
+                                                <input type="text" name="first_name">
+                                            </span> </div>
+                                        <div> <span>
+                                                <label>OTHER NAME</label>
+                                            </span> <span>
+                                                <input type="text" name="other_name">
+                                            </span> </div>
+                                        <div> <span>
+                                                <label>SEX</label>
+                                            </span> <span>
+                                                <select id="sex" name="sex" onclick="showMaiden()">
+                                                    <option value="male">Male</option>
+                                                    <option value="female">Female</option>
 
-            <form action="register" method="post">
-                <!--- menu contents -->
-                <div class="item  addPatient selected ">
-                    <h3><img src="image/addPatient.png">&nbsp;ADD PATIENT</h3>
+                                                </select>
+                                            </span> </div>
+                                        <div> <span>
+                                                <label>MARITAL STATUS</label>
+                                            </span> <span>
+                                                <select id="marital_status" name="marital_status" onclick="showMaiden()">
+                                                    <option value="single">Single</option>
+                                                    <option value="married">Married</option>
+                                                    <option value="divorced">Divorced</option>
+                                                    <option value="separated">Separated</option>
 
-                    <div class="item2  personal_details selected2">
-                        <h4> Personal details</h4>
-                        <!-- start OF ADD PATIENT FORM -->
+                                                </select>
+                                            </span> </div>
+                                        <div id="maiden_field"> <span>
+                                                <label >MAIDEN NAME</label>
+                                            </span> <span>
+                                                <input type="hidden" id="m_d" name="maiden_name" />
+                                            </span> </div>
+                                        <div> <span>
+                                                <label>PHONE NUMBER</label>
+                                            </span> <span>
+                                                <input type="text" name="phone_number"> <span id="add_num" style="cursor: pointer; color: #ff0000;">Add number</span>
 
-                        <table>
-                            <tr>
-                                <td>Surname </td>
-                                <td><input type="text" name="surname" placeholder="type surname here" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>First Name</td>
-                                <td><input type="text" name="first_name" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Other Name</td>
-                                <td><input type="text" name="other_name" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Phone number</td>
-                                <td><input type="text"  name="phone_number" ><br/></td>
-                            </tr>
+                                            </span>
+                                            <span id="numbers"></span>
+                                        </div>
+                                        <div> <span>
+                                                <label>RESIDENTIAL ADDRESS</label>
+                                            </span> <span>
+                                                <textarea name="home_address"> </textarea>
+                                            </span> </div>
 
-                            <tr>
-                                <td>Home Address</td>
-                                <td><input type="text"   name="home_address" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Town</td>
-                                <td><input type="text" name="town" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Nationality</td>
-                                <td><select id="country" name="country" ></select><br/></td>
-                            </tr>
-                            <tr>
-                                <td>State</td>
-                                <td><select id="state"  name="state" ></select><br/></td>
-                            </tr>
+                                        <div> <span>
+                                                <label>TOWN</label>
+                                            </span> <span>
+                                                <input type="text" name="town">
+                                            </span> </div>
+                                        <div> <span>
+                                                <label>NATIONALITY</label>
+                                            </span> <span>
+                                                <select style="cursor: pointer;" id="country" name="country">
+                                                </select>
+                                            </span> </div>
+                                        <div> <span>
+                                                <label>STATE</label>
+                                            </span> <span>
+                                                <select style="cursor: pointer;" id="state" name="state">
+                                                </select>
+                                            </span> </div>
+                                        <!-- JAVASCRIPT TO POPULATE THE STATES FOR EACH COUNTRY SELECTED -->
+                                        <script language="javascript">
+                                            populateCountries("country", "state");
+                                        </script>
+                                        <div> <span>
+                                                <label>LGA</label>
+                                            </span> <span>
+                                                <input type="text" name="lga">
+                                            </span> </div>
+                                        <div> <span>
+                                                <label>DATE OF REGISTRATION</label>
+                                            </span>
+                                            <div id="feedback"></div>
+                                            <span>
+                                                <td><input style="cursor: pointer" type="text" id="reg_date" name="date_of_reg"  readonly placeholder="click to pop up calendar"><br/></td>
 
-                            <!-- JAVASCRIPT TO POPULATE THE STATES FOR EACH COUNTRY SELECTED -->
-                            <script language="javascript">
-                                populateCountries("country", "state");
-                            </script>
-                            <tr>
-                                <td>LGA</td>
-                                <td><input type="text" name="lga" ><br/></td>
-                            </tr> 
-                            <tr>
-                                <td>Date of Registration</td>
-                                <td><input type="text" id ="reg_date" name="date_of_reg"  placeholder="click to pop up calendar"><br/></td>
-                                <!-- javascript that generates the date field -->
-                            <script type="text/javascript">
-                                new datepickr('reg_date');
+                                            </span> </div>
+                                        <div> <span>
+                                                <label>NATIONAL ID CARD NUMBER</label>
+                                            </span> <span>
+                                                <input type="text" name="id_card_number">
+                                            </span> </div>
+                                        <div>
+                                            <span><label>Highest Eductaional Level</label></span>
+                                            <span><select name="higher_level">
+                                                    <option>NILL</option>
+                                                    <option>Primary school</option>
+                                                    <option>Secondary school</option>
+                                                    <option>Polytechnic</option>
+                                                    <option>University</option>
+                                                    <option>MSc.</option>
+                                                    <option>PhD.</option>
+                                                </select></span>
+                                        </div>
 
-                            </script>
-                            </tr>
-                            <tr>
-                                <td>National ID Card Number</td>
-                                <td><input type="text" name="id_card_number" ><br/></td>
-                            </tr>
+                                        <div class="panel"> <span class="form_section"  name="next_of_kin" >NEXT</span> </div>
+                                    </div>
 
-                        </table>
 
-                        <div class="panelContainer">
-                            <div class="nextPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="next_kin" >NEXT</span>
+
+                                    <!-- END OF PERSONAL DETAIL SECTION -->
+
+                                    <!--- next of kin SECTION START -->
+                                    <div class="item next_of_kin">
+                                        <h3>Step 2 OF 3</h3>
+                                        <h2>NEXT OF KIN</h2>
+
+                                        <div>
+                                            <span><label>SURNAME</label></span>
+                                            <span><input type="text"  name="next_of_kin_surname" ></span>
+                                        </div>
+                                        <div>
+                                            <span><label>FIRST NAME</label></span>
+                                            <span><input type="text" name="next_of_kin_first_name"></span>
+                                        </div>
+                                        <div>
+                                            <span><label>OTHER NAME</label></span>
+                                            <span><input type="text" name="next_of_kin_other_name"></span>
+                                        </div>
+
+                                        <div>
+                                            <span><label>TOWN</label></span>
+                                            <span><input type="text" name="nk_town"></span>
+                                        </div>
+                                        <div>
+                                            <span><label>NATIONALITY</label></span>
+                                            <span><select style="cursor: pointer;" id="nk_country" name="nk_country"></select></span>
+                                        </div>
+                                        <div>
+                                            <span><label>STATE</label></span>
+                                            <span><select style="cursor: pointer;" id="nk_state" name="nk_state"></select></span>
+                                        </div>
+                                        <!-- JAVASCRIPT TO POPULATE THE STATES FOR EACH COUNTRY SELECTED -->
+                                        <script language="javascript">
+                                            populateCountries("nk_country", "nk_state");
+                                        </script>
+                                        <div>
+                                            <span><label>LGA</label></span>
+                                            <span><input type="text" name="nk_lga"></span>
+                                        </div>
+
+                                        <div>
+                                            <span><label>RELATIONSHIP TO NEXT OF KIN</label></span>
+                                            <span><input type="text" name="relationship"></span>
+                                        </div>
+                                        <div>
+                                            <span><label>PHONE NUMBER</label></span>
+                                            <span><input type="text" name="kin_number"></span>
+                                        </div>
+
+
+                                        <div class="panel">
+                                            <span class="form_section"  name="personal_details" >PREVIOUS</span> &nbsp;
+                                            <span class="form_section"  name="nhis_info" >NEXT</span>
+                                        </div>
+
+                                    </div> <!-- END OF NEXT OF KIN SECTION -->
+
+
+                                    <!-- START OF NHIS INFORMATION SECTION -->
+                                    <div class="item nhis_info">
+                                        <h3> STEP 3 OF 3 </h3>
+                                        <h2>NHIS INFORMATION</h2>
+                                        <div>
+                                            <span><label>NHIS NUMBER</label></span>
+                                            <span><input type="text" name="nhis_number"></span>
+                                        </div>
+
+                                        <div>
+                                            <span><label>HMO</label></span>
+                                            <span><select name="hmo">
+                                                    <option>HMO 1</option>
+                                                    <option>HMO 2</option>
+                                                    <option>HMO 3</option>
+                                                    <option>HMO 4</option>
+                                                </select></span>
+                                        </div>
+                                        <div>
+                                            <span><label>HMO CODE</label></span>
+                                            <span><input type="text" name="hmo_code"></span>
+                                        </div>
+
+                                        <div>
+                                            <span><label>GENOTYPE</label></span>
+                                            <span><select name="genotype">
+                                                    <option>AA</option>
+                                                    <option>AS</option>
+                                                    <option>SS</option>
+                                                    <option>SC</option>
+                                                </select></span>
+                                        </div>
+                                        <div>
+                                            <span><label>BLOOD GROUP</label></span>
+                                            <span><select name="blood_group">
+                                                    <option>O positive</option>
+                                                    <option>O negative</option>
+                                                </select></span>
+                                        </div>
+                                        <div>
+                                            <span><label>HMOS ID No</label></span>
+                                            <span><input type="text" name="hmo_id_no"></span>
+                                        </div>
+                                        <div>
+                                            <span><label>EMPLOYER</label></span>
+                                            <span><input type="text" name="employer"></span>
+                                        </div>
+                                        <div>
+                                            <span><label>EMPLOYER ADDRESS</label></span>
+                                            <span><textarea name="employers_address"></textarea></span>
+                                        </div>
+                                        <div>
+                                            <span><label>ALLERGIES</label></span>
+                                            <span><input type="text" name="allergies"></span>
+                                        </div>
+                                        <div class="panel">
+                                            <span class="form_section"  name="next_of_kin" >PREVIOUS</span> &nbsp;
+                                        </div>
+                                        <div>
+                                            <span><input type="submit" value="ADD PATIENT"></span>
+                                        </div>
+                                    </div> <!-- END OF NHIS INFO -->
+
+                                </form>
                             </div>
-                        </div>
 
-                    </div> 
-
-
-                    <div class="item2 next_kin">
-                        <h4> Next of kin</h4>
-                        <table>
-
-                            <tr>
-                                <td>Surname </td>
-                                <td><input type="text" name="next_of_kin_surname" placeholder="type surname here" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>First Name</td>
-                                <td><input type="text" name="next_of_kin_first_name" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Other Name</td>
-                                <td><input type="text" name="next_of_kin_other_name" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Home Address</td>
-                                <td><input type="text"   name="nk_home_address" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Town</td>
-                                <td><input type="text" name="nk_town" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Nationality</td>
-                                <td><select id="country" name="nk_country" ></select><br/></td>
-                            </tr>
-                            <tr>
-                                <td>State</td>
-                                <td><select id="state"  name="nk_state" ></select><br/></td>
-                            </tr>
-
-                            <!-- JAVASCRIPT TO POPULATE THE STATES FOR EACH COUNTRY SELECTED -->
-                            <script language="javascript">
-                                populateCountries("country", "state");
-                            </script>
-                            <tr>
-                                <td>LGA</td>
-                                <td><input type="text" name="nk_lga" ><br/></td>
-                            </tr> 
-                            <tr>
-                                <td>Relationship to next of kin</td>
-                                <td><input type="text" name="relationship" ><br/></td>
-                            </tr> 
-                            <tr>
-                                <td>Phone number</td>
-                                <td><input type="number" name="kin_number" ><br/></td>
-                            </tr> 
-
-
-                        </table>
-
-                        <div class="panelContainer">
-                            <div class="previousPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="personal_details" >PREVI0US</span>
-
-                            </div>
-
-                            <div class="nextPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="hospital_history" >NEXT</span>
-                            </div>
                         </div>
                     </div>
-
-
-                    <div class="item2 hospital_history">
-                        <h4>  Hospital History </h4>
-
-                        <table>
-                            <tr>
-                                <td>Date Admitted </td>
-                                <td><input type="date" name="date_admitted" ><br/></td>
-                            </tr> 
-
-                            <tr>
-                                <td>Referred by: </td>
-                                <td><select  name="refby_physician" >
-                                        <option>Physician</option>
-                                        <option>Surgeon</option>
-                                        <option>Ward</option>
-                                    </select><br/></td>
-                            </tr> 
-
-                            <tr>
-                                <td>Date Discharged </td>
-                                <td><input type="date" name="date_discharge" ><br/></td>
-                            </tr> 
-
-                            <tr>
-                                <td>Referred by: </td>
-                                <td><select  name="refto_physician" >
-                                        <option>Physician</option>
-                                        <option>Surgeon</option>
-                                        <option>Ward</option>
-                                    </select><br/>
-                                </td>
-                            </tr> 
-
-                            <tr>
-                                <td>Discharged to</td>
-                                <td><select  name="discharge_to" >
-                                        <option>Home</option>
-                                        <option>Office</option>
-                                        <option>Out-Patient ward</option>
-                                    </select><br/>
-                                </td>
-
-                            </tr> 
-
-                            <tr>
-                                <td>Outcome of care </td>
-                                <td><input type="text" name="outcome" ><br/></td>
-                            </tr>
-
-                        </table>
-
-                        <div class="panelContainer">
-                            <div class="previousPanel">
-                                <span class="activeSubMenu sub_regMenu "  name="next_kin" >PREVI0US</span>
-                            </div>
-                            <div class="nextPanel">
-                                <span class="activeSubMenu sub_regMenu "  name="diagnosis" >NEXT</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="item2 diagnosis">
-                        <h4>Diagnosis</h4>
-                        <table>
-                            <tr>
-                                <td>Date</td>
-                                <td><input type="date" name="date_diagnosed" ><br/></td>
-                            </tr> 
-                            <tr>
-                                <td>Date Discharged </td>
-                                <td><input type="date" name="date_discharge" ><br/></td>
-                            </tr> 
-
-                            <tr>
-                                <td>Diagnosis </td>
-                                <td><input type="text" name="diagnosis" ><br/></td>
-                            </tr> 
-
-                            <tr>
-                                <td>Code number </td>
-                                <td><input type="number" name="code_number" ><br/></td>
-                            </tr> 
-                        </table>
-                        <div class="panelContainer">
-                            <div class="previousPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="hospital_history" >PREVI0US</span> &nbsp;
-                            </div>
-                            <div class="nextPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="operations" >NEXT</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="item2 operations">
-                        <h4>Operations</h4>
-                        <table>
-                            <tr>
-                                <td>Date</td>
-                                <td><input type="date" name="operation_date" ><br/></td>
-                            </tr> 
-                            <tr>
-                                <td>Operation Surgeon</td>
-                                <td><select name="op_surgeon">
-                                        <option>Dr. Dewunmi</option>
-                                        <option>Dr. Essienta</option>
-                                        <option>Dr. Augustina</option>
-                                    </select>
-                                </td>
-                            </tr> 
-
-                            <tr>
-                                <td>Operation</td>
-                                <td><select name="operation">
-                                        <option>ENT </option>
-                                        <option>Appendicitis</option>
-                                        <option>Abortion</option>
-                                    </select>
-                                </td>
-                            </tr> 
-
-
-                            <tr>
-                                <td>Code number </td>
-                                <td><input type="number" name="operation_code_number" ><br/></td>
-                            </tr> 
-                        </table>
-                        <div class="panelContainer">
-                            <div class="previousPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="diagnosis" >PREVI0US</span> &nbsp;
-                            </div>
-                            <div class="nextPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="others" >NEXT</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-
-                    <div class="item2 others">
-                        <h4>Other Information</h4>
-                        <table>
-                            <tr>
-                                <td>Town / Village </td>
-                                <td><input type="number" name="other_town" ><br/></td>
-                            </tr> 
-                            <tr>
-                                <td>Highest Edu level</td>
-                                <td><select name="higher_level">
-                                        <option>Primary school </option>
-                                        <option>Secondary school</option>
-                                        <option>Polytechnic</option>
-                                        <option>University</option>
-                                        <option>MSc.</option>
-                                        <option>PhD.</option>
-                                    </select>
-                                </td>
-                            </tr> 
-
-
-                        </table>
-
-                        <div class="panelContainer">
-                            <div class="previousPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="operations" >PREVI0US</span> &nbsp;
-                            </div>
-                            <div class="nextPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="nhis_info" >NEXT</span>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="item2 nhis_info">
-                        <h4>NHIS Information</h4>
-                        <table>
-                            <tr>
-                                <td>NHIS Number </td>
-                                <td><input type="text" name="nhis_number" ><br/></td>
-                            </tr> 
-                            <tr>
-                                <td>HM0</td>
-                                <td><select name="hmo">
-                                        <option>HMO 1</option>
-                                        <option>HMO 2</option>
-                                        <option>HMO 3</option>
-                                        <option>HMO 4</option>
-
-                                    </select>
-                                </td>
-                            </tr> 
-
-                            <tr>
-                                <td>Genotype</td>
-                                <td><select name="genotype">
-                                        <option>AA</option>
-                                        <option>AS</option>
-                                        <option>SS</option>
-                                        <option>SC</option>
-
-                                    </select>
-                                </td>
-                            </tr> 
-
-                            <tr>
-                                <td>Blood_Group</td>
-                                <td><select name="blood_group">
-                                        <option>O positive</option>
-                                        <option>O negative</option>
-
-
-                                    </select>
-                                </td>
-                            </tr> 
-
-                            <tr>
-                                <td>HMO_Code</td>
-                                <td><input type="text" name="hmo_code" ><br/></td>
-                            </tr>  
-
-                            <tr>
-                                <td>HMOS_Id No</td>
-                                <td><input type="text" name="hmo_id_no" ><br/></td>
-                            </tr>  
-                            <tr>
-                                <td>Employer</td>
-                                <td><input type="text" name="employer" ><br/></td>
-                            </tr>
-
-                            <tr>
-                                <td>Employers_address</td>
-                                <td><input type="text" name="employers_address" ><br/></td>
-                            </tr>
-                            <tr>
-                                <td>Allergies</td>
-                                <td><input type="text" name="allergies" ><br/></td>
-                            </tr>
-
-
-
-                        </table>
-                        <div class="panelContainer">
-                            <div class="previousPanel">
-                                <span class="activeSubMenu sub_regMenu"  name="others" >PREVI0US</span> &nbsp;
-                            </div>
-                            <input type="submit" value="ADD PATIENT">
-                            <!-- END OF ADD PATIENT FORM -->
-                        </div>
-
-                    </div>
-
                 </div>
-            </form>
-
-            <div class="item  searchPatient">
-                <h3><img src="image/search.png">SEARCH PATIENT</h3>
-
-                <form action="search">
-                    <input type="search" class="searchPatient" name="search_patient_by_name" placeholder="Search by name, id or NHIS number" >
-                    <input type="submit" value="search">
-                </form>
-                
-                <script>
-                    jQuery(function(){
-                        $(".searchPatient").autocomplete("list.jsp");
-                    });
-                </script>
-
-            </div> 
-
-            <div class="item modifyPatient">
-                <h3><img src="image/modifyPatient.png">MODIFY PATIENT </h3>
+                <!---End-contact---->
+                <div class="clear"> </div>
             </div>
-
-
-            <div class="item newAppointment">
-                <h3> <img src="image/appointment.png">&nbsp;NEW APPOINTMENT </h3>
-
-                <table>
-
-                    <tr>
-                        <td>Find Patient function</td>
-                        <td><input type="text" name="find_patient_function" ><br/></td>
-                    </tr>  
-                    <tr>
-                        <td>Appointment Type</td>
-                        <td><select>
-                                <option>New</option>
-                                <option>Revisit</option>
-
-
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Clinic</td>
-                        <td><select>
-                                <option>Haematology</option>
-                                <option>Physiology</option>
-
-
-                            </select>
-                        </td>
-                    </tr>
-                    <tr> 
-                        <td>Appointment Date</td>
-                        <td><input type="date" name="appointment_date" ><br/></td>
-                    </tr> 
-
-                    <tr>
-                        <td>Consultant to see</td>
-                        <td><select>
-                                <option>Dr. Dewunmi</option>
-                                <option>Dr. Essienta</option>
-                                <option>Dr. Augustina</option>
-                            </select>
-                        </td>
-                    </tr> 
-
-                    <tr>
-                        <td>Reason</td>
-                        <td><input type="text" name="appointment_reason" ><br/></td>
-                    </tr>
-
-                    <tr>
-                        <td>Duration</td>
-                        <td><input type="duration" name="appointment_duration" ><br/></td>
-                    </tr>
-
-                    <tr>
-                        <td>Referral source</td>
-                        <td><input type="text" name="appointment_referral" ><br/></td>
-                    </tr>
-                    <tr>
-                        <td>Tally Number</td>
-                        <td><input type="text" name="appointment_tally_number" ><br/></td>
-                    </tr>
-                    <tr>
-                        <td>Appointment time.</td>
-                        <td><input type="text" name="appointment_time_name" ><br/></td>
-                    </tr>
-
-                </table>
-
+            <!----End-content----->
+        </div>
+        <!---End-wrap---->
+        <!---start-footer---->
+        <div class="footer">
+            <div class="wrap">
+                <div class="clear"> </div>
+                <!---start-copy-right----->
+                <div class="copy-tight">
+                    <p> &copy; 2014 Memphis</p>
+                </div>
+                <!---End-copy-right----->
             </div>
-
-
-            <div class="item viewAppointment">
-                <h3> <img src="image/appointment.png">&nbsp;VIEW APPOINTMENT</h3>
-
-                <!-- SUB MENU FOR VIEW APPOINTMENT -->
-                <div class="sub_Menu">
-                    <span class="sub_sub_regMenu activeSubSubMenu" name="by_consultant">Consultant</span>
-
-
-                    <span class="sub_sub_regMenu" name="by_clinic">Clinic</span>
-
-                    <span class="sub_sub_regMenu" name="by_date">Date</span>
-
-                </div>
-
-                <!-- content of the submenu -->
-
-                <div class="item3 by_consultant selected3">
-                    BY CONSULTANT
-
-
-
-                </div>
-
-                <div class="item3 by_clinic">
-
-                    BY CLINIC
-                </div>
-
-                <div class="item3 by_date">
-                    BY DATE
-                </div>
-
-            </div>
+        </div>
+        <!---End-footer---->
 
 
     </body>

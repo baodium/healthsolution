@@ -1,14 +1,8 @@
 
-public class PersonalDetails{
+public class SearchPatientMatch{
 
+    private final long hospitalNumber;
+    private final long nhisNumber;
     private final String surname;
     private final String firstName;
     private final String otherName;
-    private final String phoneNumber;
-    private final String homeAddress;
-    private final String town;
-    private final String nationality;
-    private final String lGA;
-    private final String dateOfRegistration;
-    private final String nationalIDCardNumber;
-    private final String stateOfOrigin;

@@ -22,28 +22,26 @@ package org.eminphis.dto.patient;
  */
 public class NextOfKin{
 
+    private long hospitalNumber;
     private final String surname;
     private final String firstName;
     private final String otherName;
-    private final String HomeAddress;
     private final String town;
     private final String nationality;
     private final String state;
-    private final String lGA;
+    private final String lga;
     private final String relationshipToNextOfKin;
     private final String phoneNumber;
 
-    public NextOfKin(String surname,String firstName,String otherName,String HomeAddress,
-            String town,String nationality,String state,String lGA,String relationshipToNextOfKin,
-            String phoneNumber){
+    public NextOfKin(String surname,String firstName,String otherName,String town,String nationality,String state,
+            String lga,String relationshipToNextOfKin,String phoneNumber){
         this.surname=surname;
         this.firstName=firstName;
         this.otherName=otherName;
-        this.HomeAddress=HomeAddress;
         this.town=town;
         this.nationality=nationality;
         this.state=state;
-        this.lGA=lGA;
+        this.lga=lga;
         this.relationshipToNextOfKin=relationshipToNextOfKin;
         this.phoneNumber=phoneNumber;
     }
@@ -60,10 +58,6 @@ public class NextOfKin{
         return otherName;
     }
 
-    public String getHomeAddress(){
-        return HomeAddress;
-    }
-
     public String getTown(){
         return town;
     }
@@ -76,8 +70,8 @@ public class NextOfKin{
         return state;
     }
 
-    public String getLGA(){
-        return lGA;
+    public String getLga(){
+        return lga;
     }
 
     public String getRelationshipToNextOfKin(){
@@ -87,4 +81,5 @@ public class NextOfKin{
     public String getPhoneNumber(){
         return phoneNumber;
     }
+
 }

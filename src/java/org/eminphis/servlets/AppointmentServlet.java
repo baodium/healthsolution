@@ -66,7 +66,7 @@ public class AppointmentServlet extends HttpServlet{
         org.eminphis.dto.Appointment appointment=appointmentManager.retrieveAppointment();
         try{
             DBManager.insertAppointment(appointment);
-            DBManager.commitChanges();
+            DBManager.saveChanges();
         } catch(SQLException ex){
             ErrorLogger.logError(ex);
             appointmentManager.showErrorPage(ex);

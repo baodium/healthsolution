@@ -11,9 +11,9 @@ import org.eminphis.ErrorLogger;
 import org.eminphis.Printer;
 import org.eminphis.db.DBManager;
 import org.eminphis.dto.Patient;
-import org.eminphis.dto.tableview.PersonalDetailsView;
+import org.eminphis.dto.tableview.SearchPatientMatch;
 import org.eminphis.exceptions.NoSuchColumnException;
-import org.eminphis.exceptions.NoSuchPatientIDException;
+import org.eminphis.exceptions.NoSuchHospitalNumberException;
 import org.eminphis.ui.manager.SearchManager;
 
 /**
@@ -57,16 +57,16 @@ public class SearchServlet extends HttpServlet{
         //First of all retrieve the search handler
         SearchManager searchManager=new SearchManager(request,response);
         String query=searchManager.retrieveQuery();
-        long patientID=PersonalDetailsView.Match.retrievePatientID(query);
+        long patientID=SearchPatientMatch.Match.retrievePatientID(query);
         
         Patient patient=null;
         try{
-            patient=DBManager.retrievePatient(patientID);
+            patient=DBManager.retrievePatientByHospitalNumber(patientID);
             searchManager.showPatientDetails(patient);
         }catch(NoSuchColumnException ex){
             ErrorLogger.logError(ex);
             searchManager.showErrorPage(ex);
-        }catch(NoSuchPatientIDException ex){
+        }catch(NoSuchHospitalNumberException ex){
             ErrorLogger.logError(ex);
             searchManager.showErrorPage(ex);
         }catch(SQLException ex){
