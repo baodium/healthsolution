@@ -97,15 +97,18 @@
                         </div>
                         <div class="col span_2_of_3">
                             <div class="contact-form">
-                                <form action="#" >
+                                <%
+                                    session.setAttribute("AUTO_COMPLETE_MODE",":APPOINTMENT");
+                                %>
+                                <form action="appointment" method="POST">
                                     <div>  <span>
-                                            <input type="text"  class="searchPatient" id="search" name="find_patient_function" placeholder="search patient name">
+                                            <input type="text"  class="searchPatient" id="search" name="search_query" placeholder="search patient name">
 
                                         </span> </div>
                                     <div> <span>
                                             <label>DATE OF BIRTH</label>
                                         </span> <span>
-                                            <input style="cursor: pointer;" type="text" id="dob" name="patient_dob" readonly placeholder="click to pop up calendar">
+                                            <input type="text" name="patient_dob" readonly>
                                         </span> </div>
                                     <div> <span>
                                             <label>HOSPITAL NUMBER</label>
@@ -137,10 +140,11 @@
                                     <div> <span>
                                             <label>CONSULTANT TO SEE</label>
                                         </span> <span>
-                                            <select name="appt_type">
-                                                <option>Dr. Olajuwon</option>
-                                                <option>Dr. Segun</option>
-                                                <option>Dr. Uche</option>
+                                            <select name="appt_consultant">
+                                                <option>Dr. Dewunmi</option>
+                                                <option>Dr. Azeez</option>
+                                                <option>Dr. Obadimu</option>
+                                                <option>Dr. Olabisi</option>
                                             </select>
                                         </span> </div>
                                     <div> <span>

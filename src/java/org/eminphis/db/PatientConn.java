@@ -9,6 +9,7 @@ import org.eminphis.dto.patient.NextOfKin;
 import org.eminphis.dto.patient.NhisInformation;
 import org.eminphis.dto.patient.PersonalDetails;
 import org.eminphis.dto.tableview.Matches;
+import org.eminphis.dto.tableview.ScheduleAppointmentMatch;
 import org.eminphis.dto.tableview.SearchPatientMatch;
 import org.eminphis.exceptions.NoSuchHospitalNumberException;
 import org.eminphis.exceptions.NoSuchNHISNumberException;
@@ -370,5 +371,28 @@ class PatientConn{
         }
         rs.close();
         return matches;
+    }
+
+    Matches<ScheduleAppointmentMatch> retrieveScheduleAppointmentMatchesByName(String prefixOfName) throws SQLException{
+        Matches<SearchPatientMatch> searchPatientMatches=retrieveSearchPatientMatchesByName(prefixOfName);
+        Matches<ScheduleAppointmentMatch> scheduleAppointmentMatches=new Matches<ScheduleAppointmentMatch>();
+        for(SearchPatientMatch searchPatientMatch:searchPatientMatches)
+            scheduleAppointmentMatches.addMatchedResult(new ScheduleAppointmentMatch(searchPatientMatch.
+                    getHospitalNumber(),searchPatientMatch.getNhisNumber(),
+                    searchPatientMatch.getSurname(),searchPatientMatch.getFirstName(),searchPatientMatch.getOtherName(),
+                    "12th June, 2014"));
+        return scheduleAppointmentMatches;
+    }
+
+    Matches<ScheduleAppointmentMatch> retrieveScheduleAppointmentMatchesByNumber(String prefixOfNumber) throws
+            SQLException{
+        Matches<SearchPatientMatch> searchPatientMatches=retrieveSearchPatientMatchesByNumber(prefixOfNumber);
+        Matches<ScheduleAppointmentMatch> scheduleAppointmentMatches=new Matches<ScheduleAppointmentMatch>();
+        for(SearchPatientMatch searchPatientMatch:searchPatientMatches)
+            scheduleAppointmentMatches.addMatchedResult(new ScheduleAppointmentMatch(searchPatientMatch.
+                    getHospitalNumber(),searchPatientMatch.getNhisNumber(),
+                    searchPatientMatch.getSurname(),searchPatientMatch.getFirstName(),searchPatientMatch.getOtherName(),
+                    "12th June, 2014"));
+        return scheduleAppointmentMatches;
     }
 }

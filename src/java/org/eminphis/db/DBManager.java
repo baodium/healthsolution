@@ -9,8 +9,10 @@ import javax.servlet.annotation.WebListener;
 import org.eminphis.ErrorLogger;
 import org.eminphis.Printer;
 import org.eminphis.dto.Appointment;
+import org.eminphis.dto.Group;
 import org.eminphis.dto.Patient;
 import org.eminphis.dto.tableview.Matches;
+import org.eminphis.dto.tableview.ScheduleAppointmentMatch;
 import org.eminphis.dto.tableview.SearchPatientMatch;
 import org.eminphis.exceptions.NoSuchColumnException;
 import org.eminphis.exceptions.NoSuchHospitalNumberException;
@@ -39,7 +41,7 @@ import org.eminphis.exceptions.NoSuchNHISNumberException;
 @WebListener
 public class DBManager implements ServletContextListener{
 
-    private static String databaseURL="jdbc:mysql://localhost:3306/eMINPHIS_DB";
+    private static final String databaseURL="jdbc:mysql://localhost:3306/eMINPHIS_DB";
     private static Connection databaseConnection;
     static final int TABLE_COUNT=7;
 
@@ -52,11 +54,29 @@ public class DBManager implements ServletContextListener{
      *
      * @throws SQLException
      */
-    static void initialize() throws SQLException{
-        if(databaseConnection==null){
-            databaseConnection=DriverManager.getConnection(databaseURL,"root","a");
-            databaseConnection.setAutoCommit(false);
+    private void initialize(){
+        if(databaseConnection==null)
+            try{
+                databaseConnection=DriverManager.getConnection(databaseURL,"root","a");
+                databaseConnection.setAutoCommit(false);
+            } catch(SQLException ex){
+                ErrorLogger.logError(ex);
+            }
+    }
+
+    private void closeDatabaseResources(){
+        try{
+            saveChanges();
+        } catch(SQLException ex){
+            ErrorLogger.logError(ex);
         }
+        Conn.getInstance().closeResources();
+        try{
+            databaseConnection.close();
+        } catch(SQLException ex){
+            ErrorLogger.logError(ex);
+        }
+        databaseConnection=null;
     }
 
     /**
@@ -75,13 +95,6 @@ public class DBManager implements ServletContextListener{
      */
     static void undoChanges() throws SQLException{
         databaseConnection.rollback();
-    }
-
-    static void closeDatabaseResources() throws SQLException{
-        saveChanges();
-        Conn.getInstance().closeResources();
-        databaseConnection.close();
-        databaseConnection=null;
     }
 
     public static boolean isConnectionEstablished(){
@@ -148,6 +161,13 @@ public class DBManager implements ServletContextListener{
         PatientConn.getInstance().updatePatient(patient);
     }
 
+    /**
+     * Retrieves patient matches by name.
+     *
+     * @param prefixOfName the prefix of the patient's surname
+     * @return the matches
+     * @throws SQLException
+     */
     public static Matches<SearchPatientMatch> retrieveSearchPatientMatchesByName(String prefixOfName) throws
             SQLException{
         return PatientConn.getInstance().retrieveSearchPatientMatchesByName(prefixOfName+'%');
@@ -158,7 +178,7 @@ public class DBManager implements ServletContextListener{
      * Currently supported numbers are hospital number and nhis number
      *
      * @param prefixOfNumber
-     * @return
+     * @return the matches
      * @throws SQLException
      */
     public static Matches<SearchPatientMatch> retrieveSearchPatientMatchesByNumber(long prefixOfNumber) throws
@@ -166,12 +186,62 @@ public class DBManager implements ServletContextListener{
         return PatientConn.getInstance().retrieveSearchPatientMatchesByNumber(prefixOfNumber+"%");
     }
 
-    public static void deleteAppointment(long id) throws SQLException{
-        AppointmentConn.getInstance().deleteAppointment(id);
+    /**
+     * Retrieves patient matches by name.
+     *
+     * @param prefixOfName the prefix of the patient's surname
+     * @return the matches
+     * @throws SQLException
+     */
+    public static Matches<ScheduleAppointmentMatch> retrieveScheduleAppointmentMatchesByName(String prefixOfName) throws
+            SQLException{
+        return PatientConn.getInstance().retrieveScheduleAppointmentMatchesByName(prefixOfName+'%');
+    }
+
+    /**
+     * Retrieves patient matches by number.
+     * Currently supported numbers are hospital number and nhis number
+     *
+     * @param prefixOfNumber
+     * @return the matches
+     * @throws SQLException
+     */
+    public static Matches<ScheduleAppointmentMatch> retrieveScheduleAppointmentMatchesByNumber(long prefixOfNumber)
+            throws
+            SQLException{
+        return PatientConn.getInstance().retrieveScheduleAppointmentMatchesByNumber(prefixOfNumber+"%");
+    }
+
+    public static void deleteAppointment(long appointmentId) throws SQLException{
+        AppointmentConn.getInstance().deleteAppointment(appointmentId);
     }
 
     public static void insertAppointment(Appointment appointment) throws SQLException{
         AppointmentConn.getInstance().insertAppointment(appointment);
+    }
+
+    /**
+     * Retrieves a list of appointment of the specified type with the specified value.
+     *
+     * @param mode  the mode. One of
+     *              {@link Appointment#MODE_CLINIC}, {@link Appointment#MODE_CONSULTANT}, {@link Appointment#MODE_DATE},
+     * @param value the value
+     * @return a group of appointments that match the query
+     * @throws SQLException the exception object
+     */
+    public static Group<Appointment> retrieveAppointment(int mode,String value) throws SQLException{
+        return AppointmentConn.getInstance().retrieveAppointment(mode,value);
+    }
+
+    /**
+     * Retrieves the unique appointment having this {@code appointmentId}
+     *
+     * @param appointmentId the appointmentId
+     * @return the unique appointment having this {@code appointmentId}
+     * @throws SQLException the exception object
+     */
+    public static void retrieveAppointment(long appointmentId) throws SQLException{
+        AppointmentConn.getInstance().retrieveAppointment(appointmentId);
     }
 
     public static void updateAppointment(Appointment appointment) throws SQLException{
@@ -181,20 +251,12 @@ public class DBManager implements ServletContextListener{
     @Override
     public void contextInitialized(ServletContextEvent sce){
         Printer.println("contentInitialized()");
-        try{
-            initialize();
-        } catch(SQLException ex){
-            ErrorLogger.logError(ex);
-        }
+        initialize();
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce){
         Printer.println("contextDestroyed()");
-        try{
-            closeDatabaseResources();
-        } catch(SQLException ex){
-            ErrorLogger.logError(ex);
-        }
+        closeDatabaseResources();
     }
 }

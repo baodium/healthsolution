@@ -1,9 +1,11 @@
-<%-- 
+<%--
     Document   : appointment
     Created on : 28-Jun-2014, 11:54:14
     Author     : olajuwon
 --%>
 
+<%@page import="org.eminphis.dto.Group"%>
+<%@page import="org.eminphis.dto.Appointment"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
@@ -16,14 +18,14 @@
         <script type="text/javascript" src="js/my.js"></script>
     </head>
     <body>
-        <!---start-wrap----> 
+        <!---start-wrap---->
 
         <!---start-header---->
         <div class="header">
             <div class="top-header">
                 <div class="wrap">
-                    <div class="top-header-left"> 
-                        <!--<p>+800-020-12345</p>--> 
+                    <div class="top-header-left">
+                        <!--<p>+800-020-12345</p>-->
                     </div>
                     <div class="right-left">
                         <ul>
@@ -76,10 +78,10 @@
                 </div>
             </div>
         </div>
-        <!---End-header----> 
+        <!---End-header---->
         <!----start-content----->
         <div class="content">
-            <div class="wrap"> 
+            <div class="wrap">
                 <!---start-contact---->
                 <div class="contact">
                     <div class="section group">
@@ -104,7 +106,7 @@
                             <div class="contact-form">
                                 <!-- LIST OF ALL CLINIC -->
                                 <div>
-                                    <form action="#">
+                                    <form action="appointment" method="GET">
                                         <span><select name="clinic_name">
                                                 <option>choose clinic</option>
                                                 <option>Haematology</option>
@@ -115,44 +117,49 @@
                                 </div>
                                 <br/>
                                 <!-- Clinic  SELECTED SCHEDULT INFORMATION -->
+                                <%
+                                    session.setAttribute("VIEW_TYPE",Appointment.MODE_CLINIC);
+                                    if(request.getAttribute("VIEW_SHOW")==Boolean.TRUE){
+                                %>
                                 <h3> Clinic name  </h3>
+                                <input type="text" value="<%=request.getParameter("clinic_name")%>" readonly />
                                 <table>
                                     <!-- SCHEDULE HEADING -->
                                     <tr>
-                                        <th>Patient Name</th><th>Hospital number</th>
+                                        <th>Patient Name</th>
+                                        <th>Hospital number</th>
                                         <th>Type</th>
-                                        <th>Date</th><th>Consultant</th><th>Reason</th>
+                                        <th>Date</th>
+                                        <th>Consultant</th>
+                                        <th>Reason</th>
                                         <th>Referral</th>
-                                        <th>Tally</th><th>Clinic time</th>
+                                        <th>Tally</th>
+                                        <th>Clinic time</th>
                                     </tr>
-
+                                    <%
+                                        Group<Appointment> appointments=(Group<Appointment>)request.getAttribute(
+                                                Group.class.getName());
+                                        for(Appointment appointment:appointments){
+                                    %>
                                     <!-- SCHEDULE INFO -->
                                     <tr>
-                                        <td>Adebayo Moses</td>
-                                        <td>SHIS484448474</td>
-                                        <td>New</td>
-                                        <td>23/08/2012</td>
-                                        <td>Adebayo Moses</td>
-                                        <td>SHIS484448474 Adebayo MosesAdebayo MosesVVAdebayo Moses Adebayo Moses Adebayo Moses hsgs shs sh vsv </td>
-                                        <td>Adeoye</td>
-                                        <td>300</td>
-                                        <td>7pm</td>
-
+                                        <td><%=appointment.getNameOfPatient()%></td>
+                                        <td><%=appointment.getHospitalNumber()%></td>
+                                        <td><%=appointment.getAppointmentType()%></td>
+                                        <td><%=appointment.getAppointmentDate()%></td>
+                                        <td><%=appointment.getConsultantToSee()%></td>
+                                        <td><%=appointment.getReason()%></td>
+                                        <td><%=appointment.getReferralSource()%></td>
+                                        <td><%=appointment.getTallyNumber()%></td>
+                                        <td><%=appointment.getClinicTime()%></td>
                                     </tr>
-
-                                    <tr>
-                                        <td>Essienta Emmanuel</td>
-                                        <td>SHIS484448474</td>
-                                        <td>New</td>
-                                        <td>23/08/2012</td>
-                                        <td>Adebayo Moses</td>
-                                        <td>SHIS484448474 Adebayo MosesAdebayo MosesVVAdebayo Moses Adebayo Moses Adebayo Moses hsgs shs sh vsv </td>
-                                        <td>Adeoye</td>
-                                        <td>50</td>
-                                        <td>7pm</td>
-                                    </tr>
-
+                                    <%
+                                        }
+                                    %>
                                 </table>
+                                <%
+                                    }
+                                %>
 
                             </div>
                         </div>
@@ -161,9 +168,9 @@
                 <!---End-contact---->
                 <div class="clear"> </div>
             </div>
-            <!----End-content-----> 
+            <!----End-content----->
         </div>
-        <!---End-wrap----> 
+        <!---End-wrap---->
         <!---start-footer---->
         <div class="footer">
             <div class="wrap">
@@ -172,7 +179,7 @@
                 <div class="copy-tight">
                     <p> &copy; 2014 Memphis</p>
                 </div>
-                <!---End-copy-right-----> 
+                <!---End-copy-right----->
             </div>
         </div>
         <!---End-footer---->

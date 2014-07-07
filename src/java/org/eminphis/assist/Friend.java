@@ -33,15 +33,15 @@ public class Friend{
     static String set="set";
     static String get="get";
 
-    private static boolean firstIsPrimaryKey=false;
+    private static boolean firstIsPrimaryKey=true;
 
     public static void main(String[] args) throws IOException{
         JavaIdentifierToSQLIdentifier jis=new JavaIdentifierToSQLIdentifier();
 
 //        System.out.println(jis.constructSQLTableDeclaration());
 //        deleteStatement(jis);
-//        insertStatement(jis);
-        retrieveStatement(jis);
+        insertStatement(jis);
+//        retrieveStatement(jis);
 //        updateStatement(jis);
 
     }
@@ -104,6 +104,7 @@ public class Friend{
         );
 
         System.out.printf("%sStatement.executeUpdate();\n",update);
+        System.out.println("//Remember to call DBManager.saveChanges() after a successful atomic update");
     }
 
     private static void deleteStatement(JavaIdentifierToSQLIdentifier jis){
@@ -125,6 +126,7 @@ public class Friend{
         );
 
         System.out.printf("%sStatement.executeUpdate();\n",delete);
+        System.out.println("//Remember to call DBManager.saveChanges() after a successful atomic update");
     }
 
     private static void retrieveStatement(JavaIdentifierToSQLIdentifier jis){
@@ -174,10 +176,14 @@ public class Friend{
 
     private static void insertStatement(JavaIdentifierToSQLIdentifier jis){
         System.out.printf("int %sIndex=Conn.getInstance().ensureInit(Statement.%s,"
-                +"\"INSERT INTO %s (%s) VALUES (%s)\");\n",insert,insert.toUpperCase(),jis.
-                getSqlTableName(),
-                delimitColumnNames(jis.getSqlFieldNames(firstIsPrimaryKey)),getPlaceholders(jis.
-                        getNumIdentifiers(firstIsPrimaryKey)));
+                +"\"INSERT INTO %s (%s) VALUES (%s)\"%s);\n",
+                insert,
+                insert.toUpperCase(),
+                jis.getSqlTableName(),
+                delimitColumnNames(jis.getSqlFieldNames(firstIsPrimaryKey)),
+                getPlaceholders(jis.getNumIdentifiers(firstIsPrimaryKey)),
+                firstIsPrimaryKey?",true":""
+        );
         System.out.println();
         System.out.printf("SqlStatement %sStatement=Conn.getInstance()"
                 +".getStatement(Statement.%s,%1$sIndex);\n",insert,insert.toUpperCase());
@@ -203,6 +209,7 @@ public class Friend{
             System.out.printf("%s.set%s(%s);\n",jis.getJavaTableVariableName(),jis.
                     getFirstJavaMethodName(),jis.getFirstJavaIdentifierName());
         }
+        System.out.println("//Remember to call DBManager.saveChanges() after a successful atomic update");
 
     }
 }

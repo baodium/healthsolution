@@ -6,3 +6,10 @@ information:
 Change phoneNumber field in PersonalDetails to be list-oriented instead of comma-separated.
 We actually should be using multiple phone numbers. Adjust in dto, dao, sql, and search.jsp
 Method of retreiving hospital number or nhis number from search field is inefficient. We need a way to detect a selection event and store the needed ID's in an hidden text field. We can then retrieve the value later for processing.
+When indexing has been learnt, index those fields that are used as search criteria.
+What is the essence of viewAppointment.jsp since it is not referenced throughout the application? It should be scrapped off.
+Client-side validation needs to be performed on some pages before been sent to the server for server-side validation. For instance clicking the view button in viewConsultantAppointment.jsp should ensure that the client has actually selected a consultant before sending the request to the server.
+I've modified some request methods to "GET" or "POST" accordingly to suit how the servlet will process the request. They shouldn't be tampered with. Maybe I should give you the working copy of the application.
+Learn about page onclick listeners for <a href ...>
+There's room for removing the clinic, date and consultant appointment pages and have just one viewAppointment page. The view is then updated based on which mode (consultant, clinic or date) we're currently on. This can be maybe detected by an onclick listener.
+I also suggest searching for appointments by appointment ID. It's either that appointment is present or not. It is single.

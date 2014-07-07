@@ -87,10 +87,15 @@
         <div class="content">
             <div class="wrap">
                 <!---start-contact---->
+                <a href="appointment.jsp"></a>
                 <div class="contact">
+                    <a href="appointment.jsp"></a>
                     <div class="section group">
                         <div class="col span_2_of_3">
                             <div class="contact-form">
+                                <%
+                                    session.setAttribute("AUTO_COMPLETE_MODE",":SOMETHING_ELSE");
+                                %>
                                 <form action="modify" method="GET">
                                     <div class="searchPanel">
 

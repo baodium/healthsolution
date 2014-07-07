@@ -89,7 +89,6 @@ public class ModifyServlet extends HttpServlet{
         response.setContentType("text/html;charset=UTF-8");
         RegistrationManager registrationManager=new RegistrationManager(request,response);
         Patient patient=registrationManager.getPatient();
-        patient.setHospitalNumber(Long.parseLong(request.getParameter("hospital_number")));
         try{
             DBManager.updatePatient(patient);
             registrationManager.showSuccessPage("Operation was successful");

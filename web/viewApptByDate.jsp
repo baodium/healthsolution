@@ -1,9 +1,11 @@
-<%-- 
+<%--
     Document   : appointment
     Created on : 28-Jun-2014, 11:54:14
     Author     : olajuwon
 --%>
 
+<%@page import="org.eminphis.dto.Appointment"%>
+<%@page import="org.eminphis.dto.Group"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE HTML>
 <html>
@@ -18,14 +20,14 @@
         <script type="text/javascript" src="js/datePicker.js"></script>
     </head>
     <body>
-        <!---start-wrap----> 
+        <!---start-wrap---->
 
         <!---start-header---->
         <div class="header">
             <div class="top-header">
                 <div class="wrap">
-                    <div class="top-header-left"> 
-                        <!--<p>+800-020-12345</p>--> 
+                    <div class="top-header-left">
+                        <!--<p>+800-020-12345</p>-->
                     </div>
                     <div class="right-left">
                         <ul>
@@ -78,10 +80,10 @@
                 </div>
             </div>
         </div>
-        <!---End-header----> 
+        <!---End-header---->
         <!----start-content----->
         <div class="content">
-            <div class="wrap"> 
+            <div class="wrap">
                 <!---start-contact---->
                 <div class="contact">
                     <div class="section group">
@@ -105,55 +107,57 @@
                         <div class="col span_2_of_3">
                             <div class="contact-form">
                                 <div>
-                                    <form action="#">
-                                        <span><input readonly style="cursor: pointer;" type="text" id ="sel_date" placeholder="click to pop date" name="appt_date"/></span>
-                                        
+                                    <form action="appointment" method="GET">
+                                        <span><input readonly style="cursor: pointer;" type="text" id ="sel_date" placeholder="click to pop date" name="date_name"/></span>
+
                                         <input type="submit" value="view">
                                     </form>
                                 </div>
                                 <br/>
                                 <!-- DATE SELECTED SCHEDULE INFORMATION -->
-                                <h3> August 3rd, 2013  </h3>
+                                <%
+                                    session.setAttribute("VIEW_TYPE",Appointment.MODE_DATE);
+                                    if(request.getAttribute("VIEW_SHOW")==Boolean.TRUE){
+                                %>
+                                <h3> APPOINTMENT DATE </h3>
+                                <input type="text" value="<%=request.getParameter("date_name")%>" readonly />
                                 <table>
                                     <!-- SCHEDULE HEADING -->
                                     <tr>
-                                        <th>Patient Name</th><th>Hospital number</th>
-                                        <th>Type</th><th>Clinic</th>
-                                        <th>Consultant<th>Reason</th>
+                                        <th>Patient Name</th>
+                                        <th>Hospital number</th>
+                                        <th>Type</th>
+                                        <th>Clinic</th>
+                                        <th>Consultant</th>
+                                        <th>Reason</th>
                                         <th>Referral</th>
                                         <th>Tally number</th>
                                         <th>Clinic time</th>
                                     </tr>
-
+                                    <%
+                                        Group<Appointment> appointments=(Group<Appointment>)request.getAttribute(
+                                                Group.class.getName());
+                                        for(Appointment appointment:appointments){
+                                    %>
                                     <!-- SCHEDULE INFO -->
                                     <tr>
-                                        <td>Adebayo Moses</td>
-                                        <td>SHIS484448474</td>
-                                        <td>Adebayo Moses</td>
-                                        <td>SHIS484448474</td>
-                                        <td>Adebayo Moses</td>
-                                        <td>SHIS484448474 Adebayo MosesAdebayo MosesVVAdebayo Moses Adebayo Moses Adebayo Moses hsgs shs sh vsv </td>
-                                        <td>SHIS484448474</td>
-                                        <td>200</td>
-                                        <td>7pm</td>
-
-
-
+                                        <td><%=appointment.getNameOfPatient()%></td>
+                                        <td><%=appointment.getHospitalNumber()%></td>
+                                        <td><%=appointment.getAppointmentType()%></td>
+                                        <td><%=appointment.getClinic()%></td>
+                                        <td><%=appointment.getConsultantToSee()%></td>
+                                        <td><%=appointment.getReason()%></td>
+                                        <td><%=appointment.getReferralSource()%></td>
+                                        <td><%=appointment.getTallyNumber()%></td>
+                                        <td><%=appointment.getClinicTime()%></td>
                                     </tr>
-                                    <tr>
-                                        <td>Essienta Emmanuel</td>
-                                        <td>SHIS484448474</td>
-                                        <td>Adebayo Moses</td>
-                                        <td>SHIS484448474</td>
-                                        <td>Adebayo Moses</td>
-                                        <td>SHIS484448474 Adebayo MosesAdebayo MosesVVAdebayo Moses Adebayo Moses Adebayo Moses hsgs shs sh vsv </td>
-                                        <td>SHIS484448474</td>
-                                        <td>10</td>
-                                        <td>7pm</td>
-
-                                    </tr>
-
+                                    <%
+                                        }
+                                    %>
                                 </table>
+                                <%
+                                    }
+                                %>
 
                             </div>  <!-- CONSULTANT APPINTMENT END -->
 
@@ -164,9 +168,9 @@
             <!---End-contact---->
             <div class="clear"> </div>
         </div>
-        <!----End-content-----> 
+        <!----End-content----->
     </div>
-    <!---End-wrap----> 
+    <!---End-wrap---->
     <!---start-footer---->
     <div class="footer">
         <div class="wrap">
@@ -175,7 +179,7 @@
             <div class="copy-tight">
                 <p> &copy; 2014 Memphis</p>
             </div>
-            <!---End-copy-right-----> 
+            <!---End-copy-right----->
         </div>
     </div>
     <!---End-footer---->

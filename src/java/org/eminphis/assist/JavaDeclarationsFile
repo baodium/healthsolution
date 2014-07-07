@@ -1,8 +1,14 @@
 
-public class SearchPatientMatch{
-
+public class Appointment{
+    private long appointmentId;
     private final long hospitalNumber;
-    private final long nhisNumber;
-    private final String surname;
-    private final String firstName;
-    private final String otherName;
+    private final String nameOfPatient;
+    private final String dateOfBirth;
+    private final String appointmentType;
+    private final String clinic;
+    private final String appointmentDate;
+    private final String consultantToSee;
+    private final String reason;
+    private final String referralSource;
+    private final String tallyNumber;
+    private final String clinicTime;

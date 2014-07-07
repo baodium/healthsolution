@@ -95,7 +95,8 @@ class Conn{
     }
 
     /**
-     * Ensures that the specified {@code sqlStatement} argument is present under the category of type {@code type}. If
+     * Ensures that the specified {@code sqlStatement} argument is present under the {@code Statement} of type
+     * {@code type}. If
      * the statement wasn't already present under the list for its category, it is created and added to the list.
      *
      * @param type                the type of statement
@@ -118,7 +119,8 @@ class Conn{
     }
 
     /**
-     * Ensures that the specified {@code sqlStatement} argument is present under the category of type {@code type}. If
+     * Ensures that the specified {@code sqlStatement} argument is present under the {@code Statement} of type
+     * {@code type}. If
      * the statement wasn't already present under the list for its category, it is created and added to the list.
      *
      * @param type         the type of statement

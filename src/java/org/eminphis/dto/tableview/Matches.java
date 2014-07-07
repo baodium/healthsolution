@@ -1,7 +1,6 @@
 package org.eminphis.dto.tableview;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import org.eminphis.dto.Group;
 
 /**
  * <u>e-MINPHIS</u><br>
@@ -22,23 +21,16 @@ import java.util.Iterator;
  * @author Essiennta Emmanuel (colourfulemmanuel@gmail.com)
  * @version 1.0
  */
-public class Matches<M extends Match> implements Iterable<M>{
-
-    private final ArrayList<M> results=new ArrayList<M>();
+public class Matches<T extends Match> extends Group<T>{
 
     /**
      * @return the number of items in this list
      */
     public long getMatchCount(){
-        return results.size();
+        return super.getGroupCount();
     }
 
-    public void addMatchedResult(M match){
-        results.add(match);
-    }
-
-    @Override
-    public Iterator<M> iterator(){
-        return results.iterator();
+    public void addMatchedResult(T match){
+        super.addElement(match);
     }
 }

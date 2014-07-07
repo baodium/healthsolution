@@ -38,6 +38,7 @@ public class RegistrationManager extends UIManager{
                 retrieveNHISInformation(),
                 retrievePersonalDetails()
         );
+        patient.setHospitalNumber(Long.parseLong(request.getParameter("hospital_number")));
     }
 
     /**
