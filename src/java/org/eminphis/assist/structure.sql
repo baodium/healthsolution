@@ -1,20 +1,20 @@
 
-DROP TABLE IF EXISTS Appointment_;
-CREATE TABLE Appointment_(
-appointment_id_ BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-hospital_number_ BIGINT NOT NULL,
-name_of_patient_ TEXT,
-date_of_birth_ TEXT,
-appointment_type_ TEXT,
-clinic_ TEXT NOT NULL,
-appointment_date_ TEXT NOT NULL,
-consultant_to_see_ TEXT NOT NULL,
-reason_ TEXT,
-referral_source_ TEXT,
-tally_number_ TEXT,
-clinic_time_ TEXT
-);
-
+-- DROP TABLE IF EXISTS Appointment_;
+-- CREATE TABLE Appointment_(
+-- appointment_id_ BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+-- hospital_number_ BIGINT NOT NULL,
+-- name_of_patient_ TEXT,
+-- date_of_birth_ TEXT,
+-- appointment_type_ TEXT,
+-- clinic_ TEXT NOT NULL,
+-- appointment_date_ TEXT NOT NULL,
+-- consultant_to_see_ TEXT NOT NULL,
+-- reason_ TEXT,
+-- referral_source_ TEXT,
+-- tally_number_ TEXT,
+-- clinic_time_ TEXT
+-- );
+--
 -- DROP TABLE IF EXISTS Next_Of_Kin_;
 -- CREATE TABLE Next_Of_Kin_(
 -- hospital_number_ BIGINT NOT NULL PRIMARY KEY,
@@ -74,14 +74,20 @@ clinic_time_ TEXT
 -- personal.other_name_
 -- FROM Nhis_Information_ nhis,Personal_Details_ personal
 -- WHERE personal.hospital_number_=nhis.hospital_number_;
+--
+-- DROP VIEW IF EXISTS Schedule_Appointment_Match_;
+-- CREATE VIEW Schedule_Appointment_Match_
+-- AS SELECT
+-- personal.hospital_number_,
+-- nhis.nhis_number_,
+-- personal.surname_,
+-- personal.first_name_,
+-- personal.other_name_
+-- FROM Nhis_Information_ nhis,Personal_Details_ personal
+-- WHERE personal.hospital_number_=nhis.hospital_number_;
 
-DROP VIEW IF EXISTS Schedule_Appointment_Match_;
-CREATE VIEW Schedule_Appointment_Match_
-AS SELECT
-personal.hospital_number_,
-nhis.nhis_number_,
-personal.surname_,
-personal.first_name_,
-personal.other_name_
-FROM Nhis_Information_ nhis,Personal_Details_ personal
-WHERE personal.hospital_number_=nhis.hospital_number_;
+DROP TABLE IF EXISTS Phone_Number_;
+CREATE TABLE Phone_Number_(
+hospital_number_ BIGINT NOT NULL,
+phone_number_ TEXT NOT NULL
+);
